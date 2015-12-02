@@ -7,7 +7,7 @@
 */
 #include "..\..\Core.h"
 
-HRESULT CRender::SetFont(LPIDirect3DDevice9 pDevice, PCHAR FontName, int Size)
+HRESULT CRender::SetFont(LPIDirect3DDevice9 pDevice, PCHAR FontName, float Size)
 {
 	CLog::Log(eLogType::HIGH, "> Creating D3D9X font handler");
 
@@ -22,7 +22,7 @@ HRESULT CRender::SetFont(LPIDirect3DDevice9 pDevice, PCHAR FontName, int Size)
 	}
 
 	// Init font
-	if (D3DXCreateFont(pDevice, Size, 0, FW_BOLD, 1, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, ANTIALIASED_QUALITY, DEFAULT_PITCH | FF_DONTCARE, FontName, &pD3DFont) != S_OK)
+	if (D3DXCreateFont(pDevice, (int)Size, 0, FW_BOLD, 1, FALSE, DEFAULT_CHARSET, OUT_DEFAULT_PRECIS, ANTIALIASED_QUALITY, DEFAULT_PITCH | FF_DONTCARE, FontName, &pD3DFont) != S_OK)
 	{
 		CLog::Log(eLogType::HIGH, " > FAILED");
 		return E_FAIL;
@@ -32,7 +32,7 @@ HRESULT CRender::SetFont(LPIDirect3DDevice9 pDevice, PCHAR FontName, int Size)
 	return S_OK;
 }
 
-void CRender::DrawString(bool CenterText, int x, int y, COLOR32 Color, PCHAR szText, ...)
+void CRender::DrawString(bool CenterText, float x, float y, COLOR32 Color, PCHAR szText, ...)
 {
 	char szBuffer[1024];
 	GET_VA_ARGS(szText, szBuffer);
@@ -40,27 +40,27 @@ void CRender::DrawString(bool CenterText, int x, int y, COLOR32 Color, PCHAR szT
 	if (CenterText)
 		x -= GetStringWidth(szBuffer) / 2;
 
-	RECT Rect = { x, y, 0, 0 };
-	RECT ShadowRect = { x + 1, y + 1, 0, 0 };
-	RECT ShadowRect2 = { x + 2, y + 1, 0, 0 };
-	RECT ShadowRect3 = { x + 2, y + 2, 0, 0 };
+	RECT Rect = { (int)x, (int)y, 0, 0 };
+	RECT ShadowRect = { (int)x + 1, (int)y + 1, 0, 0 };
+	RECT ShadowRect2 = { (int)x + 2, (int)y + 1, 0, 0 };
+	RECT ShadowRect3 = { (int)x + 2, (int)y + 2, 0, 0 };
 	pD3DFont->DrawText(NULL, szBuffer, -1, &ShadowRect, DT_LEFT | DT_NOCLIP, D3DCOLOR_RGBA(0, 0, 0, Color.a - 25));
 	pD3DFont->DrawText(NULL, szBuffer, -1, &ShadowRect2, DT_LEFT | DT_NOCLIP, D3DCOLOR_RGBA(0, 0, 0, Color.a - 25));
 	pD3DFont->DrawText(NULL, szBuffer, -1, &ShadowRect3, DT_LEFT | DT_NOCLIP, D3DCOLOR_RGBA(0, 0, 0, Color.a - 25));
 	pD3DFont->DrawText(NULL, szBuffer, -1, &Rect, DT_LEFT | DT_NOCLIP, D3DCOLOR_RGBA(Color.r, Color.g, Color.g, Color.a));
 }
 
-int CRender::GetStringWidth(char *szText, ...)
+float CRender::GetStringWidth(char *szText, ...)
 {
 	char szBuffer[1024];
 	GET_VA_ARGS(szText, szBuffer);
 
 	RECT Rect; ZeroMemory(&Rect, sizeof(Rect));
 	pD3DFont->DrawText(0, szBuffer, -1, &Rect, DT_CALCRECT, 0);
-	return Rect.right;
+	return (float)Rect.right;
 }
 
-int CRender::GetStringHeight()
+float CRender::GetStringHeight()
 {
-	return pD3DFont->DrawText(0, "Ag", -1, 0, DT_CALCRECT, 0);
+	return (float)pD3DFont->DrawText(0, "Aj", -1, 0, DT_CALCRECT, 0);
 }

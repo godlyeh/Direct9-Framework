@@ -15,6 +15,15 @@ typedef DWORD64 FDWORD;
 typedef DWORD FDWORD;
 #endif
 
+// Custom FVF for d3d
+#define CUSTOMFVF (D3DFVF_XYZRHW | D3DFVF_DIFFUSE)
+
+struct CustomVertex
+{
+	FLOAT x, y, z, rhw;
+	DWORD color;
+};
+
 // Close app with error
 #define CLOSE_ERROR() { system("pause"); \
 						return 0; }

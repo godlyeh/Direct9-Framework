@@ -108,6 +108,9 @@
     <ClCompile Include="Framework\Direct3D9\Render\GUI\Controls\UI_Slider.cpp">
       <Filter>Framework\Direct3D9\Render\GUI\Controls</Filter>
     </ClCompile>
+    <ClCompile Include="Framework\Direct3D9\Render\GUI\Controls\UI_ComboBox.cpp">
+      <Filter>Framework\Direct3D9\Render\GUI\Controls</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework\Utilities\UtilCore.h">
@@ -168,6 +171,9 @@
       <Filter>Framework\Direct3D9\Render\GUI\Controls</Filter>
     </ClInclude>
     <ClInclude Include="Framework\Direct3D9\Render\GUI\Controls\UI_Slider.h">
+      <Filter>Framework\Direct3D9\Render\GUI\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Direct3D9\Render\GUI\Controls\UI_ComboBox.h">
       <Filter>Framework\Direct3D9\Render\GUI\Controls</Filter>
     </ClInclude>
   </ItemGroup>

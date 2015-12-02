@@ -7,7 +7,7 @@ used for button handling
 */
 #include "..\..\..\..\Core.h"
 
-UI_Button::UI_Button(PCHAR ButtonText, int x, int y, LPCoreFunction ButtonFunction, COLOR32 Color)
+UI_Button::UI_Button(PCHAR ButtonText, float x, float y, LPCoreFunction ButtonFunction, COLOR32 Color)
 {
 	strcpy_s(Text, ButtonText);
 	X = x;
@@ -16,14 +16,14 @@ UI_Button::UI_Button(PCHAR ButtonText, int x, int y, LPCoreFunction ButtonFuncti
 	Function = ButtonFunction;
 }
 
-void UI_Button::Draw(int x, int y, bool Visible)
+void UI_Button::Draw(float x, float y, bool Visible)
 {
 	if (Visible)
 	{
-		int _X = x + X;
-		int _Y = y + Y + g_Core->CaptionSize;
-		int _W = g_Core->Render->GetStringWidth(Text) + 10;
-		int _H = g_Core->TextSize + 2;
+		float _X = x + X;
+		float _Y = y + Y + g_Core->CaptionSize;
+		float _W = g_Core->Render->GetStringWidth(Text) + 10;
+		float _H = g_Core->TextSize + 2;
 		bool MouseOver = MouseInfo->MouseOver(_X, _Y, _W, _H);
 
 		// Draw checkbox

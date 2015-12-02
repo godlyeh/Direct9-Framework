@@ -7,7 +7,7 @@
 */
 #include "..\..\..\..\Core.h"
 
-UI_Checkbox::UI_Checkbox(LPCoreValue Var, PCHAR ControlText, int x, int y, COLOR32 Color)
+UI_Checkbox::UI_Checkbox(LPCoreValue Var, PCHAR ControlText, float x, float y, COLOR32 Color)
 {
 	strcpy_s(Text, ControlText);
 	X = x;
@@ -22,12 +22,12 @@ UI_Checkbox::~UI_Checkbox()
 	
 }
 
-void UI_Checkbox::Draw(int x, int y, bool Visible)
+void UI_Checkbox::Draw(float x, float y, bool Visible)
 {
 	if (Visible)
 	{
-		int _X = x + X;
-		int _Y = y + Y + g_Core->CaptionSize;
+		float _X = x + X;
+		float _Y = y + Y + g_Core->CaptionSize;
 		bool MouseOver = MouseInfo->MouseOver(_X, _Y, Size, Size);
 
 		// Draw checkbox
@@ -44,7 +44,7 @@ void UI_Checkbox::Draw(int x, int y, bool Visible)
 
 		// Handle click
 		if (MouseInfo->Clicked && MouseInfo->MouseOver(_X, _Y, Size, Size))
-			*(int*)Value = !*(int*)Value;
+			*(bool*)Value = !*(bool*)Value;
 
 		// Draw text
 		g_Core->Render->DrawString(false, _X + Size + 7, _Y - 2, TextColor, Text);

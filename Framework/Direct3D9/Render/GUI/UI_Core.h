@@ -40,12 +40,12 @@
 class UI_Window
 {
 public:
-	UI_Window(PCHAR WindowCaption, int x, int y, int w, int h);
+	UI_Window(PCHAR WindowCaption, float x, float y, float w, float h);
 	~UI_Window() { }
 
 public:
 	void DrawWindow();
-	void MoveWindow(int x, int y, int w, int h);
+	void MoveWindow(float x, float y, float w, float h);
 
 public:
 	UI_Button* AddButton(UI_Button* Button);
@@ -56,7 +56,7 @@ public:
 
 public:
 	CoreString Caption;
-	int X, Y, W, H;
+	float X, Y, W, H;
 	COLOR32 BackgroundColor = CLR_WINDOW_BACKGROUND;
 	COLOR32 LineColor = CLR_LINE_DEFAULT;
 	COLOR32 TextColor = CLR_TEXT_DEFAULT;

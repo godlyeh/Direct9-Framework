@@ -32,6 +32,9 @@ void RenderScene()
 		g_Core->Render->DrawString(false, 25, 25, rgb(255, 0, 0, 255), "FPS: %i", g_Core->FramesPerSecond);
 	
 	g_Core->Render->DrawString(false, 25, 50, rgb(255, 0, 0, 255), "%i %i", MouseInfo->X, MouseInfo->Y);
+
+	//BoxFilled(20, 200, 100, 100, D3DCOLOR_RGBA(255, 0, 0, 255));
+
 	// Draw GUI
 	GUI->DrawWindows();
 }
@@ -56,7 +59,7 @@ CS16Main::CS16Main()
 	SettingsWindow->AddLabel(new UI_Label("Test Label ", 25, 50, &szTest));
 	SettingsWindow->AddGroupbox(new UI_GroupBox("Test", 15, 15, 200, 150));
 	SettingsWindow->AddButton(new UI_Button("Test Button", 25, 75, Button_Test));
-	SettingsWindow->AddSlider(new UI_Slider(25, 125, 100, 20, 300, &SliderValue));
+	SettingsWindow->AddSlider(new UI_Slider(25, 125, 100, -50, 300, &SliderValue));
 		
 
 	// Check if core was successfully initialized

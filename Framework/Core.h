@@ -49,8 +49,8 @@ public:
 	// Core successfully initialized
 	bool CoreInitialized = false;
 	// Caption size
-	int TextSize = 0;
-	int CaptionSize = 0;
+	float TextSize = 0;
+	float CaptionSize = 0;
 	// Core Tick
 	int CoreTick = 15;
 	CoreTimer::Countdown *TmrThread = NULL;

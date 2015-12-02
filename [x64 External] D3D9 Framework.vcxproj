@@ -155,6 +155,7 @@
     <ClCompile Include="Framework\Direct3D9\Render\Font.cpp" />
     <ClCompile Include="Framework\Direct3D9\Render\GUI\Controls\UI_Button.cpp" />
     <ClCompile Include="Framework\Direct3D9\Render\GUI\Controls\UI_Checkbox.cpp" />
+    <ClCompile Include="Framework\Direct3D9\Render\GUI\Controls\UI_ComboBox.cpp" />
     <ClCompile Include="Framework\Direct3D9\Render\GUI\Controls\UI_GroupBox.cpp" />
     <ClCompile Include="Framework\Direct3D9\Render\GUI\Controls\UI_Label.cpp" />
     <ClCompile Include="Framework\Direct3D9\Render\GUI\Controls\UI_Slider.cpp" />
@@ -177,6 +178,7 @@
     <ClInclude Include="Framework\Direct3D9\Render\D3D9Render.h" />
     <ClInclude Include="Framework\Direct3D9\Render\GUI\Controls\UI_Button.h" />
     <ClInclude Include="Framework\Direct3D9\Render\GUI\Controls\UI_CheckBox.h" />
+    <ClInclude Include="Framework\Direct3D9\Render\GUI\Controls\UI_ComboBox.h" />
     <ClInclude Include="Framework\Direct3D9\Render\GUI\Controls\UI_GroupBox.h" />
     <ClInclude Include="Framework\Direct3D9\Render\GUI\Controls\UI_Label.h" />
     <ClInclude Include="Framework\Direct3D9\Render\GUI\Controls\UI_Slider.h" />

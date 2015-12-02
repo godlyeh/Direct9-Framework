@@ -59,3 +59,11 @@ bool UI_Mouse::MouseOver(int x, int y, int w, int h)
 
 	return true;
 }
+
+bool UI_Mouse::MouseOver(float x, float y, float w, float h)
+{
+	if (X < x || Y < y) return false;
+	if (X > x + w || Y > y + h) return false;
+
+	return true;
+}

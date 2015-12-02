@@ -19,4 +19,5 @@ class UI_Mouse : public CoreMouseInfo
 public:
 	void UpdateInfo();
 	bool MouseOver(int x, int y, int w, int h);
+	bool MouseOver(float x, float y, float w, float h);
 };

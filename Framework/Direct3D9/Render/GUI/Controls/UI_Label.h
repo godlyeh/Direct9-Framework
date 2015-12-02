@@ -9,14 +9,14 @@
 class UI_Label
 {
 public:
-	UI_Label(PCHAR Label, int x, int y, LPCoreString pString = NULL, COLOR32 = CLR_TEXT_DEFAULT);
+	UI_Label(PCHAR Label, float x, float y, LPCoreString pString = NULL, COLOR32 = CLR_TEXT_DEFAULT);
 	~UI_Label() { }
 
 public:
-	void Draw(int x, int y, bool Visible = true);
+	void Draw(float x, float y, bool Visible = true);
 
 public:
-	int X, Y;
+	float X, Y;
 	CoreString Text;
 	LPCoreString String;
 	COLOR32 TextColor = CLR_TEXT_DEFAULT;

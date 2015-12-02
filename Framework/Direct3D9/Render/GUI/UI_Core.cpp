@@ -7,7 +7,7 @@
 */
 #include "..\..\..\Core.h"
 
-UI_Window::UI_Window(PCHAR WindowCaption, int x, int y, int w, int h)
+UI_Window::UI_Window(PCHAR WindowCaption, float x, float y, float w, float h)
 {
 	strcpy_s(Caption, WindowCaption);
 	X = x;
@@ -105,8 +105,8 @@ void UI_Setup::DrawWindows()
 		{
 			if (DraggedElement != NULL || MouseInfo->MouseOver(UIWindow[i].X, UIWindow[i].Y, UIWindow[i].W, g_Core->CaptionSize))
 			{
-				static int DiffX = 0;
-				static int DiffY = 0;
+				static float DiffX = 0;
+				static float DiffY = 0;
 
 				// Rearrange windows
 				if (DraggedElement == NULL)

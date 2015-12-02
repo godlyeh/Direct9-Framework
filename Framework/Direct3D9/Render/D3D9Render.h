@@ -17,16 +17,20 @@ public:
 	void Release();
 
 	// Font handling
-	HRESULT SetFont(LPIDirect3DDevice9 pDevice, PCHAR FontName, int Size);
-	void DrawString(bool CenterText, int x, int y, COLOR32 Color, PCHAR szText, ...);
-	int GetStringWidth(char *szText, ...);
-	int GetStringHeight();
+	HRESULT SetFont(LPIDirect3DDevice9 pDevice, PCHAR FontName, float Size);
+	void DrawString(bool CenterText, float x, float y, COLOR32 Color, PCHAR szText, ...);
+	float GetStringWidth(char *szText, ...);
+	float GetStringHeight();
 
 	// 2D drawing funcs
-	void Line(int x1, int y1, int x2, int y2, int lw, COLOR32 Color);
-	void LineRect(int x, int y, int w, int h, int lw, COLOR32 Color);
-	void FillRect(int x, int y, int w, int h, COLOR32 Color);
-	void DepthFrame(int x, int y, int w, int h);
+	void Line(float x1, float y1, float x2, float y2, float lw, COLOR32 Color);
+	void LineRect(float x, float y, float w, float h, float lw, COLOR32 Color);
+	void FillRect(float x, float y, float w, float h, COLOR32 Color);
+	void DepthFrame(float x, float y, float w, float h);
+
+private:
+	LPDIRECT3DVERTEXBUFFER9 pVertexBuffer;
+	LPDIRECT3DINDEXBUFFER9  pIndexBuffer;
 };
 
 COLOR32 rgb(int r, int g, int b, int a);

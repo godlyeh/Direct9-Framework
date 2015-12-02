@@ -7,7 +7,7 @@ Used for groupbox, todo: bind objects to it
 */
 #include "..\..\..\..\Core.h"
 
-UI_GroupBox::UI_GroupBox(PCHAR Caption, int x, int y, int w, int h, COLOR32 Color)
+UI_GroupBox::UI_GroupBox(PCHAR Caption, float x, float y, float w, float h, COLOR32 Color)
 {
 	strcpy_s(Text, Caption);
 	X = x;
@@ -17,15 +17,15 @@ UI_GroupBox::UI_GroupBox(PCHAR Caption, int x, int y, int w, int h, COLOR32 Colo
 	TextColor = Color;
 }
 
-void UI_GroupBox::Draw(int x, int y, bool Visible)
+void UI_GroupBox::Draw(float x, float y, bool Visible)
 {
 	if (Visible)
 	{
-		int _X = x + X;
-		int _Y = y + Y + g_Core->CaptionSize;
-		int _StrW = g_Core->Render->GetStringWidth(Text);
-		int _W = W;
-		int _H = H;
+		float _X = x + X;
+		float _Y = y + Y + g_Core->CaptionSize;
+		float _StrW = g_Core->Render->GetStringWidth(Text);
+		float _W = W;
+		float _H = H;
 		if (_W + 30 < _StrW + 30)
 			_W = _StrW + 30;
 

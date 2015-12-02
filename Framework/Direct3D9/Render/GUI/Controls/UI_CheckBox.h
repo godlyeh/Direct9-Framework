@@ -9,11 +9,11 @@
 class UI_Checkbox
 {
 public:
-	UI_Checkbox(LPCoreValue Var, PCHAR ControlText, int x, int y, COLOR32 Color = CLR_TEXT_DEFAULT);
+	UI_Checkbox(LPCoreValue Var, PCHAR ControlText, float x, float y, COLOR32 Color = CLR_TEXT_DEFAULT);
 	~UI_Checkbox();
 
 public:
-	void Draw(int x, int y, bool Visible = true);
+	void Draw(float x, float y, bool Visible = true);
 
 public:
 	// Info
@@ -21,8 +21,8 @@ public:
 	LPCoreValue Value;
 	
 	// Position
-	int Size = 0;
-	int X, Y;
+	float Size = 0;
+	float X, Y;
 
 	// Color
 	COLOR32 UnfocusedColor = CLR_UNFOCUSED_DEFAULT;

@@ -92,6 +92,7 @@ CFrameworkCore::CFrameworkCore(PCHAR ProcessName, PCHAR WindowName, int Width, i
 
 	CLog::Log("");
 
+	// Copy game process name and get screen info
 	strcpy_s(GameProcessName, ProcessName);
 	Utilities::GetWindowInformation(Process->HWnd, &ScreenInfo);
 	

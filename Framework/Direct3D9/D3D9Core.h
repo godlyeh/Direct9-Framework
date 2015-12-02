@@ -17,7 +17,7 @@ public:
 	RECT					Rect;
 	MSG						Msg;
 
-	int X, Y, W, H;
+	float X, Y, W, H;
 
 	// Register window and create it
 	LRESULT Register(HINSTANCE hInst, int nWidth, int nHeight, LPCTSTR szWindowName, BOOL Overlay);

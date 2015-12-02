@@ -7,7 +7,7 @@
 */
 #include "..\..\..\..\Core.h"
 
-UI_Slider::UI_Slider(int x, int y, int size, double min, double max, LPCoreValue SliderValue, COLOR32 Color, bool DrawVertically)
+UI_Slider::UI_Slider(float x, float y, float size, double min, double max, LPCoreValue SliderValue, COLOR32 Color, bool DrawVertically)
 {
 	X = x;
 	Y = y;
@@ -18,22 +18,32 @@ UI_Slider::UI_Slider(int x, int y, int size, double min, double max, LPCoreValue
 	Vertical = DrawVertically;
 }
 
-void UI_Slider::DrawSliderPin(int x, int y, int size)
+void UI_Slider::DrawSliderPin(float x, float y, float size)
 {
-	int _X = x - size / 2;
-	int _Y = y;
+	float _X = x - size / 2;
+	float _Y = y;
 	g_Core->Render->FillRect(_X, _Y, size, size, SliderColor);
-	for (int i = 0; i < size / 2 + 1; ++i)
+	for (float i = 0; i < size / 2 + 1; ++i)
 		g_Core->Render->FillRect(_X + i, _Y + size + i, size - i * 2, 1, SliderColor);
 }
 
-void UI_Slider::Draw(int x, int y, bool Visible)
+void UI_Slider::Draw(float x, float y, bool Visible)
 {
 	if (Visible)
 	{
-		int _X = x + X;
-		int _Y = y + Y + g_Core->CaptionSize;
-		int _SliderSize = 7;
+		if (Min > Max)
+			return;
+
+		float _X = x + X;
+		float _Y = y + Y + g_Core->CaptionSize;
+		float _SliderSize = 7;
+		float _MinNegativeFix = 0;
+		if (Min < 0)
+		{
+			_MinNegativeFix = (float)-Min;
+			Min += _MinNegativeFix;
+			Max += _MinNegativeFix;
+		}
 
 		if (Vertical)
 		{
@@ -46,28 +56,38 @@ void UI_Slider::Draw(int x, int y, bool Visible)
 			g_Core->Render->FillRect(_X + Size + 1, _Y - 2, 1, 5, SliderColor); // Draw last line
 
 			// Draw slider pin
-			double _Value = *(double*)Value;
-			int _SliderPercent = (int)(_Value * 100 / (Max - Min));
-			int _SliderX = _X + _SliderPercent;
-			int _SliderY = _Y - _SliderSize - 5;
+			double _Value = *(double*)Value + _MinNegativeFix;
+			float _SliderPercent = (float)_Value * 100 / (float)(Max - Min);
+			float _SliderX = _X + _SliderPercent;
+			float _SliderY = _Y - _SliderSize - 5;
+			float _SliderMinDiff = 0;
+			if (Min > 0) _SliderMinDiff = (float)(Min * 100 / Max);
+			_SliderX -= _SliderMinDiff;
+
 			DrawSliderPin(_SliderX, _SliderY, _SliderSize);
 
 			// Move slider
 			static bool _SliderHeld = false;
-			static int _SliderMouseX = 0;
 			if (MouseInfo->MouseOver(_SliderX, _SliderY, _SliderSize, _SliderSize) && MouseInfo->Down || MouseInfo->Down && _SliderHeld)
 			{
 				_SliderHeld = true;
 				*(double*)Value = -(double)((_X - MouseInfo->X) * (Max - Min) / 100);
+				if (_MinNegativeFix)
+					*(double*)Value -= (double)_MinNegativeFix;
 			}
 			else
 				_SliderHeld = false;
 		}
 
 		// Bound
+		if (_MinNegativeFix)
+		{
+			Min -= _MinNegativeFix;
+			Max -= _MinNegativeFix;
+		}
 		if (*(double*)Value > Max) *(double*)Value = Max;
 		if (*(double*)Value < Min) *(double*)Value = Min;
 
-		CLog::Log("%f", *(double*)Value);
+		CLog::Log("Value: %f", *(double*)Value);
 	}
 }
