@@ -10,6 +10,7 @@ GodlyFramework/
 
 # File Ignores
 *.rar
+*.exe
 
 *.pydevproject
 .project

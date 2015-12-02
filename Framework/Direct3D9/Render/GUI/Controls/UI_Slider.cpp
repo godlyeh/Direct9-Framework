@@ -68,7 +68,7 @@ void UI_Slider::Draw(float x, float y, bool Visible)
 
 			// Move slider
 			static bool _SliderHeld = false;
-			if (MouseInfo->MouseOver(_SliderX, _SliderY, _SliderSize, _SliderSize) && MouseInfo->Down || MouseInfo->Down && _SliderHeld)
+			if (MouseInfo->MouseOver(_SliderX - _SliderSize / 2, _SliderY, _SliderSize, _SliderSize) && MouseInfo->Down || MouseInfo->Down && _SliderHeld)
 			{
 				_SliderHeld = true;
 				*(double*)Value = -(double)((_X - MouseInfo->X) * (Max - Min) / 100);
