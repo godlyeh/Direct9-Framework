@@ -1,0 +1,58 @@
+/*
+
+	File: Helpers
+
+	Used for definitions, enumerators etc...
+
+*/
+
+// x64 or x86 setup
+#ifdef _WIN64
+typedef DWORD64 FDWORD;
+#define FrameworkCPU "x64"
+#else
+#define FrameworkCPU "x86"
+typedef DWORD FDWORD;
+#endif
+
+// Close app with error
+#define CLOSE_ERROR() { system("pause"); \
+						return 0; }
+
+// Setup va list and get arguments
+#define GET_VA_ARGS(Text, Buffer) { ZeroMemory(&Buffer, sizeof(Buffer)); \
+								  va_list valist; \
+								  va_start(valist, Text); \
+								  _vsnprintf_s(Buffer, sizeof(Buffer), Text, valist); \
+								  va_end(valist); }
+
+// Screen info
+typedef struct
+{
+	bool Minimized;
+	bool Fullscreen;
+	bool WindowedFullscreen;
+	int X, Y;
+	int Width, Height;
+}SCREENINFO;
+typedef SCREENINFO* LPSCREENINFO;
+
+// Typedef helpers
+typedef FDWORD CoreOffset;
+typedef char CoreString[256];
+typedef LPVOID LPCoreString;
+typedef double CoreValue;
+typedef CoreValue CoreBool;
+typedef CoreValue CoreInt;
+typedef CoreValue CoreFloat;
+typedef CoreValue* LPCoreValue;
+typedef LPVOID LPCoreFunction;
+typedef double* PDOUBLE;
+typedef char* LPCHAR;
+typedef struct { int r, g, b, a; }COLOR32;
+
+// D3D typedefs
+typedef IDirect3D9* LPIDirect3D9;
+typedef IDirect3DDevice9* LPIDirect3DDevice9;
+typedef ID3DXLine* LPID3DXLine;
+typedef ID3DXFont* LPID3DXFont;

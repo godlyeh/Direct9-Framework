@@ -1,0 +1,174 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Framework">
+      <UniqueIdentifier>{d101d529-8c4e-44c5-98a8-557cf32615c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\Direct3D9">
+      <UniqueIdentifier>{bb8adbb4-6c5c-4f21-a585-91dde611d148}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\Utilities">
+      <UniqueIdentifier>{e90df327-b12e-4921-9da6-247f4ecd7335}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Main">
+      <UniqueIdentifier>{93db833a-4f0c-49d0-8fa3-c2f66f1878e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\Direct3D9\Render">
+      <UniqueIdentifier>{bdd619cb-a640-4861-bf28-b070d058f5e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\Direct3D9\Core">
+      <UniqueIdentifier>{42d9a643-a280-4321-8587-56df9dfd9569}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Games">
+      <UniqueIdentifier>{627a7d6c-d629-4e48-be28-35618708dac5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Games\Counter-Strike 1.6">
+      <UniqueIdentifier>{e1b58190-43b2-45d7-a0a4-46993fef5ea2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\Utilities\Vector">
+      <UniqueIdentifier>{dc91aae9-54f4-4e2a-a710-d6ed273d6daa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\Utilities\Settings">
+      <UniqueIdentifier>{4b59fd55-eb3a-430b-a459-0184bfbfe24e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\Utilities\ByteScan">
+      <UniqueIdentifier>{9cbd1a6c-10c6-40d2-ae49-9ddbe4e2a215}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\Direct3D9\Render\GUI">
+      <UniqueIdentifier>{9ea70b4a-bdb8-42c8-a6a3-7a6db14053a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\Direct3D9\Render\GUI\Controls">
+      <UniqueIdentifier>{f85655ad-fac7-459c-a4ee-3f395907ef8f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Framework\Utilities\Utilities.cpp">
+      <Filter>Framework\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Utilities\Process.cpp">
+      <Filter>Framework\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Utilities\Memory.cpp">
+      <Filter>Framework\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Main.cpp">
+      <Filter>Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Utilities\Logging.cpp">
+      <Filter>Framework\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Direct3D9\Render\Drawing.cpp">
+      <Filter>Framework\Direct3D9\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Direct3D9\Render\Font.cpp">
+      <Filter>Framework\Direct3D9\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Core.cpp">
+      <Filter>Framework\Direct3D9\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Direct3D9\Render\Render.cpp">
+      <Filter>Framework\Direct3D9\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Direct3D9\Device.cpp">
+      <Filter>Framework\Direct3D9\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Direct3D9\Window.cpp">
+      <Filter>Framework\Direct3D9\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Games\Counter-Strike 1.6\CS16_Main.cpp">
+      <Filter>Games\Counter-Strike 1.6</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Utilities\Settings\Settings.cpp">
+      <Filter>Framework\Utilities\Settings</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Utilities\ByteScan\ByteScan.cpp">
+      <Filter>Framework\Utilities\ByteScan</Filter>
+    </ClCompile>
+    <ClCompile Include="Games\Counter-Strike 1.6\CS16_Misc.cpp">
+      <Filter>Games\Counter-Strike 1.6</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Direct3D9\Render\GUI\UI_Core.cpp">
+      <Filter>Framework\Direct3D9\Render\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Direct3D9\Render\GUI\UI_Mouse.cpp">
+      <Filter>Framework\Direct3D9\Render\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Direct3D9\Render\GUI\Controls\UI_Checkbox.cpp">
+      <Filter>Framework\Direct3D9\Render\GUI\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Direct3D9\Render\GUI\Controls\UI_Label.cpp">
+      <Filter>Framework\Direct3D9\Render\GUI\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Direct3D9\Render\GUI\Controls\UI_GroupBox.cpp">
+      <Filter>Framework\Direct3D9\Render\GUI\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Direct3D9\Render\GUI\Controls\UI_Button.cpp">
+      <Filter>Framework\Direct3D9\Render\GUI\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Direct3D9\Render\GUI\Controls\UI_Slider.cpp">
+      <Filter>Framework\Direct3D9\Render\GUI\Controls</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Framework\Utilities\UtilCore.h">
+      <Filter>Framework\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Main.h">
+      <Filter>Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Utilities\Timer.h">
+      <Filter>Framework\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Direct3D9\Render\D3D9Render.h">
+      <Filter>Framework\Direct3D9\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Helpers.h">
+      <Filter>Framework\Direct3D9\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Core.h">
+      <Filter>Framework\Direct3D9\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Direct3D9\D3D9Core.h">
+      <Filter>Framework\Direct3D9\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Games\Counter-Strike 1.6\CS16_Main.h">
+      <Filter>Games\Counter-Strike 1.6</Filter>
+    </ClInclude>
+    <ClInclude Include="Games\Counter-Strike 1.6\CS16_Structs.h">
+      <Filter>Games\Counter-Strike 1.6</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Utilities\Vector\Vector3.h">
+      <Filter>Framework\Utilities\Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Utilities\Settings\Settings.h">
+      <Filter>Framework\Utilities\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Utilities\ByteScan\ByteScan.h">
+      <Filter>Framework\Utilities\ByteScan</Filter>
+    </ClInclude>
+    <ClInclude Include="Games\Counter-Strike 1.6\CS16_Misc.h">
+      <Filter>Games\Counter-Strike 1.6</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Direct3D9\Render\GUI\UI_Core.h">
+      <Filter>Framework\Direct3D9\Render\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Direct3D9\Render\GUI\Controls\UI_CheckBox.h">
+      <Filter>Framework\Direct3D9\Render\GUI\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Direct3D9\Render\GUI\UI_Mouse.h">
+      <Filter>Framework\Direct3D9\Render\GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Direct3D9\Render\GUI\Controls\UI_Label.h">
+      <Filter>Framework\Direct3D9\Render\GUI\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Direct3D9\Render\GUI\Controls\UI_GroupBox.h">
+      <Filter>Framework\Direct3D9\Render\GUI\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Direct3D9\Render\GUI\Controls\UI_Button.h">
+      <Filter>Framework\Direct3D9\Render\GUI\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Direct3D9\Render\GUI\Controls\UI_Slider.h">
+      <Filter>Framework\Direct3D9\Render\GUI\Controls</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
