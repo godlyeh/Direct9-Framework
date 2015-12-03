@@ -7,7 +7,7 @@
 */
 #include "..\..\..\..\Core.h"
 
-UI_Checkbox::UI_Checkbox(LPCoreValue Var, PCHAR ControlText, float x, float y, COLOR32 Color)
+UI_Checkbox::UI_Checkbox(PCoreVariable Var, PCoreString ControlText, float x, float y, COLOR32 Color)
 {
 	strcpy_s(Text, ControlText);
 	X = x;

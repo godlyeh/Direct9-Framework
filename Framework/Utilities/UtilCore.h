@@ -30,23 +30,23 @@ namespace CLog // Console logging
 	static eLogType LogLevel = eLogType::DEBUG;
 
 	// Funcs
-	void Log(eLogType Type, PCHAR szText, ...);
-	void Log(PCHAR szText, ...);
-	void LogI(eLogType Type, PCHAR szText, int Value);
-	void LogI(PCHAR szText, int Value);
-	void LogF(eLogType Type, PCHAR szText, float Value);
-	void LogF(PCHAR szText, float Value);
-	void LogX(eLogType Type, PCHAR szText, DWORD Value);
-	void LogX(PCHAR szText, DWORD Value);
-	void LogP(eLogType Type, PCHAR szText, FDWORD Value);
-	void LogP(PCHAR szText, FDWORD Value);
+	void Log(eLogType Type, PCoreString szText, ...);
+	void Log(PCoreString szText, ...);
+	void LogI(eLogType Type, PCoreString szText, int Value);
+	void LogI(PCoreString szText, int Value);
+	void LogF(eLogType Type, PCoreString szText, float Value);
+	void LogF(PCoreString szText, float Value);
+	void LogX(eLogType Type, PCoreString szText, DWORD Value);
+	void LogX(PCoreString szText, DWORD Value);
+	void LogP(eLogType Type, PCoreString szText, FDWORD Value);
+	void LogP(PCoreString szText, FDWORD Value);
 }
 
 namespace Utilities // Framework utilities
 {
-	DWORD GetProcessInfo(PCHAR ProcessName, bool Log = false, PROCESSENTRY32 *pe32Out = NULL);
+	DWORD GetProcessInfo(PCoreString ProcessName, bool Log = false, PROCESSENTRY32 *pe32Out = NULL);
 	void GetWindowInformation(HWND hWnd, LPSCREENINFO pScreenInfo);
-	void RemoveSpaces(PCHAR Text, PCHAR Out);
+	void RemoveSpaces(PCoreString Text, PCoreString Out);
 }
 
 class CMemoryScanner // Memory handling
@@ -71,8 +71,8 @@ public:
 	DWORD Id = 0;
 	
 	// Funcs
-	BOOL Init(PCHAR ProcessName);
+	BOOL Init(PCoreString ProcessName);
 	void CleanUp();
 	BOOL Running();
-	MODULEENTRY32* GetModuleInfo(PCHAR ModuleName, bool Log = false, MODULEENTRY32 *me32Out = NULL);
+	MODULEENTRY32* GetModuleInfo(PCoreString ModuleName, bool Log = false, MODULEENTRY32 *me32Out = NULL);
 };

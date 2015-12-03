@@ -7,7 +7,7 @@
 */
 #include "..\..\..\Core.h"
 
-UI_Window::UI_Window(PCHAR WindowCaption, float x, float y, float w, float h)
+UI_Window::UI_Window(PCoreString WindowCaption, float x, float y, float w, float h)
 {
 	strcpy_s(Caption, WindowCaption);
 	X = x;

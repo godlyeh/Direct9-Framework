@@ -17,8 +17,8 @@ public:
 	void Release();
 
 	// Font handling
-	HRESULT SetFont(LPIDirect3DDevice9 pDevice, PCHAR FontName, float Size);
-	void DrawString(bool CenterText, float x, float y, COLOR32 Color, PCHAR szText, ...);
+	HRESULT SetFont(LPIDirect3DDevice9 pDevice, PCoreString FontName, float Size);
+	void DrawString(bool CenterText, float x, float y, COLOR32 Color, PCoreString szText, ...);
 	float GetStringWidth(char *szText, ...);
 	float GetStringHeight();
 

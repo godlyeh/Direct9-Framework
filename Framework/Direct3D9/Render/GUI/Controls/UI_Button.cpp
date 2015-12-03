@@ -7,7 +7,7 @@ used for button handling
 */
 #include "..\..\..\..\Core.h"
 
-UI_Button::UI_Button(PCHAR ButtonText, float x, float y, LPCoreFunction ButtonFunction, COLOR32 Color)
+UI_Button::UI_Button(PCoreString ButtonText, float x, float y, PCoreFunction ButtonFunction, COLOR32 Color)
 {
 	strcpy_s(Text, ButtonText);
 	X = x;

@@ -7,7 +7,7 @@
 */
 #include "..\..\..\..\Core.h"
 
-UI_Label::UI_Label(PCHAR Label, float x, float y, LPCoreString pString, COLOR32 Color)
+UI_Label::UI_Label(PCoreString Label, float x, float y, PCoreString pString, COLOR32 Color)
 {
 	strcpy_s(Text, Label);
 	X = x;
@@ -24,7 +24,7 @@ void UI_Label::Draw(float x, float y, bool Visible)
 		float _Y = y + Y + g_Core->CaptionSize;
 
 		if (String)
-			g_Core->Render->DrawString(false, _X, _Y, TextColor, "%s%s", Text, (PCHAR)String);
+			g_Core->Render->DrawString(false, _X, _Y, TextColor, "%s%s", Text, (PCoreString)String);
 		else
 			g_Core->Render->DrawString(false, _X, _Y, TextColor, Text);
 	}

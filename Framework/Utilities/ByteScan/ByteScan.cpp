@@ -76,7 +76,7 @@ void CPatternScanner::Scan()
 	}
 }
 
-void CPatternScanner::SetupPattern(MODULEENTRY32* Module, PCHAR Pattern, CorePattern* PatternOut, ePatternScanType Type)
+void CPatternScanner::SetupPattern(MODULEENTRY32* Module, PCoreString Pattern, CorePattern* PatternOut, ePatternScanType Type)
 {
 	static CorePattern PatternInfo; ZeroMemory(&PatternInfo, sizeof(CorePattern));
 	
@@ -106,14 +106,14 @@ void CPatternScanner::SetupPattern(MODULEENTRY32* Module, PCHAR Pattern, CorePat
 	{
 		PatternInfo.dwLength = (DWORD)strlen(Pattern);
 		PatternInfo.bPattern = new BYTE[PatternInfo.dwLength];
-		strcpy_s((PCHAR)PatternInfo.bPattern, PatternInfo.dwLength + 1, Pattern);
+		strcpy_s((PCoreString)PatternInfo.bPattern, PatternInfo.dwLength + 1, Pattern);
 	}
 
 	// Copy out
 	memcpy(PatternOut, &PatternInfo, sizeof(CorePattern));
 }
 
-void CPatternScanner::RegisterPattern(CoreOffset* Offset, MODULEENTRY32* Module, PCHAR Pattern, ePatternScanType Type)
+void CPatternScanner::RegisterPattern(CoreOffset* Offset, MODULEENTRY32* Module, PCoreString Pattern, ePatternScanType Type)
 {
 	// Setup byte scan info
 	CorePattern PatternInfo;
@@ -129,7 +129,7 @@ void CPatternScanner::RegisterPattern(CoreOffset* Offset, MODULEENTRY32* Module,
 	FilesToScan.push_back(*Module);
 }
 
-CoreOffset CPatternScanner::FindPattern(MODULEENTRY32* Module, PCHAR Pattern, ePatternScanType Type, CoreOffset* Out)
+CoreOffset CPatternScanner::FindPattern(MODULEENTRY32* Module, PCoreString Pattern, ePatternScanType Type, CoreOffset* Out)
 {
 	// Read module
 	PBYTE GameBytes = new BYTE[Module->modBaseSize];

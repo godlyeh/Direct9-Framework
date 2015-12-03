@@ -34,9 +34,9 @@ public:
 
 public:
 	void Scan();
-	void SetupPattern(MODULEENTRY32* Module, PCHAR Pattern, CorePattern* PatternOut, ePatternScanType Type);
-	void RegisterPattern(CoreOffset* Offset, MODULEENTRY32* Module, PCHAR BytePattern, ePatternScanType Type = ePatternScanType::SCAN_BYTES);
-	FDWORD FindPattern(MODULEENTRY32* Module, PCHAR Pattern, ePatternScanType Type = ePatternScanType::SCAN_BYTES, CoreOffset* Out = NULL);
+	void SetupPattern(MODULEENTRY32* Module, PCoreString Pattern, CorePattern* PatternOut, ePatternScanType Type);
+	void RegisterPattern(CoreOffset* Offset, MODULEENTRY32* Module, PCoreString BytePattern, ePatternScanType Type = ePatternScanType::SCAN_BYTES);
+	FDWORD FindPattern(MODULEENTRY32* Module, PCoreString Pattern, ePatternScanType Type = ePatternScanType::SCAN_BYTES, CoreOffset* Out = NULL);
 
 private:
 	HANDLE Handle;

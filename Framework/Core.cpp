@@ -15,7 +15,7 @@ void CFrameworkCore::RegisterCoreVariables()
 	Settings->Register("Core Tick", &CoreTick, eCoreVariableType::VAR_INTEGER, 5, 30);
 }
 
-CFrameworkCore::CFrameworkCore(PCHAR ProcessName, PCHAR WindowName, int Width, int Height)
+CFrameworkCore::CFrameworkCore(PCoreString ProcessName, PCoreString WindowName, int Width, int Height)
 {
 	static bool bFirst = true;
 

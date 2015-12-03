@@ -53,13 +53,13 @@ CS16Main::CS16Main()
 	// Create window
 	CoreInt Test = 1;
 	CoreString szTest = "YO MOFO";
-	CoreFloat SliderValue = 100.0f;
+	CoreFloat SliderValue = 25.0f;
 	SettingsWindow = GUI->RegisterWindow(new UI_Window("Settings", 200, 200, 400, 300));
 	SettingsWindow->AddCheckbox(new UI_Checkbox(&Test, "Test", 25, 25));
-	SettingsWindow->AddLabel(new UI_Label("Test Label ", 25, 50, &szTest));
+	SettingsWindow->AddLabel(new UI_Label("Test Label ", 25, 50, szTest));
 	SettingsWindow->AddGroupbox(new UI_GroupBox("Test", 15, 15, 200, 150));
 	SettingsWindow->AddButton(new UI_Button("Test Button", 25, 75, Button_Test));
-	SettingsWindow->AddSlider(new UI_Slider(25, 125, 100, -50, 300, &SliderValue));
+	SettingsWindow->AddSlider(new UI_Slider(25, 125, 75, -50, 50, &SliderValue, UI_SLIDER_VALUE_TEXT));
 		
 
 	// Check if core was successfully initialized

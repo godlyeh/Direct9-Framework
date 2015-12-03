@@ -7,7 +7,7 @@
 */
 #include "..\..\Core.h"
 
-HRESULT CRender::SetFont(LPIDirect3DDevice9 pDevice, PCHAR FontName, float Size)
+HRESULT CRender::SetFont(LPIDirect3DDevice9 pDevice, PCoreString FontName, float Size)
 {
 	CLog::Log(eLogType::HIGH, "> Creating D3D9X font handler");
 
@@ -32,7 +32,7 @@ HRESULT CRender::SetFont(LPIDirect3DDevice9 pDevice, PCHAR FontName, float Size)
 	return S_OK;
 }
 
-void CRender::DrawString(bool CenterText, float x, float y, COLOR32 Color, PCHAR szText, ...)
+void CRender::DrawString(bool CenterText, float x, float y, COLOR32 Color, PCoreString szText, ...)
 {
 	char szBuffer[1024];
 	GET_VA_ARGS(szText, szBuffer);

@@ -7,7 +7,7 @@
 */
 #include "..\..\Core.h"
 
-CSettings::CSettings(PCHAR szFileName)
+CSettings::CSettings(PCoreString szFileName)
 {
 	GetModuleFileName(GetModuleHandle(NULL), Path, MAX_PATH);
 	*(strrchr(Path, '\\') + 1) = NULL;
@@ -21,7 +21,7 @@ CSettings::~CSettings()
 	if (File.is_open()) File.close();
 }
 
-void CSettings::Register(PCHAR Name, PVOID Variable, eCoreVariableType Type, double dMin, double dMax)
+void CSettings::Register(PCoreString Name, PVOID Variable, eCoreVariableType Type, double dMin, double dMax)
 {
 	CoreVariable Var; ZeroMemory(&Var, sizeof(CoreVariable));
 	strcpy_s(Var.Name, Name);
@@ -32,11 +32,11 @@ void CSettings::Register(PCHAR Name, PVOID Variable, eCoreVariableType Type, dou
 	if (Var.Type == eCoreVariableType::VAR_INTEGER) Var.iDefault = *(PINT)Variable;
 	if (Var.Type == eCoreVariableType::VAR_FLOAT) Var.fDefault = *(PFLOAT)Variable;
 	if (Var.Type == eCoreVariableType::VAR_DOUBLE) Var.dDefault = *(PDOUBLE)Variable;
-	if (Var.Type == eCoreVariableType::VAR_STRING) strcpy_s(Var.szDefault, (PCHAR)Variable);
+	if (Var.Type == eCoreVariableType::VAR_STRING) strcpy_s(Var.szDefault, (PCoreString)Variable);
 	StoredSettings.push_back(Var);
 }
 
-void CSettings::Remove(PCHAR Name)
+void CSettings::Remove(PCoreString Name)
 {
 	for (int i = 0; i < (int)StoredSettings.size(); ++i)
 		if (!_stricmp(StoredSettings[i].Name, Name))
@@ -50,7 +50,7 @@ void CSettings::Remove(PVOID Variable)
 			StoredSettings.erase(StoredSettings.begin() + i);
 }
 
-CoreVariable* CSettings::GetCoreVariable(PCHAR Name)
+CoreVariable* CSettings::GetCoreVariable(PCoreString Name)
 {
 	for (int i = 0; i < (int)StoredSettings.size(); ++i)
 		if (!_stricmp(StoredSettings[i].Name, Name))
@@ -90,7 +90,7 @@ void CSettings::BoundVariable(CoreVariable* Var)
 	}
 }
 
-PCHAR CSettings::CreateElementLine(PCHAR Name, bool SubItem = false)
+PCoreString CSettings::CreateElementLine(PCoreString Name, bool SubItem = false)
 {
 	static char szTmp[256]; ZeroMemory(&szTmp, sizeof(szTmp));
 	if (SubItem) sprintf_s(szTmp, "    <%s>", Name);
@@ -98,7 +98,7 @@ PCHAR CSettings::CreateElementLine(PCHAR Name, bool SubItem = false)
 	return szTmp;
 }
 
-void CSettings::Save(PCHAR SettingsName)
+void CSettings::Save(PCoreString SettingsName)
 {
 	if (File.is_open())
 		File.close();
@@ -118,7 +118,7 @@ void CSettings::Save(PCHAR SettingsName)
 		if (Var->Type == eCoreVariableType::VAR_INTEGER) sprintf_s(szValue, "%i", *(PINT)Var->Variable);
 		if (Var->Type == eCoreVariableType::VAR_FLOAT) sprintf_s(szValue, "%.2f", *(PFLOAT)Var->Variable);
 		if (Var->Type == eCoreVariableType::VAR_DOUBLE) sprintf_s(szValue, "%.2f", *(PDOUBLE)Var->Variable);
-		if (Var->Type == eCoreVariableType::VAR_STRING) strcpy_s(szValue, (PCHAR)Var->Variable);
+		if (Var->Type == eCoreVariableType::VAR_STRING) strcpy_s(szValue, (PCoreString)Var->Variable);
 
 		if (Var->Type == eCoreVariableType::VAR_INTEGER) sprintf_s(szDefaultValue, "%i", Var->iDefault);
 		if (Var->Type == eCoreVariableType::VAR_FLOAT) sprintf_s(szDefaultValue, "%.2f", Var->fDefault);
@@ -148,7 +148,7 @@ void CSettings::LoadRawData(std::vector<std::string>* RawData)
 	File.close();
 }
 
-std::string CSettings::GetElementData(PCHAR Element, std::string RawData)
+std::string CSettings::GetElementData(PCoreString Element, std::string RawData)
 {
 	char szTmp[64];
 	sprintf_s(szTmp, "<%s", Element);
@@ -162,7 +162,7 @@ std::string CSettings::GetElementData(PCHAR Element, std::string RawData)
 	return RawValue;
 }
 
-eCoreVariableType CSettings::GetElementDataType(PCHAR TypeName)
+eCoreVariableType CSettings::GetElementDataType(PCoreString TypeName)
 {
 	for (int i = 0; i <= sizeof(eCoreVariableType); ++i)
 		if (!_stricmp(TypeName, szCoreVariableType[i]))
@@ -171,7 +171,7 @@ eCoreVariableType CSettings::GetElementDataType(PCHAR TypeName)
 	return (eCoreVariableType)0;
 }
 
-CoreVariable* CSettings::LoadSetting(PCHAR Name)
+CoreVariable* CSettings::LoadSetting(PCoreString Name)
 {
 	CoreVariable *Var = GetCoreVariable(Name);
 	if (Var == NULL)
@@ -184,7 +184,7 @@ CoreVariable* CSettings::LoadSetting(PCHAR Name)
 	{
 		if (strstr(RawData[i].c_str(), Name))
 		{
-			eCoreVariableType VarType = GetElementDataType((PCHAR)GetElementData("Type", RawData[i]).c_str());
+			eCoreVariableType VarType = GetElementDataType((PCoreString)GetElementData("Type", RawData[i]).c_str());
 			std::string VarValue = GetElementData("Value", RawData[i]);
 
 			if (VarType == eCoreVariableType::VAR_INTEGER)
@@ -205,7 +205,7 @@ CoreVariable* CSettings::LoadSetting(PCHAR Name)
 				if (VarType == eCoreVariableType::VAR_DOUBLE) *(PDOUBLE)Var->Variable = Var->dDefault;
 			}
 
-			if (VarType == eCoreVariableType::VAR_STRING) strcpy_s((PCHAR)Var->Variable, VarValue.size() + 1, VarValue.c_str());
+			if (VarType == eCoreVariableType::VAR_STRING) strcpy_s((PCoreString)Var->Variable, VarValue.size() + 1, VarValue.c_str());
 
 			BoundVariable(Var);
 		}

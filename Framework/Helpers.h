@@ -49,15 +49,14 @@ typedef SCREENINFO* LPSCREENINFO;
 // Typedef helpers
 typedef FDWORD CoreOffset;
 typedef char CoreString[256];
-typedef LPVOID LPCoreString;
+typedef PCHAR PCoreString;
 typedef double CoreValue;
 typedef CoreValue CoreBool;
 typedef CoreValue CoreInt;
 typedef CoreValue CoreFloat;
-typedef CoreValue* LPCoreValue;
-typedef LPVOID LPCoreFunction;
+typedef CoreValue* PCoreVariable;
+typedef LPVOID PCoreFunction;
 typedef double* PDOUBLE;
-typedef char* LPCHAR;
 typedef struct { int r, g, b, a; }COLOR32;
 
 // D3D typedefs

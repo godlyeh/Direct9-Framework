@@ -7,7 +7,7 @@ Used for groupbox, todo: bind objects to it
 */
 #include "..\..\..\..\Core.h"
 
-UI_GroupBox::UI_GroupBox(PCHAR Caption, float x, float y, float w, float h, COLOR32 Color)
+UI_GroupBox::UI_GroupBox(PCoreString Caption, float x, float y, float w, float h, COLOR32 Color)
 {
 	strcpy_s(Text, Caption);
 	X = x;

@@ -40,7 +40,7 @@
 class UI_Window
 {
 public:
-	UI_Window(PCHAR WindowCaption, float x, float y, float w, float h);
+	UI_Window(PCoreString WindowCaption, float x, float y, float w, float h);
 	~UI_Window() { }
 
 public:

@@ -73,7 +73,7 @@ public:
 	CProcess* Process = new CProcess();
 
 public:
-	CFrameworkCore(PCHAR ProcessName, PCHAR WindowName, int Width, int Height);
+	CFrameworkCore(PCoreString ProcessName, PCoreString WindowName, int Width, int Height);
 	~CFrameworkCore();
 
 public:

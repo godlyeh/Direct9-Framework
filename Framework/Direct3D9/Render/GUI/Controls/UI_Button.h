@@ -9,7 +9,7 @@
 class UI_Button
 {
 public:
-	UI_Button(PCHAR ButtonText, float x, float y, LPCoreFunction ButtonFunction, COLOR32 Color = CLR_TEXT_DEFAULT);
+	UI_Button(PCoreString ButtonText, float x, float y, PCoreFunction ButtonFunction, COLOR32 Color = CLR_TEXT_DEFAULT);
 	~UI_Button() { }
 
 public:
@@ -18,7 +18,7 @@ public:
 public:
 	CoreString Text;
 	float X, Y;
-	LPCoreFunction Function;
+	PCoreFunction Function;
 	COLOR32 UnfocusedColor = CLR_BUTTON_UNFOCUSED;
 	COLOR32 FocusedColor = CLR_BUTTON_FOCUSED;
 	COLOR32 LineColor = CLR_LINE_DEFAULT;

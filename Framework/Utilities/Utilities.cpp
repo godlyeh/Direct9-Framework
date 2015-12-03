@@ -8,7 +8,7 @@
 #include "..\Core.h"
 
 // Get process id through toohelp32 snapshot
-DWORD Utilities::GetProcessInfo(PCHAR ProcessName, bool Log, PROCESSENTRY32 *pe32Out)
+DWORD Utilities::GetProcessInfo(PCoreString ProcessName, bool Log, PROCESSENTRY32 *pe32Out)
 {
 	HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPPROCESS, 0);
 
@@ -70,7 +70,7 @@ void Utilities::GetWindowInformation(HWND hWnd, LPSCREENINFO pScreenInfo)
 	memcpy(pScreenInfo, &Screen, sizeof(SCREENINFO));
 }
 
-void Utilities::RemoveSpaces(PCHAR Text, PCHAR Out)
+void Utilities::RemoveSpaces(PCoreString Text, PCoreString Out)
 {
 	std::string RetStr(Text);
 	while (RetStr.find(' ') != -1) RetStr.erase(RetStr.find(' '), 1);

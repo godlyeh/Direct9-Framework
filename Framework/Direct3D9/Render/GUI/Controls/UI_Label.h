@@ -9,7 +9,7 @@
 class UI_Label
 {
 public:
-	UI_Label(PCHAR Label, float x, float y, LPCoreString pString = NULL, COLOR32 = CLR_TEXT_DEFAULT);
+	UI_Label(PCoreString Label, float x, float y, PCoreString pString = NULL, COLOR32 = CLR_TEXT_DEFAULT);
 	~UI_Label() { }
 
 public:
@@ -18,6 +18,6 @@ public:
 public:
 	float X, Y;
 	CoreString Text;
-	LPCoreString String;
+	PCoreString String;
 	COLOR32 TextColor = CLR_TEXT_DEFAULT;
 };

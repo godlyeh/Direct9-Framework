@@ -21,7 +21,7 @@ BOOL CALLBACK EnumWindowsProcMy(HWND hWnd, LPARAM lParam)
 	return TRUE;
 }
 
-BOOL CProcess::Init(PCHAR ProcessName)
+BOOL CProcess::Init(PCoreString ProcessName)
 {
 	// Perform cleanup before initializing
 	CleanUp();
@@ -99,7 +99,7 @@ void CProcess::CleanUp()
 	CLog::Log(eLogType::HIGH, " > Done");
 }
 
-MODULEENTRY32* CProcess::GetModuleInfo(PCHAR ModuleName, bool Log, MODULEENTRY32 *me32Out)
+MODULEENTRY32* CProcess::GetModuleInfo(PCoreString ModuleName, bool Log, MODULEENTRY32 *me32Out)
 {
 	HANDLE hSnapshot = CreateToolhelp32Snapshot(TH32CS_SNAPMODULE | TH32CS_SNAPMODULE32, Id);
 

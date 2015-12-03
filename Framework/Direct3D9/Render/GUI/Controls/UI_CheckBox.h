@@ -9,7 +9,7 @@
 class UI_Checkbox
 {
 public:
-	UI_Checkbox(LPCoreValue Var, PCHAR ControlText, float x, float y, COLOR32 Color = CLR_TEXT_DEFAULT);
+	UI_Checkbox(PCoreVariable Var, PCoreString ControlText, float x, float y, COLOR32 Color = CLR_TEXT_DEFAULT);
 	~UI_Checkbox();
 
 public:
@@ -18,7 +18,7 @@ public:
 public:
 	// Info
 	CoreString Text;
-	LPCoreValue Value;
+	PCoreVariable Value;
 	
 	// Position
 	float Size = 0;

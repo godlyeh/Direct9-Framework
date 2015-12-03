@@ -9,7 +9,7 @@
 class UI_GroupBox
 {
 public:
-	UI_GroupBox(PCHAR Caption, float x, float y, float w, float h, COLOR32 Color = CLR_TEXT_DEFAULT);
+	UI_GroupBox(PCoreString Caption, float x, float y, float w, float h, COLOR32 Color = CLR_TEXT_DEFAULT);
 	~UI_GroupBox() { }
 
 public:

@@ -46,28 +46,28 @@ public:
 	char Path[MAX_PATH];
 
 public:
-	CSettings(PCHAR szFileName);
+	CSettings(PCoreString szFileName);
 	~CSettings();
 
 public:
-	void Register(PCHAR Name, PVOID Variable, eCoreVariableType Type, double dMin = 0, double dMax = 0);
+	void Register(PCoreString Name, PVOID Variable, eCoreVariableType Type, double dMin = 0, double dMax = 0);
 
-	void Remove(PCHAR Name);
+	void Remove(PCoreString Name);
 	void Remove(PVOID Variable);
 
 	void BoundVariable(CoreVariable* Var);
 
-	CoreVariable* GetCoreVariable(PCHAR Name);
+	CoreVariable* GetCoreVariable(PCoreString Name);
 	CoreVariable* GetCoreVariable(PVOID Variable);
 
 public:
-	PCHAR CreateElementLine(PCHAR Name, bool SubItem);
-	void Save(PCHAR SettingsName);
+	PCoreString CreateElementLine(PCoreString Name, bool SubItem);
+	void Save(PCoreString SettingsName);
 
 	void LoadRawData(std::vector<std::string>* RawData);
-	std::string GetElementData(PCHAR Element, std::string RawData);
-	eCoreVariableType GetElementDataType(PCHAR TypeName);
-	CoreVariable* LoadSetting(PCHAR Name);
+	std::string GetElementData(PCoreString Element, std::string RawData);
+	eCoreVariableType GetElementDataType(PCoreString TypeName);
+	CoreVariable* LoadSetting(PCoreString Name);
 	void LoadAllSettings();
 
 private:
