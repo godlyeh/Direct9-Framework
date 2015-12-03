@@ -24,13 +24,24 @@ UI_Slider::UI_Slider(float x, float y, float size, double min, double max, PCore
 	TextColor = Color;
 }
 
-void UI_Slider::DrawSliderPin(float x, float y, float size)
+void UI_Slider::DrawSliderPin(float x, float y, float size, bool SetVertical)
 {
-	float _X = x - size / 2;
-	float _Y = y;
-	g_Core->Render->FillRect(_X, _Y, size, size, SliderColor);
-	for (float i = 0; i < size / 2 + 1; ++i)
-		g_Core->Render->FillRect(_X + i, _Y + size + i, size - i * 2, 1, SliderColor);
+	if (SetVertical)
+	{
+		float _X = x;
+		float _Y = y - size / 2;
+		g_Core->Render->FillRect(_X, _Y, size, size, SliderColor);
+		for (float i = 0; i < size / 2 + 1; ++i)
+			g_Core->Render->FillRect(_X - i, _Y + i, 1, size - i * 2, SliderColor);
+	}
+	else
+	{
+		float _X = x - size / 2;
+		float _Y = y;
+		g_Core->Render->FillRect(_X, _Y, size, size, SliderColor);
+		for (float i = 0; i < size / 2 + 1; ++i)
+			g_Core->Render->FillRect(_X + i, _Y + size + i, size - i * 2, 1, SliderColor);
+	}
 }
 
 void UI_Slider::Draw(float x, float y, bool Visible)
@@ -53,9 +64,31 @@ void UI_Slider::Draw(float x, float y, bool Visible)
 		if (Min < 0)
 			_SliderMinDiff = (float)(Min * 100 / Max);
 
+		// Value
+		double _Value = *(double*)Value + _MinNegativeFix;
+
 		if (Vertical)
 		{
+			// Draw scaling line
+			g_Core->Render->FillRect(_X - 2, _Y, 5, 1, SliderColor); // Draw first line
+			g_Core->Render->FillRect(_X, _Y + 1, 2, Size - 1, SliderColor); // Draw main line
+			g_Core->Render->FillRect(_X - 2, _Y + Size, 5, 1, SliderColor); // Draw last line
 
+			// Calc slider pin placement
+			float _SliderX = _X + _SliderSize;
+			float _SliderY = _Y + (float)(Size * (100 - (_Value * 100 / Max)) / 100);
+			_SliderY -= _SliderMinDiff;
+
+			// Draw slider pin
+			DrawSliderPin(_SliderX, _SliderY, _SliderSize, true);
+
+			// Move slider
+			if (MouseInfo->Down && MouseInfo->DraggedElement == NULL && MouseInfo->MouseOver(_SliderX, _SliderY - _SliderSize / 2, _SliderSize, _SliderSize) || MouseInfo->Down && MouseInfo->DraggedElement == this)
+			{
+				MouseInfo->DraggedElement = this;
+				*(double*)Value = (double)((100 - ((MouseInfo->Y - _Y) * 100 / Size)) * Max / 100);
+				*(double*)Value -= (double)_MinNegativeFix;
+			}
 		}
 		else
 		{
@@ -65,7 +98,6 @@ void UI_Slider::Draw(float x, float y, bool Visible)
 			g_Core->Render->FillRect(_X + Size, _Y - 2, 1, 5, SliderColor); // Draw last line
 
 			// Calc slider pin placement
-			double _Value = *(double*)Value + _MinNegativeFix;
 			float _SliderX = _X + (float)(Size * (_Value * 100 / Max) / 100);
 			float _SliderY = _Y - _SliderSize - 6;
 			_SliderX -= _SliderMinDiff;
@@ -74,15 +106,12 @@ void UI_Slider::Draw(float x, float y, bool Visible)
 			DrawSliderPin(_SliderX, _SliderY, _SliderSize);
 
 			// Move slider
-			static bool _SliderHeld = false;
-			if (MouseInfo->MouseOver(_SliderX - _SliderSize / 2, _SliderY, _SliderSize, _SliderSize) && MouseInfo->Down || MouseInfo->Down && _SliderHeld)
+			if (MouseInfo->Down && MouseInfo->DraggedElement == NULL && MouseInfo->MouseOver(_SliderX - _SliderSize / 2, _SliderY, _SliderSize, _SliderSize) || MouseInfo->Down && MouseInfo->DraggedElement == this)
 			{
-				_SliderHeld = true;
+				MouseInfo->DraggedElement = this;
 				*(double*)Value = (double)(((MouseInfo->X - _X) * 100 / Size) * Max / 100);
 				*(double*)Value -= (double)_MinNegativeFix;
 			}
-			else
-				_SliderHeld = false;
 		}
 
 		// Reset min / max
@@ -97,9 +126,19 @@ void UI_Slider::Draw(float x, float y, bool Visible)
 		if (SliderText != NULL)
 		{
 			if (!_stricmp(SliderText, UI_SLIDER_VALUE_TEXT))
-				g_Core->Render->DrawString(true, _X + Size / 2, _Y + 5, TextColor, "%.2f", *(double*)Value);
+			{
+				if (Vertical)
+					g_Core->Render->DrawString(true, _X - g_Core->Render->GetStringWidth("%.2f", *(double*)Value) / 2 - 6, _Y + Size / 2, TextColor, "%.2f", *(double*)Value);
+				else
+					g_Core->Render->DrawString(true, _X + Size / 2, _Y + 5, TextColor, "%.2f", *(double*)Value);
+			}
 			else
-				g_Core->Render->DrawString(true, _X + Size / 2, _Y + 5, TextColor, SliderText);
+			{
+				if (Vertical)
+					g_Core->Render->DrawString(true, _X - g_Core->Render->GetStringWidth(SliderText) / 2 - 6, _Y + Size / 2, TextColor, SliderText);
+				else
+					g_Core->Render->DrawString(true, _X + Size / 2, _Y + 5, TextColor, SliderText);
+			}
 		}
 	}
 }

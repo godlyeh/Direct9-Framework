@@ -31,6 +31,7 @@
 //Controls
 #include "Controls\UI_Button.h"
 #include "Controls\UI_CheckBox.h"
+#include "Controls\UI_ComboBox.h"
 #include "Controls\UI_Label.h"
 #include "Controls\UI_GroupBox.h"
 #include "Controls\UI_Slider.h"
@@ -40,7 +41,7 @@
 class UI_Window
 {
 public:
-	UI_Window(PCoreString WindowCaption, float x, float y, float w, float h);
+	UI_Window(PCoreString WindowCaption, float x, float y, float w, float h, bool HasCaption = true);
 	~UI_Window() { }
 
 public:
@@ -51,10 +52,18 @@ public:
 	UI_Button* AddButton(UI_Button* Button);
 	UI_GroupBox* AddGroupbox(UI_GroupBox* Groupbox);
 	UI_Checkbox* AddCheckbox(UI_Checkbox* CheckBox);
+	UI_ComboBox* AddCombobox(UI_ComboBox* ComboBox);
 	UI_Label* AddLabel(UI_Label* Label);
 	UI_Slider* AddSlider(UI_Slider* Slider);
 
 public:
+	UI_ComboBox* GetCombobox(PCoreString Text);
+	UI_ComboBox* GetCombobox(UI_ComboBox* ComboBox);
+	UI_ComboBox* GetCombobox(int Index);
+	UI_ComboBox* GetCombobox();
+
+public:
+	bool WindowHasCaption;
 	CoreString Caption;
 	float X, Y, W, H;
 	COLOR32 BackgroundColor = CLR_WINDOW_BACKGROUND;
@@ -63,10 +72,11 @@ public:
 	COLOR32 TitleBackgroundColor = CLR_TITLE_BACKGROUND;
 	COLOR32 TitleTextColor = CLR_CAPTION_TEXT;
 
-private:
+public:
 	std::vector<UI_Button> UIButton;
 	std::vector<UI_GroupBox> UIGroupbox;
 	std::vector<UI_Checkbox> UICheckbox;
+	std::vector<UI_ComboBox> UIComboBox;
 	std::vector<UI_Label> UILabel;
 	std::vector<UI_Slider> UISlider;
 };

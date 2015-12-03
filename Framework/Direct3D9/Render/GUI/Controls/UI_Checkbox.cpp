@@ -42,6 +42,10 @@ void UI_Checkbox::Draw(float x, float y, bool Visible)
 			g_Core->Render->Line(_X + Size - 3, _Y + 2, _X + 3, _Y + Size - 3, 2, CheckedColor);
 		}
 
+		// Mouse down
+		if (MouseOver && MouseInfo->Down && MouseInfo->DraggedElement == NULL)
+			g_Core->Render->DepthFrame(_X + 1, _Y + 1, Size - 1, Size - 1);
+
 		// Handle click
 		if (MouseInfo->Clicked && MouseInfo->MouseOver(_X, _Y, Size, Size))
 			*(bool*)Value = !*(bool*)Value;

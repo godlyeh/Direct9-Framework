@@ -7,46 +7,58 @@
 */
 #include "..\..\..\Core.h"
 
-UI_Window::UI_Window(PCoreString WindowCaption, float x, float y, float w, float h)
+UI_Window::UI_Window(PCoreString WindowCaption, float x, float y, float w, float h, bool HasCaption)
 {
 	strcpy_s(Caption, WindowCaption);
 	X = x;
 	Y = y;
 	W = w;
 	H = h;
+	WindowHasCaption = HasCaption;
 }
 
 void UI_Window::DrawWindow()
 {
+	float _Y = Y;
+
 	// Draw titlebar
-	g_Core->Render->FillRect(X, Y, W, g_Core->CaptionSize + 2, TitleBackgroundColor);
-	g_Core->Render->DrawString(false, X + 10, Y + 2, TitleTextColor, Caption);
+	if (WindowHasCaption)
+	{
+		g_Core->Render->FillRect(X, _Y, W, g_Core->CaptionSize + 2, TitleBackgroundColor);
+		g_Core->Render->DrawString(false, X + 10, _Y + 2, TitleTextColor, Caption);
+
+		_Y += g_Core->CaptionSize + 2;
+	}
 
 	// Draw window
-	g_Core->Render->FillRect(X, Y + g_Core->CaptionSize + 2, W, H, BackgroundColor);
-	g_Core->Render->LineRect(X, Y, W, H + g_Core->CaptionSize + 2, 1, LineColor);
-	g_Core->Render->Line(X + 1, Y + g_Core->CaptionSize + 2, X + W, Y + g_Core->CaptionSize + 2, 1, LineColor);
-	g_Core->Render->DepthFrame(X, Y + g_Core->CaptionSize + 2, W, H);
+	g_Core->Render->FillRect(X, _Y, W, H, BackgroundColor);
+	g_Core->Render->LineRect(X, _Y - (WindowHasCaption ? g_Core->CaptionSize + 2 : 0), W, H + (WindowHasCaption ? g_Core->CaptionSize + 2 : 0), 1, LineColor);
+	g_Core->Render->Line(X + 1, _Y, X + W, _Y, 1, LineColor);
+	g_Core->Render->DepthFrame(X, _Y, W, H);
 
 	// Draw groupboxes
 	for (int i = 0; i < (int)UIGroupbox.size(); ++i)
-		UIGroupbox[i].Draw(X, Y);
+		UIGroupbox[i].Draw(X, _Y);
 
 	// Draw buttons
 	for (int i = 0; i < (int)UIGroupbox.size(); ++i)
-		UIButton[i].Draw(X, Y);
+		UIButton[i].Draw(X, _Y);
 
 	// Draw checkboxes
 	for (int i = 0; i < (int)UICheckbox.size(); ++i)
-		UICheckbox[i].Draw(X, Y);
+		UICheckbox[i].Draw(X, _Y);
 
 	// Draw labels
 	for (int i = 0; i < (int)UILabel.size(); ++i)
-		UILabel[i].Draw(X, Y);
+		UILabel[i].Draw(X, _Y);
 
 	// Draw Sliders
 	for (int i = 0; i < (int)UISlider.size(); ++i)
-		UISlider[i].Draw(X, Y);
+		UISlider[i].Draw(X, _Y);
+
+	// Draw Comboboxes
+	for (int i = 0; i < (int)UIComboBox.size(); ++i)
+		UIComboBox[i].Draw(X, _Y);
 }
 
 UI_Button* UI_Window::AddButton(UI_Button* Button)
@@ -67,6 +79,12 @@ UI_Checkbox* UI_Window::AddCheckbox(UI_Checkbox* CheckBox)
 	return &UICheckbox[UICheckbox.size() - 1];
 }
 
+UI_ComboBox* UI_Window::AddCombobox(UI_ComboBox* ComboBox)
+{
+	UIComboBox.push_back(*ComboBox);
+	return &UIComboBox[UIComboBox.size() - 1];
+}
+
 UI_Label* UI_Window::AddLabel(UI_Label* Label)
 {
 	UILabel.push_back(*Label);
@@ -77,6 +95,45 @@ UI_Slider* UI_Window::AddSlider(UI_Slider* Slider)
 {
 	UISlider.push_back(*Slider);
 	return &UISlider[UISlider.size() - 1];
+}
+
+
+
+UI_ComboBox* UI_Window::GetCombobox(PCoreString Text)
+{
+	for (int i = 0; i < (int)UIComboBox.size() - 1; ++i)
+	{
+		for (int x = 0; x < (int)UIComboBox.size() - 1; ++x)
+			if (!_stricmp(UIComboBox[i].Items[x].Text, Text))
+				return &UIComboBox[i];
+	}
+
+	return NULL;
+}
+
+UI_ComboBox* UI_Window::GetCombobox(UI_ComboBox* ComboBox)
+{
+	for (int i = 0; i < (int)UIComboBox.size() - 1; ++i)
+		if (ComboBox == &UIComboBox[i])
+			return &UIComboBox[i];
+
+	return NULL;
+}
+
+UI_ComboBox* UI_Window::GetCombobox(int Index)
+{
+	if (Index > (int)UIComboBox.size() - 1)
+		return NULL;
+
+	return &UIComboBox[Index];
+}
+
+UI_ComboBox* UI_Window::GetCombobox()
+{
+	if (UIComboBox.size() == 0)
+		return NULL;
+
+	return &UIComboBox[UICheckbox.size() - 1];
 }
 
 /*
@@ -96,43 +153,37 @@ void UI_Setup::DrawWindows()
 	MouseInfo->UpdateInfo();
 
 	// Handle window dragging
-	static UI_Window *DraggedElement = NULL;
 	for (int i = (int)UIWindow.size() - 1; i >= 0; --i)
 	{
+		if (!UIWindow[i].WindowHasCaption)
+			continue;
+
 		// Handle window dragging
-		static UI_Window *DraggedElement = NULL;
-		if (MouseInfo->Down)
+		if (MouseInfo->Down && MouseInfo->DraggedElement == NULL && MouseInfo->MouseOver(UIWindow[i].X, UIWindow[i].Y, UIWindow[i].W, g_Core->CaptionSize) || MouseInfo->Down && MouseInfo->DraggedElement == &UIWindow[i])
 		{
-			if (DraggedElement != NULL || MouseInfo->MouseOver(UIWindow[i].X, UIWindow[i].Y, UIWindow[i].W, g_Core->CaptionSize))
+			static int DiffX = 0;
+			static int DiffY = 0;
+
+			// Rearrange windows
+			if (MouseInfo->DraggedElement == NULL)
 			{
-				static float DiffX = 0;
-				static float DiffY = 0;
+				std::iter_swap(UIWindow.begin() + (int)UIWindow.size() - 1, UIWindow.begin() + i);
+				MouseInfo->DraggedElement = &UIWindow[(int)UIWindow.size() - 1];
+				DiffX = MouseInfo->X - (int)((UI_Window*)(MouseInfo->DraggedElement))->X;
+				DiffY = MouseInfo->Y - (int)((UI_Window*)(MouseInfo->DraggedElement))->Y;
+			}
 
-				// Rearrange windows
-				if (DraggedElement == NULL)
-				{
-					std::iter_swap(UIWindow.begin() + (int)UIWindow.size() - 1, UIWindow.begin() + i);
-					DraggedElement = &UIWindow[(int)UIWindow.size() - 1];
-					DiffX = MouseInfo->X - DraggedElement->X;
-					DiffY = MouseInfo->Y - DraggedElement->Y;
-				}
-
-				if (DraggedElement != NULL)
-				{
-					DraggedElement->X = MouseInfo->X - DiffX;
-					DraggedElement->Y = MouseInfo->Y - DiffY;
-				}
+			if (MouseInfo->DraggedElement != NULL)
+			{
+				((UI_Window*)(MouseInfo->DraggedElement))->X = (float)(MouseInfo->X - DiffX);
+				((UI_Window*)(MouseInfo->DraggedElement))->Y = (float)(MouseInfo->Y - DiffY);
 			}
 		}
-		else
-			DraggedElement = NULL;
 	}
 
 	// Handle windows
 	for (int i = 0; i < (int)UIWindow.size(); ++i)
 	{
-		
-
 		// Draw windows
 		UIWindow[i].DrawWindow();
 	}

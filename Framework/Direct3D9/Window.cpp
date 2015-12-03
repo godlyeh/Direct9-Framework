@@ -73,12 +73,11 @@ LRESULT CWindowHandler::Register(HINSTANCE hInst, int nWidth, int nHeight, LPCTS
 	// Create window
 	X = 0;
 	Y = 0;
-	W = nWidth;
-	H = nHeight;
-	Rect = { X, Y, W, H };
+	W = (float)nWidth;
+	H = (float)nHeight;
+	Rect = { (int)X, (int)Y, (int)W, (int)H };
 	margin = { -1 };
 	hInstance = hInst;
-	//AdjustWindowRect(&Rect, WS_OVERLAPPEDWINDOW, FALSE);
 	
 	if (Overlay)
 	{
@@ -121,7 +120,7 @@ LRESULT CWindowHandler::Register(HINSTANCE hInst, int nWidth, int nHeight, LPCTS
 	CLog::Log(eLogType::HIGH, " > SUCCESS [0x%p]", HWnd);
 	ShowWindow(HWnd, SW_SHOWNORMAL);
 	UpdateWindow(HWnd);
-	MoveWindow(HWnd, X, Y, W, H, FALSE);
+	MoveWindow(HWnd, (int)X, (int)Y, (int)W, (int)H, FALSE);
 
 	return S_OK;
 }

@@ -12,6 +12,8 @@ typedef struct
 	bool Up;
 	bool Down;
 	bool Clicked;
+	PCoreFunction DraggedElement;
+	PCoreFunction FocusedItem;
 }CoreMouseInfo;
 
 class UI_Mouse : public CoreMouseInfo

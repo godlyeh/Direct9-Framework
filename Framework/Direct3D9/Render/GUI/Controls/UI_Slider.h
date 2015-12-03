@@ -15,7 +15,7 @@ public:
 	~UI_Slider() { }
 
 public:
-	void DrawSliderPin(float x, float y, float size);
+	void DrawSliderPin(float x, float y, float size, bool SetVertical = false);
 	void Draw(float x, float y, bool Visible = true);
 
 public:

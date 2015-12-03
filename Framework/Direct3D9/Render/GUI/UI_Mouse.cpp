@@ -50,6 +50,16 @@ void UI_Mouse::UpdateInfo()
 	if (Y < 0) Y = 0;
 	if (Pos.x > Info.rcClient.right) X = Info.rcClient.right - Info.rcClient.left;
 	if (Pos.y > Info.rcClient.bottom) Y = Info.rcClient.bottom - Info.rcClient.top;
+
+	// Reset dragged element
+	if (DraggedElement != NULL)
+		Clicked = Up = false;
+	if (!Down)
+		DraggedElement = NULL;
+
+	// Handle focues objects
+	if (FocusedItem != NULL)
+		DraggedElement = NULL;
 }
 
 bool UI_Mouse::MouseOver(int x, int y, int w, int h)
