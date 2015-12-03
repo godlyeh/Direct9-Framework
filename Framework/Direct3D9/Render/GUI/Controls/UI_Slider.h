@@ -15,7 +15,7 @@ public:
 	~UI_Slider() { }
 
 public:
-	void DrawSliderPin(float x, float y, float size, bool SetVertical = false);
+	void DrawSliderPin(float x, float y, float size);
 	void Draw(float x, float y, bool Visible = true);
 
 public:
@@ -23,8 +23,7 @@ public:
 	bool Vertical;
 	float X, Y;
 	float Size;
-	double Min;
-	double Max;
+	double Min, Max;
 	PCoreVariable Value;
 	COLOR32 SliderColor = CLR_SLIDER_DEFAULT;
 	COLOR32 TextColor = CLR_TEXT_DEFAULT;

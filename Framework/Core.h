@@ -28,9 +28,10 @@
 // Framework file include
 #include "Helpers.h"
 
+#include "Utilities\UtilCore.h"
 #include "Utilities\Settings\Settings.h"
 #include "Utilities\Vector\Vector3.h"
-#include "Utilities\UtilCore.h"
+#include "Utilities\ByteScan\ADE32.h"
 #include "Utilities\ByteScan\ByteScan.h"
 #include "Utilities\Timer.h"
 

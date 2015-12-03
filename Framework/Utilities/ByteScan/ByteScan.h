@@ -19,6 +19,7 @@ typedef struct
 	DWORD dwLength;
 	ePatternScanType ScanType;
 
+	bool RetrieveAddress;
 	MODULEENTRY32 Module;
 	CoreOffset *Offset;
 }CorePattern;
@@ -35,7 +36,7 @@ public:
 public:
 	void Scan();
 	void SetupPattern(MODULEENTRY32* Module, PCoreString Pattern, CorePattern* PatternOut, ePatternScanType Type);
-	void RegisterPattern(CoreOffset* Offset, MODULEENTRY32* Module, PCoreString BytePattern, ePatternScanType Type = ePatternScanType::SCAN_BYTES);
+	void RegisterPattern(CoreOffset* Offset, MODULEENTRY32* Module, PCoreString BytePattern, bool GetAddress = true, ePatternScanType Type = ePatternScanType::SCAN_BYTES);
 	FDWORD FindPattern(MODULEENTRY32* Module, PCoreString Pattern, ePatternScanType Type = ePatternScanType::SCAN_BYTES, CoreOffset* Out = NULL);
 
 private:

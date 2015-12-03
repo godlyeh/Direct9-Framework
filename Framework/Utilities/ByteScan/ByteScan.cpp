@@ -69,8 +69,20 @@ void CPatternScanner::Scan()
 		{
 			for (int p = 0; p < (int)Patterns.size(); ++p)
 			{
-				if (CompareBytes(&Patterns[p], GameBytes))
+				if (*Patterns[p].Offset == NULL && CompareBytes(&Patterns[p], GameBytes))
+				{
 					*Patterns[p].Offset = (FDWORD)FilesToScan[x].modBaseAddr + i;
+					if (Patterns[p].RetrieveAddress)
+					{
+						FDWORD TmpAddr = 0;
+						FDWORD OpcodeLength = oplen(GameBytes);
+						if (OpcodeLength == 0x5) TmpAddr = 0x1;
+						if (OpcodeLength == 0x6) TmpAddr = 0x2;
+
+						if (TmpAddr)
+							MemoryScanner->Read((*Patterns[p].Offset + TmpAddr), Patterns[p].Offset, sizeof(DWORD));
+					}
+				}
 			}
 		}
 	}
@@ -113,12 +125,13 @@ void CPatternScanner::SetupPattern(MODULEENTRY32* Module, PCoreString Pattern, C
 	memcpy(PatternOut, &PatternInfo, sizeof(CorePattern));
 }
 
-void CPatternScanner::RegisterPattern(CoreOffset* Offset, MODULEENTRY32* Module, PCoreString Pattern, ePatternScanType Type)
+void CPatternScanner::RegisterPattern(CoreOffset* Offset, MODULEENTRY32* Module, PCoreString Pattern, bool GetAddress, ePatternScanType Type)
 {
 	// Setup byte scan info
 	CorePattern PatternInfo;
 	SetupPattern(Module, Pattern, &PatternInfo, Type);
 	PatternInfo.Offset = Offset;
+	PatternInfo.RetrieveAddress = GetAddress;
 	Patterns.push_back(PatternInfo);
 
 	// Add file if not already added

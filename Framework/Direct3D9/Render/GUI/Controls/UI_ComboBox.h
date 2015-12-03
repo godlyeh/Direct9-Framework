@@ -44,4 +44,8 @@ public:
 	COLOR32 LineColor = CLR_LINE_DEFAULT;
 	COLOR32 ItemUnfocusedBackground = CLR_UNFOCUSED_DEFAULT;
 	COLOR32 ItemFocusedBackground = CLR_FOCUSED_DEFAULT;
+
+private:
+	double ScrollbarValue;
+	UI_Scrollbar *Scrollbar = NULL;
 };

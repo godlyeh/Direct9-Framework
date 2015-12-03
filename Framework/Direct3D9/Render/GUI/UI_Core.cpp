@@ -59,7 +59,17 @@ void UI_Window::DrawWindow()
 	// Draw Comboboxes
 	for (int i = 0; i < (int)UIComboBox.size(); ++i)
 		UIComboBox[i].Draw(X, _Y);
+
+	// Draw Scrollbars
+	for (int i = 0; i < (int)UIScrollbar.size(); ++i)
+		UIScrollbar[i].Draw(X, _Y);
 }
+
+/*
+
+	Create controls
+
+*/
 
 UI_Button* UI_Window::AddButton(UI_Button* Button)
 {
@@ -91,13 +101,23 @@ UI_Label* UI_Window::AddLabel(UI_Label* Label)
 	return &UILabel[UILabel.size() - 1];
 }
 
+UI_Scrollbar* UI_Window::AddScrollbar(UI_Scrollbar* Scrollbar)
+{
+	UIScrollbar.push_back(*Scrollbar);
+	return &UIScrollbar[UIScrollbar.size() - 1];
+}
+
 UI_Slider* UI_Window::AddSlider(UI_Slider* Slider)
 {
 	UISlider.push_back(*Slider);
 	return &UISlider[UISlider.size() - 1];
 }
 
+/*
 
+	Get controls etc
+
+*/
 
 UI_ComboBox* UI_Window::GetCombobox(PCoreString Text)
 {

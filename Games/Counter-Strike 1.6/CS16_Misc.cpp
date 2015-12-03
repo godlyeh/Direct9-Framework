@@ -14,7 +14,7 @@ void CS16Offset::InitOffsets(CMemoryScanner *MemScanner)
 	PatternScanner = new CPatternScanner(g_Core->Process->Handle, MemScanner);
 
 	// Copy offset strings
-	strcpy_s(s_gEngfuncs, "B? 00 00 00 00 F3 A5 74 0C");
+	strcpy_s(s_gEngfuncs, "B? 00 00 00 00 F3 A5 74 00 5?");
 	strcpy_s(s_gStudio, "B? 00 00 00 00 C7 00 00 00 00 00");
 	strcpy_s(s_gPlayerMove, "A? 00 00 00 00 85 D? 0F 95 C1");
 
@@ -26,7 +26,7 @@ void CS16Offset::InitOffsets(CMemoryScanner *MemScanner)
 	CLog::Log(eLogType::HIGH, " Done");
 
 	// Load offsets
-	OffsetSettings->LoadAllSettings();
+	//OffsetSettings->LoadAllSettings();
 	OffsetSettings->Save("Offsets");
 }
 

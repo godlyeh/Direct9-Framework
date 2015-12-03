@@ -29,6 +29,7 @@
 #define CLR_BUTTON_UNFOCUSED rgb(125, 125, 125)
 
 //Controls
+#include "Controls\UI_Scrollbar.h"
 #include "Controls\UI_Button.h"
 #include "Controls\UI_CheckBox.h"
 #include "Controls\UI_ComboBox.h"
@@ -54,6 +55,7 @@ public:
 	UI_Checkbox* AddCheckbox(UI_Checkbox* CheckBox);
 	UI_ComboBox* AddCombobox(UI_ComboBox* ComboBox);
 	UI_Label* AddLabel(UI_Label* Label);
+	UI_Scrollbar* AddScrollbar(UI_Scrollbar* Scrollbar);
 	UI_Slider* AddSlider(UI_Slider* Slider);
 
 public:
@@ -72,12 +74,13 @@ public:
 	COLOR32 TitleBackgroundColor = CLR_TITLE_BACKGROUND;
 	COLOR32 TitleTextColor = CLR_CAPTION_TEXT;
 
-public:
+private:
 	std::vector<UI_Button> UIButton;
 	std::vector<UI_GroupBox> UIGroupbox;
 	std::vector<UI_Checkbox> UICheckbox;
 	std::vector<UI_ComboBox> UIComboBox;
 	std::vector<UI_Label> UILabel;
+	std::vector<UI_Scrollbar> UIScrollbar;
 	std::vector<UI_Slider> UISlider;
 };
 

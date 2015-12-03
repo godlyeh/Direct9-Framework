@@ -158,11 +158,13 @@
     <ClCompile Include="Framework\Direct3D9\Render\GUI\Controls\UI_ComboBox.cpp" />
     <ClCompile Include="Framework\Direct3D9\Render\GUI\Controls\UI_GroupBox.cpp" />
     <ClCompile Include="Framework\Direct3D9\Render\GUI\Controls\UI_Label.cpp" />
+    <ClCompile Include="Framework\Direct3D9\Render\GUI\Controls\UI_Scrollbar.cpp" />
     <ClCompile Include="Framework\Direct3D9\Render\GUI\Controls\UI_Slider.cpp" />
     <ClCompile Include="Framework\Direct3D9\Render\GUI\UI_Mouse.cpp" />
     <ClCompile Include="Framework\Direct3D9\Render\GUI\UI_Core.cpp" />
     <ClCompile Include="Framework\Direct3D9\Render\Render.cpp" />
     <ClCompile Include="Framework\Direct3D9\Window.cpp" />
+    <ClCompile Include="Framework\Utilities\ByteScan\ADE32.cpp" />
     <ClCompile Include="Framework\Utilities\ByteScan\ByteScan.cpp" />
     <ClCompile Include="Framework\Utilities\Logging.cpp" />
     <ClCompile Include="Framework\Utilities\Memory.cpp" />
@@ -181,11 +183,13 @@
     <ClInclude Include="Framework\Direct3D9\Render\GUI\Controls\UI_ComboBox.h" />
     <ClInclude Include="Framework\Direct3D9\Render\GUI\Controls\UI_GroupBox.h" />
     <ClInclude Include="Framework\Direct3D9\Render\GUI\Controls\UI_Label.h" />
+    <ClInclude Include="Framework\Direct3D9\Render\GUI\Controls\UI_Scrollbar.h" />
     <ClInclude Include="Framework\Direct3D9\Render\GUI\Controls\UI_Slider.h" />
     <ClInclude Include="Framework\Direct3D9\Render\GUI\UI_Core.h" />
     <ClInclude Include="Framework\Direct3D9\Render\GUI\UI_Mouse.h" />
     <ClInclude Include="Framework\Helpers.h" />
     <ClInclude Include="Framework\Direct3D9\D3D9Core.h" />
+    <ClInclude Include="Framework\Utilities\ByteScan\ADE32.h" />
     <ClInclude Include="Framework\Utilities\ByteScan\ByteScan.h" />
     <ClInclude Include="Framework\Utilities\Settings\Settings.h" />
     <ClInclude Include="Framework\Utilities\Timer.h" />

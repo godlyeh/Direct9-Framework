@@ -111,6 +111,12 @@
     <ClCompile Include="Framework\Direct3D9\Render\GUI\Controls\UI_ComboBox.cpp">
       <Filter>Framework\Direct3D9\Render\GUI\Controls</Filter>
     </ClCompile>
+    <ClCompile Include="Framework\Direct3D9\Render\GUI\Controls\UI_Scrollbar.cpp">
+      <Filter>Framework\Direct3D9\Render\GUI\Controls</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\Utilities\ByteScan\ADE32.cpp">
+      <Filter>Framework\Utilities\ByteScan</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework\Utilities\UtilCore.h">
@@ -175,6 +181,12 @@
     </ClInclude>
     <ClInclude Include="Framework\Direct3D9\Render\GUI\Controls\UI_ComboBox.h">
       <Filter>Framework\Direct3D9\Render\GUI\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Direct3D9\Render\GUI\Controls\UI_Scrollbar.h">
+      <Filter>Framework\Direct3D9\Render\GUI\Controls</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Utilities\ByteScan\ADE32.h">
+      <Filter>Framework\Utilities\ByteScan</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

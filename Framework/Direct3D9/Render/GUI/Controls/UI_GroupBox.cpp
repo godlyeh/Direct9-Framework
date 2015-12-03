@@ -22,7 +22,7 @@ void UI_GroupBox::Draw(float x, float y, bool Visible)
 	if (Visible)
 	{
 		float _X = x + X;
-		float _Y = y + Y + g_Core->CaptionSize;
+		float _Y = y + Y;
 		float _StrW = g_Core->Render->GetStringWidth(Text);
 		float _W = W;
 		float _H = H;

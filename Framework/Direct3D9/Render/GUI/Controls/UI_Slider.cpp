@@ -24,9 +24,9 @@ UI_Slider::UI_Slider(float x, float y, float size, double min, double max, PCore
 	TextColor = Color;
 }
 
-void UI_Slider::DrawSliderPin(float x, float y, float size, bool SetVertical)
+void UI_Slider::DrawSliderPin(float x, float y, float size)
 {
-	if (SetVertical)
+	if (Vertical)
 	{
 		float _X = x;
 		float _Y = y - size / 2;
@@ -54,15 +54,12 @@ void UI_Slider::Draw(float x, float y, bool Visible)
 		float _X = x + X;
 		float _Y = y + Y + g_Core->CaptionSize;
 		float _SliderSize = 7;
-		float _SliderMinDiff = 0;
 		
 		// Simple fix for easier math
 		float _MinNegativeFix = 0;
 		_MinNegativeFix = (float)-Min;
 		Min += _MinNegativeFix;
 		Max += _MinNegativeFix;
-		if (Min < 0)
-			_SliderMinDiff = (float)(Min * 100 / Max);
 
 		// Value
 		double _Value = *(double*)Value + _MinNegativeFix;
@@ -77,10 +74,9 @@ void UI_Slider::Draw(float x, float y, bool Visible)
 			// Calc slider pin placement
 			float _SliderX = _X + _SliderSize;
 			float _SliderY = _Y + (float)(Size * (100 - (_Value * 100 / Max)) / 100);
-			_SliderY -= _SliderMinDiff;
 
 			// Draw slider pin
-			DrawSliderPin(_SliderX, _SliderY, _SliderSize, true);
+			DrawSliderPin(_SliderX, _SliderY, _SliderSize);
 
 			// Move slider
 			if (MouseInfo->Down && MouseInfo->DraggedElement == NULL && MouseInfo->MouseOver(_SliderX, _SliderY - _SliderSize / 2, _SliderSize, _SliderSize) || MouseInfo->Down && MouseInfo->DraggedElement == this)
@@ -100,7 +96,6 @@ void UI_Slider::Draw(float x, float y, bool Visible)
 			// Calc slider pin placement
 			float _SliderX = _X + (float)(Size * (_Value * 100 / Max) / 100);
 			float _SliderY = _Y - _SliderSize - 6;
-			_SliderX -= _SliderMinDiff;
 
 			// Draw slider pin
 			DrawSliderPin(_SliderX, _SliderY, _SliderSize);
