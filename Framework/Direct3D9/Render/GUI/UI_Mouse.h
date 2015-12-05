@@ -12,6 +12,8 @@ typedef struct
 	bool Up;
 	bool Down;
 	bool Clicked;
+	bool ScrolledUp;
+	bool ScrolledDown;
 	PCoreFunction DraggedElement;
 	PCoreFunction FocusedItem;
 }CoreMouseInfo;

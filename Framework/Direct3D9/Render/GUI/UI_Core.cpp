@@ -170,44 +170,50 @@ UI_Window* UI_Setup::RegisterWindow(UI_Window* Window)
 	return &UIWindow[UIWindow.size() - 1];
 }
 
-void UI_Setup::DrawWindows()
+void UI_Setup::DrawWindows(bool Visible)
 {
-	// Get mouse info
-	MouseInfo->UpdateInfo();
-
-	// Handle window dragging
-	for (int i = (int)UIWindow.size() - 1; i >= 0; --i)
+	if (Visible)
 	{
-		if (!UIWindow[i].WindowHasCaption)
-			continue;
+		// Get mouse info
+		MouseInfo->UpdateInfo();
 
 		// Handle window dragging
-		if (MouseInfo->Down && MouseInfo->DraggedElement == NULL && MouseInfo->MouseOver(UIWindow[i].X, UIWindow[i].Y, UIWindow[i].W, g_Core->CaptionSize) || MouseInfo->Down && MouseInfo->DraggedElement == &UIWindow[i])
+		for (int i = (int)UIWindow.size() - 1; i >= 0; --i)
 		{
-			static int DiffX = 0;
-			static int DiffY = 0;
+			if (!UIWindow[i].WindowHasCaption)
+				continue;
 
-			// Rearrange windows
-			if (MouseInfo->DraggedElement == NULL)
+			// Handle window dragging
+			if (MouseInfo->Down && MouseInfo->DraggedElement == NULL && MouseInfo->MouseOver(UIWindow[i].X, UIWindow[i].Y, UIWindow[i].W, g_Core->CaptionSize) || MouseInfo->Down && MouseInfo->DraggedElement == &UIWindow[i])
 			{
-				std::iter_swap(UIWindow.begin() + (int)UIWindow.size() - 1, UIWindow.begin() + i);
-				MouseInfo->DraggedElement = &UIWindow[(int)UIWindow.size() - 1];
-				DiffX = MouseInfo->X - (int)((UI_Window*)(MouseInfo->DraggedElement))->X;
-				DiffY = MouseInfo->Y - (int)((UI_Window*)(MouseInfo->DraggedElement))->Y;
-			}
+				static int DiffX = 0;
+				static int DiffY = 0;
 
-			if (MouseInfo->DraggedElement != NULL)
-			{
-				((UI_Window*)(MouseInfo->DraggedElement))->X = (float)(MouseInfo->X - DiffX);
-				((UI_Window*)(MouseInfo->DraggedElement))->Y = (float)(MouseInfo->Y - DiffY);
+				// Rearrange windows
+				if (MouseInfo->DraggedElement == NULL)
+				{
+					std::iter_swap(UIWindow.begin() + (int)UIWindow.size() - 1, UIWindow.begin() + i);
+					MouseInfo->DraggedElement = &UIWindow[(int)UIWindow.size() - 1];
+					DiffX = MouseInfo->X - (int)((UI_Window*)(MouseInfo->DraggedElement))->X;
+					DiffY = MouseInfo->Y - (int)((UI_Window*)(MouseInfo->DraggedElement))->Y;
+				}
+
+				if (MouseInfo->DraggedElement != NULL)
+				{
+					((UI_Window*)(MouseInfo->DraggedElement))->X = (float)(MouseInfo->X - DiffX);
+					((UI_Window*)(MouseInfo->DraggedElement))->Y = (float)(MouseInfo->Y - DiffY);
+				}
 			}
 		}
-	}
 
-	// Handle windows
-	for (int i = 0; i < (int)UIWindow.size(); ++i)
-	{
-		// Draw windows
-		UIWindow[i].DrawWindow();
+		// Handle windows
+		for (int i = 0; i < (int)UIWindow.size(); ++i)
+		{
+			// Draw windows
+			UIWindow[i].DrawWindow();
+		}
+
+		MouseInfo->ScrolledDown = false;
+		MouseInfo->ScrolledUp = false;
 	}
 }

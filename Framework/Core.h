@@ -16,6 +16,7 @@
 
 // System file include
 #include <Windows.h>
+#include <Windowsx.h>
 #include <String>
 #include <Vector>
 #include <FStream>
@@ -27,6 +28,8 @@
 
 // Framework file include
 #include "Helpers.h"
+#include "Keys.h"
+#include "K_Button.h"
 
 #include "Utilities\UtilCore.h"
 #include "Utilities\Vector\Vector3.h"
@@ -89,3 +92,4 @@ private:
 extern CFrameworkCore* g_Core;
 extern UI_Setup* GUI;
 extern UI_Mouse* MouseInfo;
+extern K_Button* KeyPressed;

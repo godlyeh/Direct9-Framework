@@ -88,7 +88,7 @@ class UI_Setup
 {
 public:
 	UI_Window* RegisterWindow(UI_Window *Window);
-	void DrawWindows();
+	void DrawWindows(bool Visible = true);
 
 private:
 	std::vector<UI_Window> UIWindow;

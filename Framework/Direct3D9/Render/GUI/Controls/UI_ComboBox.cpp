@@ -66,7 +66,20 @@ void UI_ComboBox::Draw(float x, float y, bool Visible)
 		float _TxtY = _Y + _BtnSize + 2;
 		float _TxtW = _W;
 
-		bool MouseOver = MouseInfo->MouseOver(_TxtX + (Scrollbar == NULL ? 0 : _BtnSize), _TxtY, _TxtW, _BtnSize * Items.size());
+		// Setup scrollbar
+		float _ScrollbarX = _X + _W;
+		float _ScrollbarY = _Y + _BtnSize + 2;
+		float _ScrollbarW = _BtnSize;
+		float _ScrollbarH = _BtnSize * MaxItems;
+		int _ScrollbarMax = Items.size() - MaxItems;
+
+		// Doesnt apply for scrollbar but were using the var to check if were within box
+		if (_ScrollbarMax < 0)
+			_ScrollbarH = _BtnSize * (MaxItems - (MaxItems - Items.size()));
+
+		// Mouse over box
+		bool MouseOver = MouseInfo->MouseOver(_TxtX + (Scrollbar == NULL ? _BtnSize : 0), _TxtY, _TxtW, _ScrollbarH);
+		CLog::Log("%i", MouseOver);
 		if (!MouseOver && !MouseInfo->MouseOver(_BtnX, _BtnY, _BtnSize, _BtnSize) && MouseInfo->Clicked)
 			MouseInfo->FocusedItem = NULL;
 
@@ -84,13 +97,7 @@ void UI_ComboBox::Draw(float x, float y, bool Visible)
 				MouseInfo->FocusedItem = NULL;
 		}
 
-		// Setup scrollbar
-		float _ScrollbarX = _X + _W;
-		float _ScrollbarY = _Y + _BtnSize + 2;
-		float _ScrollbarW = _BtnSize;
-		float _ScrollbarH = _BtnSize * MaxItems;
-		int _ScrollbarMax = Items.size() - MaxItems;
-
+		//Scrollbar
 		if (!Scrollbar && _ScrollbarMax > 0)
 			Scrollbar = new UI_Scrollbar(_ScrollbarX, _ScrollbarY, _ScrollbarW, _ScrollbarH, 0, (float)_ScrollbarMax, &ScrollbarValue);
 		else if (Scrollbar != NULL && _ScrollbarMax <= 0)
@@ -108,7 +115,7 @@ void UI_ComboBox::Draw(float x, float y, bool Visible)
 				Scrollbar->Max = (double)_ScrollbarMax;
 				Scrollbar->Draw(0, 0);
 
-				if (MouseInfo->Down && MouseInfo->MouseOver(_ScrollbarX, _ScrollbarY, _ScrollbarW, _ScrollbarH) || MouseInfo->Down && Scrolling)
+				if (MouseInfo->Down && MouseInfo->MouseOver(_ScrollbarX, _ScrollbarY, _ScrollbarW, _ScrollbarH + _BtnSize) || MouseInfo->Down && Scrolling)
 					MouseInfo->FocusedItem = Scrollbar;
 				else
 					MouseInfo->FocusedItem = this;
@@ -117,12 +124,15 @@ void UI_ComboBox::Draw(float x, float y, bool Visible)
 			g_Core->Render->DepthFrame(_BtnX + 1, _BtnY + 1, _BtnSize - 1, _BtnSize - 1);
 
 			// Draw items
+			if (!Scrollbar)
+				ScrollbarValue = 0;
+
 			for (int i = 0; i < MaxItems; ++i)
 			{
 				if (i == Items.size())
 					break;
 
-				MouseOver = MouseInfo->MouseOver(_TxtX, _TxtY + i * _BtnSize, _TxtW + (Scrollbar == NULL ? 0 : _BtnSize), _BtnSize);
+				MouseOver = MouseInfo->MouseOver(_TxtX, _TxtY + i * _BtnSize, _TxtW + (Scrollbar == NULL ? _BtnSize : 0), _BtnSize);
 				g_Core->Render->FillRect(_TxtX, _TxtY + i * _BtnSize, _TxtW + (Scrollbar == NULL ? _BtnSize : 0), _BtnSize, MouseOver ? ItemFocusedBackground : ItemUnfocusedBackground);
 				g_Core->Render->DrawString(false, _TxtX + 5, _TxtY + 1 + i * _BtnSize, TextColor, Items[i + (int)ScrollbarValue].Text);
 
@@ -131,6 +141,20 @@ void UI_ComboBox::Draw(float x, float y, bool Visible)
 					SelectedItem = &Items[i + (int)ScrollbarValue];
 					MouseInfo->FocusedItem = NULL;
 				}
+			}
+
+			// Perform scroll
+			MouseOver = MouseInfo->MouseOver(_X, _Y, _W + _BtnSize, _ScrollbarH);
+			if (MouseOver)
+			{
+				//CLog::Log("%i", MouseInfo->ScrolledUp);
+				if (MouseInfo->ScrolledUp)
+					--ScrollbarValue;
+				if (MouseInfo->ScrolledDown)
+					++ScrollbarValue;
+
+				if (ScrollbarValue <= 0) ScrollbarValue = 0;
+				if (ScrollbarValue > _ScrollbarMax) ScrollbarValue = (double)_ScrollbarMax;
 			}
 		}
 	}

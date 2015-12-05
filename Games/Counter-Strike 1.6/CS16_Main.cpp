@@ -35,12 +35,13 @@ void RenderScene()
 	//BoxFilled(20, 200, 100, 100, D3DCOLOR_RGBA(255, 0, 0, 255));
 
 	// Draw GUI
-	GUI->DrawWindows();
+	GUI->DrawWindows(CS16DVar.GUI_Active);
 }
 
-void Button_Test()
+void KeyEvents(eKBCallback Callback)
 {
-	
+	if (KeyPressed->KeyPress(eKButton::K_INSERT))
+		CS16DVar.GUI_Active = !CS16DVar.GUI_Active;
 }
 
 CS16Main::CS16Main()
@@ -48,7 +49,9 @@ CS16Main::CS16Main()
 	// Create core
 	g_Core = new CFrameworkCore("hl.exe", "D3D9 Overlay", 800, 600);
 	GUI = new UI_Setup();
-	//CS16Dvar = new CS16DVars;
+
+	// Init Key bindins
+	KeyPressed->HookKeyEvents(KeyEvents);
 
 	// Create main GUI window
 	GUIWindow = GUI->RegisterWindow(new UI_Window("GUI_Window", 2, 2, g_Core->ScreenInfo.Width - 4, g_Core->CaptionSize + 5, false));

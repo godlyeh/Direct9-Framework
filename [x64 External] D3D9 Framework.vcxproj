@@ -164,6 +164,7 @@
     <ClCompile Include="Framework\Direct3D9\Render\GUI\UI_Core.cpp" />
     <ClCompile Include="Framework\Direct3D9\Render\Render.cpp" />
     <ClCompile Include="Framework\Direct3D9\Window.cpp" />
+    <ClCompile Include="Framework\K_Button.cpp" />
     <ClCompile Include="Framework\Utilities\ByteScan\ADE32.cpp" />
     <ClCompile Include="Framework\Utilities\ByteScan\ByteScan.cpp" />
     <ClCompile Include="Framework\Utilities\Logging.cpp" />
@@ -190,6 +191,8 @@
     <ClInclude Include="Framework\Direct3D9\Render\GUI\UI_Mouse.h" />
     <ClInclude Include="Framework\Helpers.h" />
     <ClInclude Include="Framework\Direct3D9\D3D9Core.h" />
+    <ClInclude Include="Framework\Keys.h" />
+    <ClInclude Include="Framework\K_Button.h" />
     <ClInclude Include="Framework\Utilities\ByteScan\ADE32.h" />
     <ClInclude Include="Framework\Utilities\ByteScan\ByteScan.h" />
     <ClInclude Include="Framework\Utilities\Settings\Settings.h" />

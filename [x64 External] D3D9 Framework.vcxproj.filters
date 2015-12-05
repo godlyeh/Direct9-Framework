@@ -40,6 +40,12 @@
     <Filter Include="Framework\Direct3D9\Render\GUI\Controls">
       <UniqueIdentifier>{f85655ad-fac7-459c-a4ee-3f395907ef8f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Framework\Direct3D9\Core\Main">
+      <UniqueIdentifier>{ba208b63-d80c-4b9f-bfde-cb71465b416d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Framework\Direct3D9\Core\Key Handling">
+      <UniqueIdentifier>{2fe1abbd-bb07-438f-ba36-28a640e1d935}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Framework\Utilities\Utilities.cpp">
@@ -62,9 +68,6 @@
     </ClCompile>
     <ClCompile Include="Framework\Direct3D9\Render\Font.cpp">
       <Filter>Framework\Direct3D9\Render</Filter>
-    </ClCompile>
-    <ClCompile Include="Framework\Core.cpp">
-      <Filter>Framework\Direct3D9\Core</Filter>
     </ClCompile>
     <ClCompile Include="Framework\Direct3D9\Render\Render.cpp">
       <Filter>Framework\Direct3D9\Render</Filter>
@@ -120,6 +123,12 @@
     <ClCompile Include="Framework\Utilities\Settings\UI_Settings.cpp">
       <Filter>Framework\Utilities\Settings</Filter>
     </ClCompile>
+    <ClCompile Include="Framework\Core.cpp">
+      <Filter>Framework\Direct3D9\Core\Main</Filter>
+    </ClCompile>
+    <ClCompile Include="Framework\K_Button.cpp">
+      <Filter>Framework\Direct3D9\Core\Key Handling</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework\Utilities\UtilCore.h">
@@ -135,9 +144,6 @@
       <Filter>Framework\Direct3D9\Render</Filter>
     </ClInclude>
     <ClInclude Include="Framework\Helpers.h">
-      <Filter>Framework\Direct3D9\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="Framework\Core.h">
       <Filter>Framework\Direct3D9\Core</Filter>
     </ClInclude>
     <ClInclude Include="Framework\Direct3D9\D3D9Core.h">
@@ -193,6 +199,15 @@
     </ClInclude>
     <ClInclude Include="Games\Counter-Strike 1.6\CS16_DVars.h">
       <Filter>Games\Counter-Strike 1.6</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Core.h">
+      <Filter>Framework\Direct3D9\Core\Main</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\K_Button.h">
+      <Filter>Framework\Direct3D9\Core\Key Handling</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Keys.h">
+      <Filter>Framework\Direct3D9\Core\Key Handling</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

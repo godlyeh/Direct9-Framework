@@ -48,6 +48,6 @@ public:
 	COLOR32 ItemFocusedBackground = CLR_FOCUSED_DEFAULT;
 
 private:
-	double ScrollbarValue;
+	double ScrollbarValue = 0;
 	UI_Scrollbar *Scrollbar = NULL;
 };
