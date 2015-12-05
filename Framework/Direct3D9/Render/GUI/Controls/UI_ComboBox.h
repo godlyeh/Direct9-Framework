@@ -9,34 +9,36 @@ Combobox
 class CoreComboboxItem
 {
 public:
-	CoreComboboxItem(PCoreString ItemText, int ItemIndex, bool Fix = false)
+	CoreComboboxItem(PCoreString ItemText, int ItemIndex)
 	{
 		strcpy_s(Text, ItemText);
-		CrappyFix = Fix;
 		Index = ItemIndex;
 	}
 
 public:
 	CoreString Text;
 	int Index;
-	bool CrappyFix = false;
 };
 
 class UI_ComboBox
 {
 public:
-	UI_ComboBox(float x, float y, float w, std::vector<CoreComboboxItem>* ItemArray = NULL, COLOR32 Color = CLR_TEXT_DEFAULT, int DisplayMaxItems = 10);
+	UI_ComboBox(PCHAR Name, float x, float y, float w, std::vector<CoreComboboxItem>* ItemArray = NULL, COLOR32 Color = CLR_TEXT_DEFAULT, int DisplayMaxItems = 10);
 	~UI_ComboBox() { }
 
 public:
+	int GetIndex();
 	void Draw(float x, float y, bool Visible = true);
+	void SetSelectedItem(CoreComboboxItem *Item);
 	void AddVectorArray(std::vector<CoreComboboxItem>* ItemArray);
-	void AddItem(PCoreString Text);
+	CoreComboboxItem* AddItem(PCoreString Text);
 
 public:
-	CoreComboboxItem *SelectedItem = new CoreComboboxItem("", 0, true);
+	CoreComboboxItem *SelectedItem = NULL;
 	std::vector<CoreComboboxItem> Items;
+	CoreString Text;
 	int MaxItems;
+	int Index;
 	float X, Y, W;
 	COLOR32 TextColor = CLR_TEXT_DEFAULT;
 	COLOR32 BackgroundColor = CLR_UNFOCUSED_DEFAULT;

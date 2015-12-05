@@ -17,52 +17,55 @@ UI_Window::UI_Window(PCoreString WindowCaption, float x, float y, float w, float
 	WindowHasCaption = HasCaption;
 }
 
-void UI_Window::DrawWindow()
+void UI_Window::DrawWindow(bool Visible)
 {
-	float _Y = Y;
-
-	// Draw titlebar
-	if (WindowHasCaption)
+	if (Visible)
 	{
-		g_Core->Render->FillRect(X, _Y, W, g_Core->CaptionSize + 2, TitleBackgroundColor);
-		g_Core->Render->DrawString(false, X + 10, _Y + 2, TitleTextColor, Caption);
+		float _Y = Y;
 
-		_Y += g_Core->CaptionSize + 2;
+		// Draw titlebar
+		if (WindowHasCaption)
+		{
+			g_Core->Render->FillRect(X, _Y, W, g_Core->CaptionSize + 2, TitleBackgroundColor);
+			g_Core->Render->DrawString(false, X + 10, _Y + 2, TitleTextColor, Caption);
+
+			_Y += g_Core->CaptionSize + 2;
+		}
+
+		// Draw window
+		g_Core->Render->FillRect(X, _Y, W, H, BackgroundColor);
+		g_Core->Render->LineRect(X, _Y - (WindowHasCaption ? g_Core->CaptionSize + 2 : 0), W, H + (WindowHasCaption ? g_Core->CaptionSize + 2 : 0), 1, LineColor);
+		g_Core->Render->Line(X + 1, _Y, X + W, _Y, 1, LineColor);
+		g_Core->Render->DepthFrame(X, _Y, W, H);
+
+		// Draw groupboxes
+		for (int i = 0; i < (int)UIGroupbox.size(); ++i)
+			UIGroupbox[i].Draw(X, _Y);
+
+		// Draw buttons
+		for (int i = 0; i < (int)UIGroupbox.size(); ++i)
+			UIButton[i].Draw(X, _Y);
+
+		// Draw checkboxes
+		for (int i = 0; i < (int)UICheckbox.size(); ++i)
+			UICheckbox[i].Draw(X, _Y);
+
+		// Draw labels
+		for (int i = 0; i < (int)UILabel.size(); ++i)
+			UILabel[i].Draw(X, _Y);
+
+		// Draw Sliders
+		for (int i = 0; i < (int)UISlider.size(); ++i)
+			UISlider[i].Draw(X, _Y);
+
+		// Draw Comboboxes
+		for (int i = 0; i < (int)UIComboBox.size(); ++i)
+			UIComboBox[i].Draw(X, _Y);
+
+		// Draw Scrollbars
+		for (int i = 0; i < (int)UIScrollbar.size(); ++i)
+			UIScrollbar[i].Draw(X, _Y);
 	}
-
-	// Draw window
-	g_Core->Render->FillRect(X, _Y, W, H, BackgroundColor);
-	g_Core->Render->LineRect(X, _Y - (WindowHasCaption ? g_Core->CaptionSize + 2 : 0), W, H + (WindowHasCaption ? g_Core->CaptionSize + 2 : 0), 1, LineColor);
-	g_Core->Render->Line(X + 1, _Y, X + W, _Y, 1, LineColor);
-	g_Core->Render->DepthFrame(X, _Y, W, H);
-
-	// Draw groupboxes
-	for (int i = 0; i < (int)UIGroupbox.size(); ++i)
-		UIGroupbox[i].Draw(X, _Y);
-
-	// Draw buttons
-	for (int i = 0; i < (int)UIGroupbox.size(); ++i)
-		UIButton[i].Draw(X, _Y);
-
-	// Draw checkboxes
-	for (int i = 0; i < (int)UICheckbox.size(); ++i)
-		UICheckbox[i].Draw(X, _Y);
-
-	// Draw labels
-	for (int i = 0; i < (int)UILabel.size(); ++i)
-		UILabel[i].Draw(X, _Y);
-
-	// Draw Sliders
-	for (int i = 0; i < (int)UISlider.size(); ++i)
-		UISlider[i].Draw(X, _Y);
-
-	// Draw Comboboxes
-	for (int i = 0; i < (int)UIComboBox.size(); ++i)
-		UIComboBox[i].Draw(X, _Y);
-
-	// Draw Scrollbars
-	for (int i = 0; i < (int)UIScrollbar.size(); ++i)
-		UIScrollbar[i].Draw(X, _Y);
 }
 
 /*

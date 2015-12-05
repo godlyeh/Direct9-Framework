@@ -29,10 +29,37 @@ void CSettings::Register(PCoreString Name, PVOID Variable, eCoreVariableType Typ
 	Var.Type = Type;
 	Var.dMinValue = dMin;
 	Var.dMaxValue = dMax;
-	if (Var.Type == eCoreVariableType::VAR_INTEGER) Var.iDefault = *(PINT)Variable;
-	if (Var.Type == eCoreVariableType::VAR_FLOAT) Var.fDefault = *(PFLOAT)Variable;
-	if (Var.Type == eCoreVariableType::VAR_DOUBLE) Var.dDefault = *(PDOUBLE)Variable;
-	if (Var.Type == eCoreVariableType::VAR_STRING) strcpy_s(Var.szDefault, (PCoreString)Variable);
+
+	switch (Var.Type)
+	{
+	case eCoreVariableType::VAR_INTEGER:
+		Var.iDefault = *(PINT)Variable;
+		sprintf_s(Var.szDefault, "%i", Var.iDefault);
+		break;
+
+	case eCoreVariableType::VAR_BOOL:
+		Var.dMinValue = 0;
+		Var.dMaxValue = 1; 
+		Var.iDefault = *(PINT)Variable;
+		sprintf_s(Var.szDefault, "%i", Var.iDefault);
+		break;
+
+	case eCoreVariableType::VAR_FLOAT:
+		Var.fDefault = *(PFLOAT)Variable;
+		sprintf_s(Var.szDefault, "%.2f", Var.fDefault);
+		break;
+
+	case eCoreVariableType::VAR_DOUBLE:
+		Var.dDefault = *(PDOUBLE)Variable;
+		sprintf_s(Var.szDefault, "%.2f", Var.dDefault);
+		break;
+
+	case eCoreVariableType::VAR_STRING:
+		strcpy_s(Var.szDefault, (PCoreString)Variable);
+		sprintf_s(Var.szDefault, "%.2f", Var.fDefault);
+		break;
+	}
+
 	StoredSettings.push_back(Var);
 }
 
@@ -73,29 +100,42 @@ void CSettings::BoundVariable(CoreVariable* Var)
 	if (Var->Type == eCoreVariableType::VAR_STRING)
 		return;
 
-	if (Var->Type == eCoreVariableType::VAR_INTEGER)
+	if (Var->dMinValue == 0 && Var->dMaxValue == 0)
+		return;
+
+	switch (Var->Type)
 	{
+	case eCoreVariableType::VAR_INTEGER:
+	case eCoreVariableType::VAR_BOOL:
 		if (*(PINT)Var->Variable > (int)Var->dMaxValue) *(PINT)Var->Variable = (int)Var->dMaxValue;
 		if (*(PINT)Var->Variable < (int)Var->dMinValue) *(PINT)Var->Variable = (int)Var->dMinValue;
-	}
-	if (Var->Type == eCoreVariableType::VAR_FLOAT)
-	{
-		if (*(PFLOAT)Var->Variable > (float)Var->dMaxValue) *(PFLOAT)Var->Variable = (float)Var->dMaxValue;
+		break;
+
+	case eCoreVariableType::VAR_FLOAT:
+		if (*(PFLOAT)Var->Variable >(float)Var->dMaxValue) *(PFLOAT)Var->Variable = (float)Var->dMaxValue;
 		if (*(PFLOAT)Var->Variable < (float)Var->dMinValue) *(PFLOAT)Var->Variable = (float)Var->dMinValue;
-	}
-	if (Var->Type == eCoreVariableType::VAR_DOUBLE)
-	{
+		break;
+
+	case eCoreVariableType::VAR_DOUBLE:
 		if (*(PDOUBLE)Var->Variable > Var->dMaxValue) *(PDOUBLE)Var->Variable = Var->dMaxValue;
 		if (*(PDOUBLE)Var->Variable < Var->dMinValue) *(PDOUBLE)Var->Variable = Var->dMinValue;
+		break;
 	}
 }
 
 PCoreString CSettings::CreateElementLine(PCoreString Name, bool SubItem = false)
 {
 	static char szTmp[256]; ZeroMemory(&szTmp, sizeof(szTmp));
-	if (SubItem) sprintf_s(szTmp, "    <%s>", Name);
-	else sprintf_s(szTmp, "<%s>", Name);
+	if (SubItem) sprintf_s(szTmp, "    <Name = %s>", Name);
+	else sprintf_s(szTmp, "<Name = %s>", Name);
 	return szTmp;
+}
+
+void CSettings::OutputSetting(CoreVariable *Var, PCHAR szValue, ...)
+{
+	char szBuffer[1024];
+	GET_VA_ARGS(szValue, szBuffer);
+	File << CreateElementLine(Var->Name, true) << " <Type = " << szCoreVariableType[Var->Type] << "> <Value = " << szBuffer << ">\n";
 }
 
 void CSettings::Save(PCoreString SettingsName)
@@ -111,21 +151,30 @@ void CSettings::Save(PCoreString SettingsName)
 	// Add elements
 	for (int i = 0; i < (int)StoredSettings.size(); ++i)
 	{
-		char szValue[256]; ZeroMemory(&szValue, sizeof(szValue));
-		char szDefaultValue[256]; ZeroMemory(&szValue, sizeof(szValue));
 		CoreVariable *Var = &StoredSettings[i];
 
-		if (Var->Type == eCoreVariableType::VAR_INTEGER) sprintf_s(szValue, "%i", *(PINT)Var->Variable);
-		if (Var->Type == eCoreVariableType::VAR_FLOAT) sprintf_s(szValue, "%.2f", *(PFLOAT)Var->Variable);
-		if (Var->Type == eCoreVariableType::VAR_DOUBLE) sprintf_s(szValue, "%.2f", *(PDOUBLE)Var->Variable);
-		if (Var->Type == eCoreVariableType::VAR_STRING) strcpy_s(szValue, (PCoreString)Var->Variable);
+		switch (Var->Type)
+		{
+		case eCoreVariableType::VAR_BOOL:
+		case eCoreVariableType::VAR_INTEGER:
+			OutputSetting(Var, "%i", *(PINT)Var->Variable);
+			break;
 
-		if (Var->Type == eCoreVariableType::VAR_INTEGER) sprintf_s(szDefaultValue, "%i", Var->iDefault);
-		if (Var->Type == eCoreVariableType::VAR_FLOAT) sprintf_s(szDefaultValue, "%.2f", Var->fDefault);
-		if (Var->Type == eCoreVariableType::VAR_DOUBLE) sprintf_s(szDefaultValue, "%.2f", Var->dDefault);
-		if (Var->Type == eCoreVariableType::VAR_STRING) strcpy_s(szDefaultValue, Var->szDefault);
+		case eCoreVariableType::VAR_DOUBLE:
+		case eCoreVariableType::VAR_FLOAT:
+			OutputSetting(Var, "%.2f", *(PFLOAT)Var->Variable);
+			break;
 
-		File << CreateElementLine(Var->Name, true) << " <Type = " << szCoreVariableType[Var->Type] << "> <Value = " << szValue << "> <Default: " << szDefaultValue << ">\n";
+		case eCoreVariableType::VAR_STRING:
+			OutputSetting(Var, (PCoreString)Var->Variable);
+			break;
+
+		case eCoreVariableType::CTRL_COMBOBOX:
+			OutputSetting(Var, "%i", ((UI_ComboBox*)Var->Variable)->GetIndex());
+			break;
+		}
+
+		
 	}
 
 	// Add end of element name
@@ -150,23 +199,28 @@ void CSettings::LoadRawData(std::vector<std::string>* RawData)
 
 std::string CSettings::GetElementData(PCoreString Element, std::string RawData)
 {
-	char szTmp[64];
+	char szTmp[128];
 	sprintf_s(szTmp, "<%s", Element);
-	std::string RawValue = RawData.substr(RawData.find(szTmp) + 1);
+	int Pos = RawData.find(szTmp);
+	if (Pos == EOF)
+		return "UNKNOWN";
+
+	std::string RawValue = RawData.substr(Pos);
 	RawValue = RawValue.substr(0, RawValue.find('>'));
-	if (RawValue.find("= "))
-		RawValue = strrchr(RawValue.c_str(), '=') + 2;
-	else
-		RawValue = strrchr(RawValue.c_str(), '=') + 1;
+	RawValue = RawValue.substr(RawValue.find('=') + 1);
+	if (RawValue.c_str()[0] == ' ')
+		RawValue = RawValue.substr(1);
 
 	return RawValue;
 }
 
 eCoreVariableType CSettings::GetElementDataType(PCoreString TypeName)
 {
-	for (int i = 0; i <= sizeof(eCoreVariableType); ++i)
+	for (int i = 0; i <= sizeof(szCoreVariableType); ++i)
+	{
 		if (!_stricmp(TypeName, szCoreVariableType[i]))
 			return (eCoreVariableType)i;
+	}
 
 	return (eCoreVariableType)0;
 }
@@ -182,30 +236,45 @@ CoreVariable* CSettings::LoadSetting(PCoreString Name)
 
 	for (int i = 0; i < (int)RawData.size(); ++i)
 	{
-		if (strstr(RawData[i].c_str(), Name))
+		std::string VarName = GetElementData("Name", RawData[i]);
+
+		if (!_stricmp(VarName.c_str(), Name))
 		{
 			eCoreVariableType VarType = GetElementDataType((PCoreString)GetElementData("Type", RawData[i]).c_str());
 			std::string VarValue = GetElementData("Value", RawData[i]);
 
-			if (VarType == eCoreVariableType::VAR_INTEGER)
+			if (VarType == eCoreVariableType::VAR_UNKNOWN)
+				continue;
+
+			if (VarType == eCoreVariableType::VAR_INTEGER || VarType == eCoreVariableType::VAR_BOOL)
 			{
 				if (VarValue.find_first_not_of("0123456789") != EOF)
 					*(PINT)Var->Variable = Var->iDefault;
 				else
 					*(PINT)Var->Variable = atoi(VarValue.c_str());
 			}
-			if (VarValue.find_first_not_of("1234567890.") == EOF)
+
+			if (VarType == eCoreVariableType::VAR_FLOAT || VarType == eCoreVariableType::VAR_DOUBLE)
 			{
-				if (VarType == eCoreVariableType::VAR_FLOAT) *(PFLOAT)Var->Variable = (float)atof(VarValue.c_str());
-				if (VarType == eCoreVariableType::VAR_DOUBLE) *(PDOUBLE)Var->Variable = atof(VarValue.c_str());
-			}
-			else
-			{
-				if (VarType == eCoreVariableType::VAR_FLOAT) *(PFLOAT)Var->Variable = Var->fDefault;
-				if (VarType == eCoreVariableType::VAR_DOUBLE) *(PDOUBLE)Var->Variable = Var->dDefault;
+				if (VarValue.find_first_not_of("1234567890.") == EOF)
+				{
+					if (VarType == eCoreVariableType::VAR_FLOAT) *(PFLOAT)Var->Variable = (float)atof(VarValue.c_str());
+					if (VarType == eCoreVariableType::VAR_DOUBLE) *(PDOUBLE)Var->Variable = atof(VarValue.c_str());
+				}
+				else
+				{
+					if (VarType == eCoreVariableType::VAR_FLOAT) *(PFLOAT)Var->Variable = Var->fDefault;
+					if (VarType == eCoreVariableType::VAR_DOUBLE) *(PDOUBLE)Var->Variable = Var->dDefault;
+				}
 			}
 
 			if (VarType == eCoreVariableType::VAR_STRING) strcpy_s((PCoreString)Var->Variable, VarValue.size() + 1, VarValue.c_str());
+
+			if (VarType == eCoreVariableType::CTRL_COMBOBOX)
+			{
+				if (VarValue.find_first_not_of("0123456789") == EOF)
+					((UI_ComboBox*)Var->Variable)->SelectedItem = (CoreComboboxItem*)(*(DWORD*)Var->Variable + atoi(VarValue.c_str()) * sizeof(CoreComboboxItem));
+			}
 
 			BoundVariable(Var);
 		}

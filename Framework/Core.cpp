@@ -128,9 +128,9 @@ void CFrameworkCore::PlaceSceneOnWindow()
 		Render->pD3DFont->OnLostDevice();
 		Render->pD3DLine->OnLostDevice();
 
-		MoveWindow(Window->HWnd, ScreenInfo.X, ScreenInfo.Y, ScreenInfo.Width, ScreenInfo.Height, FALSE);
-		Device->D3DParameters.BackBufferWidth = ScreenInfo.Width;
-		Device->D3DParameters.BackBufferHeight = ScreenInfo.Height;
+		MoveWindow(Window->HWnd, (int)ScreenInfo.X, (int)ScreenInfo.Y, (int)ScreenInfo.Width, (int)ScreenInfo.Height, FALSE);
+		Device->D3DParameters.BackBufferWidth = (int)ScreenInfo.Width;
+		Device->D3DParameters.BackBufferHeight = (int)ScreenInfo.Height;
 		Device->pDevice->Reset(&Device->D3DParameters);
 
 		Render->pD3DFont->OnResetDevice();
@@ -152,7 +152,7 @@ bool CFrameworkCore::RenderScene(PVOID pRenderScene, HWND DesiredForegroundWindo
 	}
 
 	// Save core settings
-	static CoreTimer::Countdown *tmrSaveCoreSettings = new CoreTimer::Countdown(5000);
+	static CoreTimer::Countdown *tmrSaveCoreSettings = new CoreTimer::Countdown(60000);
 	if (!tmrSaveCoreSettings->Running() && Device->pDevice)
 	{
 		Settings->Save(CORE_SETTINGS_DEFAULT);

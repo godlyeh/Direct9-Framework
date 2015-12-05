@@ -47,6 +47,7 @@ namespace Utilities // Framework utilities
 	DWORD GetProcessInfo(PCoreString ProcessName, bool Log = false, PROCESSENTRY32 *pe32Out = NULL);
 	void GetWindowInformation(HWND hWnd, LPSCREENINFO pScreenInfo);
 	void RemoveSpaces(PCoreString Text, PCoreString Out);
+	PCHAR GetStringWithArgs(PCoreString Text, ...);
 }
 
 class CMemoryScanner // Memory handling

@@ -7,7 +7,7 @@
 */
 #include "..\..\..\..\Core.h"
 
-UI_ComboBox::UI_ComboBox(float x, float y, float w, std::vector<CoreComboboxItem>* ItemArray, COLOR32 Color, int DisplayMaxItems)
+UI_ComboBox::UI_ComboBox(PCHAR Name, float x, float y, float w, std::vector<CoreComboboxItem>* ItemArray, COLOR32 Color, int DisplayMaxItems)
 {
 	X = x;
 	Y = y;
@@ -15,10 +15,23 @@ UI_ComboBox::UI_ComboBox(float x, float y, float w, std::vector<CoreComboboxItem
 	AddVectorArray(ItemArray);
 	MaxItems = DisplayMaxItems;
 	ScrollbarValue = 0;
+	strcpy_s(Text, Name);
+}
+
+int UI_ComboBox::GetIndex()
+{
+	return (int)(SelectedItem - &Items[0]);
 }
 
 void UI_ComboBox::Draw(float x, float y, bool Visible)
 {
+	if (!SelectedItem)
+	{
+		SelectedItem = &Items[0];
+	}
+
+	Index = GetIndex();
+
 	if (Visible)
 	{
 		float _X = x + X;
@@ -123,10 +136,17 @@ void UI_ComboBox::Draw(float x, float y, bool Visible)
 	}
 }
 
-void UI_ComboBox::AddItem(PCoreString Text)
+void UI_ComboBox::SetSelectedItem(CoreComboboxItem *Item)
+{
+	for (int i = 0; i < (int)Items.size(); ++i)
+		if (Item == &Items[i])
+			SelectedItem = &Items[i];
+}
+
+CoreComboboxItem* UI_ComboBox::AddItem(PCoreString Text)
 {
 	Items.push_back(CoreComboboxItem(Text, Items.size() - 1));
-	if (SelectedItem->CrappyFix) SelectedItem = &Items[0];
+	return &Items[Items.size() - 1];
 }
 
 void UI_ComboBox::AddVectorArray(std::vector<CoreComboboxItem>* ItemArray)
@@ -135,6 +155,5 @@ void UI_ComboBox::AddVectorArray(std::vector<CoreComboboxItem>* ItemArray)
 	{
 		Items.insert(Items.end(), ItemArray->begin(), ItemArray->end());
 		SelectedItem = &Items[0];
-		if (SelectedItem->CrappyFix) SelectedItem = &Items[0];
 	}
 }

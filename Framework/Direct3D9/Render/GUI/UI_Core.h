@@ -46,7 +46,7 @@ public:
 	~UI_Window() { }
 
 public:
-	void DrawWindow();
+	void DrawWindow(bool Visible = true);
 	void MoveWindow(float x, float y, float w, float h);
 
 public:

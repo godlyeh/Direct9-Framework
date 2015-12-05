@@ -59,8 +59,8 @@ void Utilities::GetWindowInformation(HWND hWnd, LPSCREENINFO pScreenInfo)
 
 	// Get process window info
 	SCREENINFO Screen;
-	Screen.X = Info.rcClient.left;
-	Screen.Y = Info.rcClient.top;
+	Screen.X = (float)Info.rcClient.left;
+	Screen.Y = (float)Info.rcClient.top;
 	Screen.Width = Info.rcClient.right - Screen.X;
 	Screen.Height = Info.rcClient.bottom - Screen.Y;
 	Screen.WindowedFullscreen = !(Info.dwExStyle &WS_EX_TOPMOST) && (Screen.Width == ResX && Screen.Height == ResY);
@@ -75,4 +75,11 @@ void Utilities::RemoveSpaces(PCoreString Text, PCoreString Out)
 	std::string RetStr(Text);
 	while (RetStr.find(' ') != -1) RetStr.erase(RetStr.find(' '), 1);
 	strcpy_s(Out, RetStr.size() + 1, RetStr.c_str());
+}
+
+PCHAR Utilities::GetStringWithArgs(PCoreString Text, ...)
+{
+	static char szBuffer[1024]; ZeroMemory(&szBuffer, sizeof(szBuffer));
+	GET_VA_ARGS(Text, szBuffer);
+	return szBuffer;
 }

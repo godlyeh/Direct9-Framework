@@ -8,21 +8,24 @@
 
 enum eCoreVariableType : int
 {
-	VAR_UNKNOWN = 0,
-	VAR_INTEGER = 1,
-	VAR_BOOL = 1,
-	VAR_FLOAT = 2,
-	VAR_DOUBLE = 3,
-	VAR_STRING = 4
+	VAR_UNKNOWN,
+	VAR_INTEGER,
+	VAR_BOOL,
+	VAR_FLOAT,
+	VAR_DOUBLE,
+	VAR_STRING,
+	CTRL_COMBOBOX,
 };
 
 static char szCoreVariableType[][16]
 {
-	"UNKNOWN",
-	"INTEGER/BOOLEAN",
-	"FLOAT",
-	"DOUBLE",
-	"STRING"
+	"Unknown",
+	"Int",
+	"Bool",
+	"Float",
+	"Double",
+	"String",
+	"ComboBox"
 };
 
 typedef struct
@@ -50,12 +53,19 @@ public:
 	~CSettings();
 
 public:
+	// Reg var
 	void Register(PCoreString Name, PVOID Variable, eCoreVariableType Type, double dMin = 0, double dMax = 0);
+
+	// Control vars
+	void Register(UI_Window *Window);
+	void Register(UI_Checkbox *Checkbox);
+	void Register(UI_ComboBox *Combobox);
 
 	void Remove(PCoreString Name);
 	void Remove(PVOID Variable);
 
 	void BoundVariable(CoreVariable* Var);
+	void OutputSetting(CoreVariable *Var, PCHAR szValue, ...);
 
 	CoreVariable* GetCoreVariable(PCoreString Name);
 	CoreVariable* GetCoreVariable(PVOID Variable);

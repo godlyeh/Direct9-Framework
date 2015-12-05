@@ -170,6 +170,7 @@
     <ClCompile Include="Framework\Utilities\Memory.cpp" />
     <ClCompile Include="Framework\Utilities\Process.cpp" />
     <ClCompile Include="Framework\Utilities\Settings\Settings.cpp" />
+    <ClCompile Include="Framework\Utilities\Settings\UI_Settings.cpp" />
     <ClCompile Include="Framework\Utilities\Utilities.cpp" />
     <ClCompile Include="Games\Counter-Strike 1.6\CS16_Main.cpp" />
     <ClCompile Include="Games\Counter-Strike 1.6\CS16_Misc.cpp" />
@@ -195,6 +196,7 @@
     <ClInclude Include="Framework\Utilities\Timer.h" />
     <ClInclude Include="Framework\Utilities\UtilCore.h" />
     <ClInclude Include="Framework\Utilities\Vector\Vector3.h" />
+    <ClInclude Include="Games\Counter-Strike 1.6\CS16_DVars.h" />
     <ClInclude Include="Games\Counter-Strike 1.6\CS16_Main.h" />
     <ClInclude Include="Games\Counter-Strike 1.6\CS16_Misc.h" />
     <ClInclude Include="Games\Counter-Strike 1.6\CS16_Structs.h" />

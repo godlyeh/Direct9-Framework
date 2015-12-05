@@ -29,7 +29,6 @@
 #include "Helpers.h"
 
 #include "Utilities\UtilCore.h"
-#include "Utilities\Settings\Settings.h"
 #include "Utilities\Vector\Vector3.h"
 #include "Utilities\ByteScan\ADE32.h"
 #include "Utilities\ByteScan\ByteScan.h"
@@ -38,6 +37,8 @@
 #include "Direct3D9\D3D9Core.h"
 #include "Direct3D9\Render\D3D9Render.h"
 #include "Direct3D9\Render\GUI\UI_Core.h"
+
+#include "Utilities\Settings\Settings.h"
 
 // Framework variables
 #define CORE_FRAMEWORK_VERSION "1.0.0.0"

@@ -41,8 +41,8 @@ typedef struct
 	bool Minimized;
 	bool Fullscreen;
 	bool WindowedFullscreen;
-	int X, Y;
-	int Width, Height;
+	float X, Y;
+	float Width, Height;
 }SCREENINFO;
 typedef SCREENINFO* LPSCREENINFO;
 
@@ -58,6 +58,8 @@ typedef CoreValue* PCoreVariable;
 typedef LPVOID PCoreFunction;
 typedef double* PDOUBLE;
 typedef struct { int r, g, b, a; }COLOR32;
+
+typedef struct { float x, y, w, h; }WNDRECT;
 
 // D3D typedefs
 typedef IDirect3D9* LPIDirect3D9;
