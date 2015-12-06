@@ -13,6 +13,8 @@
 #include "CS16_DVars.h"
 #include "CS16_Structs.h"
 #include "CS16_Misc.h"
+#include "CS16_Entity.h"
+#include "CS16_Engine.h"
 
 
 class CS16Main
@@ -22,8 +24,10 @@ public:
 	~CS16Main();
 
 public:
-	CMemoryScanner* MemoryScanner = NULL;
-	UI_Window* GUIWindow = NULL;
 	CSettings* GUISettings = new CSettings("CS16_GUI_Settings");
 	CSettings* CheatSettings = new CSettings("CS16_Cheat_Settings");
 };
+
+extern CS16EntityInfo *CS16Entity;
+extern CS16EngineInfo *CS16Engine;
+extern CS16OffsetInfo *CS16Offset;

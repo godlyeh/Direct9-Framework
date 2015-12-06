@@ -11,6 +11,7 @@ static struct
 	// GUI Window
 public:
 	bool GUI_Active;
+	bool GUI_Settings_Active;
 
 	// ESP
 public:

@@ -7,7 +7,7 @@
 */
 #include "..\..\..\Core.h"
 
-UI_Window::UI_Window(PCoreString WindowCaption, float x, float y, float w, float h, bool HasCaption)
+UI_Window::UI_Window(PCoreString WindowCaption, float x, float y, float w, float h, bool *Visible, bool *MainWindowHandle, bool HasCaption)
 {
 	strcpy_s(Caption, WindowCaption);
 	X = x;
@@ -15,11 +15,16 @@ UI_Window::UI_Window(PCoreString WindowCaption, float x, float y, float w, float
 	W = w;
 	H = h;
 	WindowHasCaption = HasCaption;
+	DrawWindows = Visible;
+	MainWindow = MainWindowHandle;
 }
 
-void UI_Window::DrawWindow(bool Visible)
+void UI_Window::DrawWindow()
 {
-	if (Visible)
+	if (MainWindow != NULL && *MainWindow == false)
+		return;
+
+	if (*DrawWindows == true)
 	{
 		float _Y = Y;
 
@@ -38,17 +43,21 @@ void UI_Window::DrawWindow(bool Visible)
 		g_Core->Render->Line(X + 1, _Y, X + W, _Y, 1, LineColor);
 		g_Core->Render->DepthFrame(X, _Y, W, H);
 
+		// Fix pos
+		if (!WindowHasCaption)
+			_Y -= (g_Core->CaptionSize + 2);
+
 		// Draw groupboxes
 		for (int i = 0; i < (int)UIGroupbox.size(); ++i)
 			UIGroupbox[i].Draw(X, _Y);
 
 		// Draw buttons
-		for (int i = 0; i < (int)UIGroupbox.size(); ++i)
+		for (int i = 0; i < (int)UIButton.size(); ++i)
 			UIButton[i].Draw(X, _Y);
 
 		// Draw checkboxes
 		for (int i = 0; i < (int)UICheckbox.size(); ++i)
-			UICheckbox[i].Draw(X, _Y);
+			UICheckbox[i].Draw(X, _Y - g_Core->CaptionSize);
 
 		// Draw labels
 		for (int i = 0; i < (int)UILabel.size(); ++i)
@@ -164,56 +173,53 @@ UI_ComboBox* UI_Window::GetCombobox()
 	UI Setup
 
 */
-UI_Window* UI_Setup::RegisterWindow(UI_Window* Window)
+UI_Window *UI_Setup::RegisterWindow(UI_Window* Window)
 {
 	UIWindow.push_back(*Window);
 	return &UIWindow[UIWindow.size() - 1];
 }
 
-void UI_Setup::DrawWindows(bool Visible)
+void UI_Setup::DrawWindows()
 {
-	if (Visible)
+	// Get mouse info
+	MouseInfo->UpdateInfo();
+
+	// Handle window dragging
+	for (int i = (int)UIWindow.size() - 1; i >= 0; --i)
 	{
-		// Get mouse info
-		MouseInfo->UpdateInfo();
+		if (!UIWindow[i].WindowHasCaption)
+			continue;
 
 		// Handle window dragging
-		for (int i = (int)UIWindow.size() - 1; i >= 0; --i)
+		if (MouseInfo->Down && MouseInfo->DraggedElement == NULL && MouseInfo->MouseOver(UIWindow[i].X, UIWindow[i].Y, UIWindow[i].W, g_Core->CaptionSize) || MouseInfo->Down && MouseInfo->DraggedElement == &UIWindow[i])
 		{
-			if (!UIWindow[i].WindowHasCaption)
-				continue;
+			static int DiffX = 0;
+			static int DiffY = 0;
 
-			// Handle window dragging
-			if (MouseInfo->Down && MouseInfo->DraggedElement == NULL && MouseInfo->MouseOver(UIWindow[i].X, UIWindow[i].Y, UIWindow[i].W, g_Core->CaptionSize) || MouseInfo->Down && MouseInfo->DraggedElement == &UIWindow[i])
+			// Rearrange windows
+			if (MouseInfo->DraggedElement == NULL)
 			{
-				static int DiffX = 0;
-				static int DiffY = 0;
+				std::iter_swap(UIWindow.begin() + (int)UIWindow.size() - 1, UIWindow.begin() + i);
+				MouseInfo->DraggedElement = &UIWindow[(int)UIWindow.size() - 1];
+				DiffX = MouseInfo->X - (int)((UI_Window*)(MouseInfo->DraggedElement))->X;
+				DiffY = MouseInfo->Y - (int)((UI_Window*)(MouseInfo->DraggedElement))->Y;
+			}
 
-				// Rearrange windows
-				if (MouseInfo->DraggedElement == NULL)
-				{
-					std::iter_swap(UIWindow.begin() + (int)UIWindow.size() - 1, UIWindow.begin() + i);
-					MouseInfo->DraggedElement = &UIWindow[(int)UIWindow.size() - 1];
-					DiffX = MouseInfo->X - (int)((UI_Window*)(MouseInfo->DraggedElement))->X;
-					DiffY = MouseInfo->Y - (int)((UI_Window*)(MouseInfo->DraggedElement))->Y;
-				}
-
-				if (MouseInfo->DraggedElement != NULL)
-				{
-					((UI_Window*)(MouseInfo->DraggedElement))->X = (float)(MouseInfo->X - DiffX);
-					((UI_Window*)(MouseInfo->DraggedElement))->Y = (float)(MouseInfo->Y - DiffY);
-				}
+			if (MouseInfo->DraggedElement != NULL)
+			{
+				((UI_Window*)(MouseInfo->DraggedElement))->X = (float)(MouseInfo->X - DiffX);
+				((UI_Window*)(MouseInfo->DraggedElement))->Y = (float)(MouseInfo->Y - DiffY);
 			}
 		}
-
-		// Handle windows
-		for (int i = 0; i < (int)UIWindow.size(); ++i)
-		{
-			// Draw windows
-			UIWindow[i].DrawWindow();
-		}
-
-		MouseInfo->ScrolledDown = false;
-		MouseInfo->ScrolledUp = false;
 	}
+
+	// Handle windows
+	for (int i = 0; i < (int)UIWindow.size(); ++i)
+	{
+		// Draw windows
+		UIWindow[i].DrawWindow();
+	}
+
+	MouseInfo->ScrolledDown = false;
+	MouseInfo->ScrolledUp = false;
 }

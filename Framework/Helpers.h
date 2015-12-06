@@ -47,15 +47,8 @@ typedef struct
 typedef SCREENINFO* LPSCREENINFO;
 
 // Typedef helpers
-typedef FDWORD CoreOffset;
 typedef char CoreString[256];
 typedef PCHAR PCoreString;
-typedef double CoreValue;
-typedef CoreValue CoreBool;
-typedef CoreValue CoreInt;
-typedef CoreValue CoreFloat;
-typedef CoreValue* PCoreVariable;
-typedef LPVOID PCoreFunction;
 typedef double* PDOUBLE;
 typedef struct { int r, g, b, a; }COLOR32;
 

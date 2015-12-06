@@ -42,11 +42,11 @@
 class UI_Window
 {
 public:
-	UI_Window(PCoreString WindowCaption, float x, float y, float w, float h, bool HasCaption = true);
+	UI_Window(PCoreString WindowCaption, float x, float y, float w, float h, bool *Visible, bool* MainWindowHandle = NULL, bool HasCaption = true);
 	~UI_Window() { }
 
 public:
-	void DrawWindow(bool Visible = true);
+	void DrawWindow();
 	void MoveWindow(float x, float y, float w, float h);
 
 public:
@@ -74,7 +74,9 @@ public:
 	COLOR32 TitleBackgroundColor = CLR_TITLE_BACKGROUND;
 	COLOR32 TitleTextColor = CLR_CAPTION_TEXT;
 
-private:
+public:
+	bool *DrawWindows = NULL;
+	bool *MainWindow = NULL;
 	std::vector<UI_Button> UIButton;
 	std::vector<UI_GroupBox> UIGroupbox;
 	std::vector<UI_Checkbox> UICheckbox;
@@ -87,8 +89,8 @@ private:
 class UI_Setup
 {
 public:
-	UI_Window* RegisterWindow(UI_Window *Window);
-	void DrawWindows(bool Visible = true);
+	UI_Window *RegisterWindow(UI_Window *Window);
+	void DrawWindows();
 
 private:
 	std::vector<UI_Window> UIWindow;

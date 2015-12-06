@@ -21,7 +21,7 @@ typedef struct
 
 	bool RetrieveAddress;
 	MODULEENTRY32 Module;
-	CoreOffset *Offset;
+	FDWORD *Offset;
 }CorePattern;
 
 class CPatternScanner
@@ -32,12 +32,13 @@ public:
 
 public:
 	bool __fastcall CompareBytes(CorePattern *Pattern, BYTE *ByteArray);
+	bool FoundAllOffsetsInModule(MODULEENTRY32 *me32);
 
 public:
 	void Scan();
 	void SetupPattern(MODULEENTRY32* Module, PCoreString Pattern, CorePattern* PatternOut, ePatternScanType Type);
-	void RegisterPattern(CoreOffset* Offset, MODULEENTRY32* Module, PCoreString BytePattern, bool GetAddress = true, ePatternScanType Type = ePatternScanType::SCAN_BYTES);
-	FDWORD FindPattern(MODULEENTRY32* Module, PCoreString Pattern, ePatternScanType Type = ePatternScanType::SCAN_BYTES, CoreOffset* Out = NULL);
+	void RegisterPattern(FDWORD* Offset, MODULEENTRY32* Module, PCoreString BytePattern, bool GetAddress = true, ePatternScanType Type = ePatternScanType::SCAN_BYTES);
+	FDWORD FindPattern(MODULEENTRY32* Module, PCoreString Pattern, ePatternScanType Type = ePatternScanType::SCAN_BYTES, FDWORD* Out = NULL);
 
 private:
 	HANDLE Handle;

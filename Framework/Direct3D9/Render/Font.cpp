@@ -41,12 +41,22 @@ void CRender::DrawString(bool CenterText, float x, float y, COLOR32 Color, PCore
 		x -= GetStringWidth(szBuffer) / 2;
 
 	RECT Rect = { (int)x, (int)y, 0, 0 };
-	RECT ShadowRect = { (int)x + 1, (int)y + 1, 0, 0 };
-	RECT ShadowRect2 = { (int)x + 2, (int)y + 1, 0, 0 };
-	RECT ShadowRect3 = { (int)x + 2, (int)y + 2, 0, 0 };
+	RECT ShadowRect = { (int)x + 1, (int)y, 0, 0 };
+	RECT ShadowRect2 = { (int)x + 1, (int)y + 1, 0, 0 };
+	RECT ShadowRect3 = { (int)x, (int)y + 1, 0, 0 };
+	RECT ShadowRect4 = { (int)x - 1, (int)y + 1, 0, 0 };
+	RECT ShadowRect5 = { (int)x - 1, (int)y, 0, 0 };
+	RECT ShadowRect6 = { (int)x - 1, (int)y - 1, 0, 0 };
+	RECT ShadowRect7 = { (int)x, (int)y - 1, 0, 0 };
+	RECT ShadowRect8 = { (int)x + 1, (int)y - 1, 0, 0 };
 	pD3DFont->DrawText(NULL, szBuffer, -1, &ShadowRect, DT_LEFT | DT_NOCLIP, D3DCOLOR_RGBA(0, 0, 0, Color.a - 25));
 	pD3DFont->DrawText(NULL, szBuffer, -1, &ShadowRect2, DT_LEFT | DT_NOCLIP, D3DCOLOR_RGBA(0, 0, 0, Color.a - 25));
 	pD3DFont->DrawText(NULL, szBuffer, -1, &ShadowRect3, DT_LEFT | DT_NOCLIP, D3DCOLOR_RGBA(0, 0, 0, Color.a - 25));
+	pD3DFont->DrawText(NULL, szBuffer, -1, &ShadowRect4, DT_LEFT | DT_NOCLIP, D3DCOLOR_RGBA(0, 0, 0, Color.a - 25));
+	pD3DFont->DrawText(NULL, szBuffer, -1, &ShadowRect5, DT_LEFT | DT_NOCLIP, D3DCOLOR_RGBA(0, 0, 0, Color.a - 25));
+	pD3DFont->DrawText(NULL, szBuffer, -1, &ShadowRect6, DT_LEFT | DT_NOCLIP, D3DCOLOR_RGBA(0, 0, 0, Color.a - 25));
+	pD3DFont->DrawText(NULL, szBuffer, -1, &ShadowRect7, DT_LEFT | DT_NOCLIP, D3DCOLOR_RGBA(0, 0, 0, Color.a - 25));
+	pD3DFont->DrawText(NULL, szBuffer, -1, &ShadowRect8, DT_LEFT | DT_NOCLIP, D3DCOLOR_RGBA(0, 0, 0, Color.a - 25));
 	pD3DFont->DrawText(NULL, szBuffer, -1, &Rect, DT_LEFT | DT_NOCLIP, D3DCOLOR_RGBA(Color.r, Color.g, Color.g, Color.a));
 }
 

@@ -56,6 +56,19 @@ bool __fastcall CPatternScanner::CompareBytes(CorePattern* Pattern, BYTE* ByteAr
 	return false;
 }
 
+bool CPatternScanner::FoundAllOffsetsInModule(MODULEENTRY32 *me32)
+{
+	for (int i = 0; i < (int)Patterns.size(); ++i)
+	{
+		if (_stricmp(me32->szModule, Patterns[i].Module.szModule))
+			continue;
+
+		if (*Patterns[i].Offset == NULL)
+			return false;
+	}
+	return true;
+}
+
 void CPatternScanner::Scan()
 {
 	for (int x = 0; x < (int)FilesToScan.size(); ++x)
@@ -67,6 +80,9 @@ void CPatternScanner::Scan()
 		// Scan bytes for our pattern
 		for (DWORD i = 0; i < FilesToScan[x].modBaseSize; ++i, ++GameBytes)
 		{
+			if (FoundAllOffsetsInModule(&FilesToScan[x]))
+				break;
+
 			for (int p = 0; p < (int)Patterns.size(); ++p)
 			{
 				if (*Patterns[p].Offset == NULL && CompareBytes(&Patterns[p], GameBytes))
@@ -125,7 +141,7 @@ void CPatternScanner::SetupPattern(MODULEENTRY32* Module, PCoreString Pattern, C
 	memcpy(PatternOut, &PatternInfo, sizeof(CorePattern));
 }
 
-void CPatternScanner::RegisterPattern(CoreOffset* Offset, MODULEENTRY32* Module, PCoreString Pattern, bool GetAddress, ePatternScanType Type)
+void CPatternScanner::RegisterPattern(FDWORD* Offset, MODULEENTRY32* Module, PCoreString Pattern, bool GetAddress, ePatternScanType Type)
 {
 	// Setup byte scan info
 	CorePattern PatternInfo;
@@ -142,7 +158,7 @@ void CPatternScanner::RegisterPattern(CoreOffset* Offset, MODULEENTRY32* Module,
 	FilesToScan.push_back(*Module);
 }
 
-CoreOffset CPatternScanner::FindPattern(MODULEENTRY32* Module, PCoreString Pattern, ePatternScanType Type, CoreOffset* Out)
+FDWORD CPatternScanner::FindPattern(MODULEENTRY32* Module, PCoreString Pattern, ePatternScanType Type, FDWORD* Out)
 {
 	// Read module
 	PBYTE GameBytes = new BYTE[Module->modBaseSize];
@@ -155,8 +171,8 @@ CoreOffset CPatternScanner::FindPattern(MODULEENTRY32* Module, PCoreString Patte
 	{
 		if (CompareBytes(&PatternInfo, GameBytes))
 		{
-			if (Out) *Out = (CoreOffset)(Module->modBaseAddr + i);
-			return (CoreOffset)Module->modBaseAddr + i;
+			if (Out) *Out = (FDWORD)(Module->modBaseAddr + i);
+			return (FDWORD)Module->modBaseAddr + i;
 		}
 	}
 

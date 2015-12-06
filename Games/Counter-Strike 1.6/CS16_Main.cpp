@@ -7,16 +7,51 @@
 */
 #include "CS16_Main.h"
 
+CS16EntityInfo *CS16Entity = new CS16EntityInfo[10000];
+cl_entity_t* CS16EntityList = new cl_entity_t[10000];
+CS16EngineInfo *CS16Engine = new CS16EngineInfo();
+CS16OffsetInfo *CS16Offset = new CS16OffsetInfo();
+UI_Window* GUI_Main = NULL;
+UI_Window* GUI_ESP = NULL;
+
 int HackThread()
 {
-	CoreTimer::Countdown TmrThread = CoreTimer::Countdown(g_Core->CoreTick);
+	bool bFirst = true;
+	CoreTimer::Countdown TmrSlowRead = CoreTimer::Countdown(100);
+
+	CS16Offset->RetrieveOffsets();
+	while (true)
+	{
+		DWORD dwEntityAllocation = 0;
+		MemoryScanner->Read(CS16Offset->Entity, &dwEntityAllocation, sizeof(DWORD));
+		if (dwEntityAllocation != 0)
+		{
+			CS16Offset->Entity = dwEntityAllocation;
+			
+			break;
+		}
+
+		Sleep(5000);
+	}
+
+	CLog::Log(eLogType::HIGH, " > Entity allocation found: 0x%p", CS16Offset->Entity);
 
 	while (g_Core->Process->Running())
 	{
+		if (!TmrSlowRead.Running() || bFirst)
+		{
+			//Get max entities
+			MemoryScanner->Read(CS16Offset->MaxEntity, &CS16Engine->MaxEntity, sizeof(int));
+			TmrSlowRead.Reset();
+			bFirst = false;
+		}
+
 		if (!g_Core->TmrThread->Running())
 		{
-			// Read game
+			// Read entities
+			MemoryScanner->Read(CS16Offset->Entity, CS16EntityList, sizeof(cl_entity_t) * CS16Engine->MaxEntity);
 
+			
 
 			g_Core->TmrThread->Reset();
 		}
@@ -31,17 +66,31 @@ void RenderScene()
 	if (g_Core->FramesPerSecond > 0)
 		g_Core->Render->DrawString(false, 25, 25, rgb(255, 0, 0, 255), "FPS: %i", g_Core->FramesPerSecond);
 	
-	g_Core->Render->DrawString(false, 25, 50, rgb(255, 0, 0, 255), "%i %i", MouseInfo->X, MouseInfo->Y);
+	g_Core->Render->DrawString(false, 25, 50, rgb(255, 0, 0, 255), "%i", CS16DVar.GUI_Active);
 	//BoxFilled(20, 200, 100, 100, D3DCOLOR_RGBA(255, 0, 0, 255));
 
 	// Draw GUI
-	GUI->DrawWindows(CS16DVar.GUI_Active);
+	GUI->DrawWindows();
+
+	// Save DVars and disable windows etc
+	static bool FlipFlopSave = true;
+	if (!CS16DVar.GUI_Active && FlipFlopSave)
+	{
+		FlipFlopSave = false;
+	}
+	else if (CS16DVar.GUI_Active)
+		FlipFlopSave = true;
 }
 
 void KeyEvents(eKBCallback Callback)
 {
 	if (KeyPressed->KeyPress(eKButton::K_INSERT))
 		CS16DVar.GUI_Active = !CS16DVar.GUI_Active;
+}
+
+void OpenSettingsWindow()
+{
+	CS16DVar.GUI_Settings_Active = !CS16DVar.GUI_Settings_Active;
 }
 
 CS16Main::CS16Main()
@@ -53,25 +102,38 @@ CS16Main::CS16Main()
 	// Init Key bindins
 	KeyPressed->HookKeyEvents(KeyEvents);
 
-	// Create main GUI window
-	GUIWindow = GUI->RegisterWindow(new UI_Window("GUI_Window", 2, 2, g_Core->ScreenInfo.Width - 4, g_Core->CaptionSize + 5, false));
+	// Create Main GUI Window
+	float _X = 2;
+	float _Y = 2;
+	float _W = g_Core->ScreenInfo.Width - 3;
+	float _H = g_Core->CaptionSize + 10;
+	GUI_Main = GUI->RegisterWindow(new UI_Window("Settings", _X, _Y, _W, _H, &CS16DVar.GUI_Active, 0, false));
+	GUI_Main->AddLabel(new UI_Label("Godly Framework v1.0", 10, 9));
+	GUI_Main->AddButton(new UI_Button("ESP Settings", 200, 7, OpenSettingsWindow));
 
-	// Register DVars and GUI windows etc
-	GUISettings->Register(GUIWindow);
+	_X = 5;
+	_Y = _H + 5;
+	_W = 300;
+	_H = 200;
+	GUI_ESP = GUI->RegisterWindow(new UI_Window("ESP Settings", _X, _Y, _W, _H, &CS16DVar.GUI_Settings_Active, &CS16DVar.GUI_Active));
+	GUI_ESP->AddGroupbox(new UI_GroupBox("Player", 10, 10, _W - 20, 100));
+	GUI_ESP->AddCheckbox(new UI_Checkbox(&CS16DVar.NameESP, "Name", 20, 25));
 
-	//Save
+	// Register dvars
+	CheatSettings->Register("Player Name ESP", &CS16DVar.NameESP, eCoreVariableType::VAR_BOOL);
+
+	//Save settings
+	CheatSettings->LoadAllSettings();
 	GUISettings->LoadAllSettings();
-	GUISettings->Save(GUIWindow->Caption);
-	
+	CheatSettings->Save("Cheat Settings");
+	GUISettings->Save("GUI Settings");
 
 	// Check if core was successfully initialized
 	if (g_Core->CoreInitialized == false)
 		return;
 	
-	// Get game offsets
-	MemoryScanner = new CMemoryScanner(g_Core->Process->Handle);
-	CS16Offset::InitOffsets(MemoryScanner);
-	CS16Offset::RetrieveOffsets();
+	// Init offsets
+	CS16Offset->InitOffsets(MemoryScanner);
 
 	// Read game
 	CLog::Log(eLogType::HIGH, "Creating hack thread");

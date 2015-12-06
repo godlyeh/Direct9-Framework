@@ -93,3 +93,4 @@ extern CFrameworkCore* g_Core;
 extern UI_Setup* GUI;
 extern UI_Mouse* MouseInfo;
 extern K_Button* KeyPressed;
+extern CMemoryScanner* MemoryScanner;

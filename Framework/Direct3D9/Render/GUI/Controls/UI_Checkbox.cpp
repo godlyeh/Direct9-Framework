@@ -7,13 +7,13 @@
 */
 #include "..\..\..\..\Core.h"
 
-UI_Checkbox::UI_Checkbox(PCoreVariable Var, PCoreString ControlText, float x, float y, COLOR32 Color)
+UI_Checkbox::UI_Checkbox(LPVOID Var, PCoreString ControlText, float x, float y, COLOR32 Color)
 {
 	strcpy_s(Text, ControlText);
 	X = x;
 	Y = y;
 	TextColor = Color;
-	Size = g_Core->TextSize - 4;
+	Size = g_Core->TextSize - 2;
 	Value = Var;
 }
 
@@ -37,10 +37,7 @@ void UI_Checkbox::Draw(float x, float y, bool Visible)
 
 		// Draw checked
 		if (*(int*)Value != NULL)
-		{
-			g_Core->Render->Line(_X + 3, _Y + 3, _X + Size - 3, _Y + Size - 2, 2, CheckedColor);
-			g_Core->Render->Line(_X + Size - 3, _Y + 2, _X + 3, _Y + Size - 3, 2, CheckedColor);
-		}
+			g_Core->Render->DrawString(true, _X + Size / 2, _Y - 1.5f, TextColor, "x");
 
 		// Mouse down
 		if (MouseOver && MouseInfo->Down && MouseInfo->DraggedElement == NULL)
@@ -51,6 +48,6 @@ void UI_Checkbox::Draw(float x, float y, bool Visible)
 			*(bool*)Value = !*(bool*)Value;
 
 		// Draw text
-		g_Core->Render->DrawString(false, _X + Size + 7, _Y - 2, TextColor, Text);
+		g_Core->Render->DrawString(false, _X + Size + 7, _Y - 1, TextColor, Text);
 	}
 }

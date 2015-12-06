@@ -11,7 +11,7 @@ Used for slider handling both vertically and horizontally
 class UI_Slider
 {
 public:
-	UI_Slider(float x, float y, float size, double min, double max, PCoreVariable SliderValue, PCoreString Text = NULL, bool DrawVertically = false, COLOR32 Color = CLR_TEXT_DEFAULT);
+	UI_Slider(float x, float y, float size, double min, double max, LPVOID SliderValue, PCoreString Text = NULL, bool DrawVertically = false, COLOR32 Color = CLR_TEXT_DEFAULT);
 	~UI_Slider() { }
 
 public:
@@ -24,7 +24,7 @@ public:
 	float X, Y;
 	float Size;
 	double Min, Max;
-	PCoreVariable Value;
+	LPVOID Value;
 	COLOR32 SliderColor = CLR_SLIDER_DEFAULT;
 	COLOR32 TextColor = CLR_TEXT_DEFAULT;
 };

@@ -129,6 +129,9 @@
     <ClCompile Include="Framework\K_Button.cpp">
       <Filter>Framework\Direct3D9\Core\Key Handling</Filter>
     </ClCompile>
+    <ClCompile Include="Games\Counter-Strike 1.6\CS16_Engine.cpp">
+      <Filter>Games\Counter-Strike 1.6</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework\Utilities\UtilCore.h">
@@ -208,6 +211,12 @@
     </ClInclude>
     <ClInclude Include="Framework\Keys.h">
       <Filter>Framework\Direct3D9\Core\Key Handling</Filter>
+    </ClInclude>
+    <ClInclude Include="Games\Counter-Strike 1.6\CS16_Entity.h">
+      <Filter>Games\Counter-Strike 1.6</Filter>
+    </ClInclude>
+    <ClInclude Include="Games\Counter-Strike 1.6\CS16_Engine.h">
+      <Filter>Games\Counter-Strike 1.6</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

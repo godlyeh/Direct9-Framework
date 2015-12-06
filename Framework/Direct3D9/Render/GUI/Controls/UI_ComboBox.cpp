@@ -79,7 +79,6 @@ void UI_ComboBox::Draw(float x, float y, bool Visible)
 
 		// Mouse over box
 		bool MouseOver = MouseInfo->MouseOver(_TxtX + (Scrollbar == NULL ? _BtnSize : 0), _TxtY, _TxtW, _ScrollbarH);
-		CLog::Log("%i", MouseOver);
 		if (!MouseOver && !MouseInfo->MouseOver(_BtnX, _BtnY, _BtnSize, _BtnSize) && MouseInfo->Clicked)
 			MouseInfo->FocusedItem = NULL;
 
@@ -147,7 +146,6 @@ void UI_ComboBox::Draw(float x, float y, bool Visible)
 			MouseOver = MouseInfo->MouseOver(_X, _Y, _W + _BtnSize, _ScrollbarH);
 			if (MouseOver)
 			{
-				//CLog::Log("%i", MouseInfo->ScrolledUp);
 				if (MouseInfo->ScrolledUp)
 					--ScrollbarValue;
 				if (MouseInfo->ScrolledDown)

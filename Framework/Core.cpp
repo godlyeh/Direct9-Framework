@@ -9,6 +9,7 @@ CFrameworkCore* g_Core = NULL;
 UI_Setup* GUI = NULL;
 UI_Mouse* MouseInfo = new UI_Mouse();
 K_Button* KeyPressed = NULL;
+CMemoryScanner* MemoryScanner = NULL;
 
 void CFrameworkCore::RegisterCoreVariables()	
 {
@@ -95,6 +96,7 @@ CFrameworkCore::CFrameworkCore(PCoreString ProcessName, PCoreString WindowName, 
 
 	// Copy game process name and get screen info
 	KeyPressed = new K_Button(Window->hInstance);
+	MemoryScanner = new CMemoryScanner(Process->Handle);
 	strcpy_s(GameProcessName, ProcessName);
 	Utilities::GetWindowInformation(Process->HWnd, &ScreenInfo);
 	

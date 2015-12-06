@@ -7,7 +7,7 @@
 */
 #include "..\..\..\..\Core.h"
 
-UI_Slider::UI_Slider(float x, float y, float size, double min, double max, PCoreVariable SliderValue, PCoreString Text, bool DrawVertically, COLOR32 Color)
+UI_Slider::UI_Slider(float x, float y, float size, double min, double max, LPVOID SliderValue, PCoreString Text, bool DrawVertically, COLOR32 Color)
 {
 	if (Text != NULL)
 	{

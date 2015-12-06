@@ -32,7 +32,8 @@ LRESULT CALLBACK MouseProc(int nCode, WPARAM wParam, LPARAM lParam)
 
 		break;
 	}
-	return CallNextHookEx(KeyPressed->MouseHook, nCode, wParam, lParam);
+
+	return 0;
 }
 
 LRESULT CALLBACK KeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
@@ -50,7 +51,8 @@ LRESULT CALLBACK KeyboardProc(int nCode, WPARAM wParam, LPARAM lParam)
 		if (KeyPressed->Function)
 			((pfnEventHook)KeyPressed->Function)(eKBCallback::K_CALLBACK_KEYBOARD);
 	}
-	return CallNextHookEx(KeyPressed->KeyboardHook, nCode, wParam, lParam);
+
+	return 0;
 }
 
 void K_Button::HookKeyEvents(pfnEventHook KeyEventsFunction)
@@ -73,7 +75,7 @@ bool K_Button::KeyPress(eKButton Button)
 
 K_Button::K_Button(HINSTANCE hInst)
 {
-	MouseHook = SetWindowsHookEx(WH_MOUSE_LL, MouseProc, hInst, 0);
+	//MouseHook = SetWindowsHookEx(WH_MOUSE_LL, MouseProc, hInst, 0);
 	KeyboardHook = SetWindowsHookEx(WH_KEYBOARD_LL, KeyboardProc, hInst, 0);
 }
 

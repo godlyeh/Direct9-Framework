@@ -6,24 +6,27 @@
 
 */
 
-namespace CS16Offset
+class CS16OffsetInfo
 {
+public:
 	// Offset Settings
-	static CSettings* OffsetSettings = NULL;
-	static CPatternScanner* PatternScanner = NULL;
+	CSettings* OffsetSettings = NULL;
+	CPatternScanner* PatternScanner = NULL;
 
 	// Modules
-	static MODULEENTRY32 dllHW;
-	static MODULEENTRY32 dllClient;
+	MODULEENTRY32 dllHW;
+	MODULEENTRY32 dllClient;
 
 	// Setting offsets
-	static CoreOffset gEngfuncs;		static CoreString s_gEngfuncs;
-	static CoreOffset gStudio;			static CoreString s_gStudio;
-	static CoreOffset gPlayerMove;		static CoreString s_gPlayerMove;
+	FDWORD gEngfuncs;		CoreString s_gEngfuncs;
+	FDWORD gStudio;			CoreString s_gStudio;
+	FDWORD gPlayerMove;		CoreString s_gPlayerMove;
+	FDWORD MaxEntity;		CoreString s_MaxEntity;
+	FDWORD Entity;			CoreString s_Entity;
 
 	// Offset settings
 	
 	// Funcs
 	void InitOffsets(CMemoryScanner *MemScanner);
 	void RetrieveOffsets();
-}
+};

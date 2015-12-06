@@ -7,7 +7,7 @@ Universal scrolbar handling
 */
 #include "..\..\..\..\Core.h"
 
-UI_Scrollbar::UI_Scrollbar(float x, float y, float w, float h, float min, float max, PCoreVariable ScrollbarValue, bool IsVertical, COLOR32 Color)
+UI_Scrollbar::UI_Scrollbar(float x, float y, float w, float h, float min, float max, LPVOID ScrollbarValue, bool IsVertical, COLOR32 Color)
 {
 	X = x;
 	Y = y;
