@@ -94,6 +94,7 @@ void CPatternScanner::Scan()
 						FDWORD OpcodeLength = oplen(GameBytes);
 						if (OpcodeLength == 0x5) TmpAddr = 0x1;
 						if (OpcodeLength == 0x6) TmpAddr = 0x2;
+						if (OpcodeLength > 0x6) TmpAddr = 0x3;
 
 						if (TmpAddr)
 							MemoryScanner->Read((*Patterns[p].Offset + TmpAddr), Patterns[p].Offset, sizeof(DWORD));

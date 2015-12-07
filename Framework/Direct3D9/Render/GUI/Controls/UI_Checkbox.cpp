@@ -13,7 +13,7 @@ UI_Checkbox::UI_Checkbox(LPVOID Var, PCoreString ControlText, float x, float y, 
 	X = x;
 	Y = y;
 	TextColor = Color;
-	Size = g_Core->TextSize - 2;
+	Size = g_Core->TextSize - 3;
 	Value = Var;
 }
 
@@ -37,7 +37,7 @@ void UI_Checkbox::Draw(float x, float y, bool Visible)
 
 		// Draw checked
 		if (*(int*)Value != NULL)
-			g_Core->Render->DrawString(true, _X + Size / 2, _Y - 1.5f, TextColor, "x");
+			g_Core->Render->DrawString(true, _X + Size / 2 + 1, _Y - 1.5f, TextColor, "x");
 
 		// Mouse down
 		if (MouseOver && MouseInfo->Down && MouseInfo->DraggedElement == NULL)

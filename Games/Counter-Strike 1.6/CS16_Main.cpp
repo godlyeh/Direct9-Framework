@@ -7,8 +7,7 @@
 */
 #include "CS16_Main.h"
 
-CS16EntityInfo *CS16Entity = new CS16EntityInfo[10000];
-cl_entity_t* CS16EntityList = new cl_entity_t[10000];
+CS16EntityInfo *CS16Entity = new CS16EntityInfo[4096];
 CS16EngineInfo *CS16Engine = new CS16EngineInfo();
 CS16OffsetInfo *CS16Offset = new CS16OffsetInfo();
 UI_Window* GUI_Main = NULL;
@@ -40,18 +39,15 @@ int HackThread()
 	{
 		if (!TmrSlowRead.Running() || bFirst)
 		{
-			//Get max entities
-			MemoryScanner->Read(CS16Offset->MaxEntity, &CS16Engine->MaxEntity, sizeof(int));
+			CS16Engine->ReadGameInfoSlow();
+
 			TmrSlowRead.Reset();
 			bFirst = false;
 		}
 
 		if (!g_Core->TmrThread->Running())
 		{
-			// Read entities
-			MemoryScanner->Read(CS16Offset->Entity, CS16EntityList, sizeof(cl_entity_t) * CS16Engine->MaxEntity);
-
-			
+			CS16Engine->ReadGameInfo();
 
 			g_Core->TmrThread->Reset();
 		}
@@ -71,15 +67,6 @@ void RenderScene()
 
 	// Draw GUI
 	GUI->DrawWindows();
-
-	// Save DVars and disable windows etc
-	static bool FlipFlopSave = true;
-	if (!CS16DVar.GUI_Active && FlipFlopSave)
-	{
-		FlipFlopSave = false;
-	}
-	else if (CS16DVar.GUI_Active)
-		FlipFlopSave = true;
 }
 
 void KeyEvents(eKBCallback Callback)
@@ -106,9 +93,9 @@ CS16Main::CS16Main()
 	float _X = 2;
 	float _Y = 2;
 	float _W = g_Core->ScreenInfo.Width - 3;
-	float _H = g_Core->CaptionSize + 10;
+	float _H = g_Core->CaptionSize + 11;
 	GUI_Main = GUI->RegisterWindow(new UI_Window("Settings", _X, _Y, _W, _H, &CS16DVar.GUI_Active, 0, false));
-	GUI_Main->AddLabel(new UI_Label("Godly Framework v1.0", 10, 9));
+	GUI_Main->AddLabel(new UI_Label("Godly Framework v1.0", 10, 10));
 	GUI_Main->AddButton(new UI_Button("ESP Settings", 200, 7, OpenSettingsWindow));
 
 	_X = 5;
@@ -133,7 +120,7 @@ CS16Main::CS16Main()
 		return;
 	
 	// Init offsets
-	CS16Offset->InitOffsets(MemoryScanner);
+	CS16Offset->InitOffsets();
 
 	// Read game
 	CLog::Log(eLogType::HIGH, "Creating hack thread");

@@ -6,11 +6,31 @@
 
 */
 
+#define CS16_MAX_CLIENTS 32
+
 class CS16EngineInfo
 {
 public:
-	int MaxEntity;
+	CS16EngineInfo()
+	{
+		Entity = new cs16_cl_entity_t[4096];
+		TeamInfo = new cs16_teaminfo_t[CS16_MAX_CLIENTS];
+	}
 
 public:
-	
+	int MaxEntity;
+	int LocalIndex;
+	float CameraMatrix[4][4];
+
+	char MapName[MAX_PATH];
+
+	cs16_cl_entity_t *Entity = NULL;
+	cs16_teaminfo_t *TeamInfo = NULL;
+
+public:
+	void ReadGameInfoSlow();
+	void ReadGameInfo();
+
+public:
+	bool WorldToScreen(float *WorldPos, float *Out);
 };

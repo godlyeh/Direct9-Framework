@@ -60,7 +60,7 @@ public:
 	int CoreTick = 15;
 	CoreTimer::Countdown *TmrThread = NULL;
 	// Core render timer
-	int RenderTick = 30;
+	int RenderTick = 13;
 	int FramesPerSecond = 30;
 	CoreTimer::Countdown *TmrRender = NULL;
 	// Process screen info

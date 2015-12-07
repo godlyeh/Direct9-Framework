@@ -13,7 +13,7 @@ CMemoryScanner* MemoryScanner = NULL;
 
 void CFrameworkCore::RegisterCoreVariables()	
 {
-	Settings->Register("Render Tick", &RenderTick, eCoreVariableType::VAR_INTEGER, 10, 40);
+	Settings->Register("Render Tick", &RenderTick, eCoreVariableType::VAR_INTEGER, 5, 40);
 	Settings->Register("Core Tick", &CoreTick, eCoreVariableType::VAR_INTEGER, 5, 30);
 }
 

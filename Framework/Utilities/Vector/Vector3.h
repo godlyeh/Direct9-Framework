@@ -38,5 +38,9 @@ public:
 	inline Vec3 operator /	(int n) const				{ return Vec3(x / (float)n, y / (float)n, z / (float)n); }
 
 public:
+	operator float *()								{ return &x; } // Vectors will now automatically convert to float * when needed
+	operator const float *() const					{ return &x; } // Vectors will now automatically convert to float * when needed
+
+public:
 	float x, y, z;
 };

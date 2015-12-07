@@ -14,19 +14,26 @@ typedef struct { unsigned r, g, b, a; }colorVec;
 
 typedef struct
 {
+	short TeamNumber;
+	char TeamName[9];
+	char _UNUSED[0x5D];
+} cs16_teaminfo_t;
+
+typedef struct
+{
 	// Time stamp for this movement
 	float					animtime;
 
 	vec3_t					origin;
 	vec3_t					angles;
-} position_history_t;
+} cs16_position_history_t;
 
 typedef struct
 {
 	byte					mouthopen;		// 0 = mouth closed, 255 = mouth agape
 	byte					sndcount;		// counter for running average
 	int						sndavg;			// running average
-} mouth_t;
+} cs16_mouth_t;
 
 typedef struct
 {
@@ -41,7 +48,7 @@ typedef struct
 
 	byte					prevcontroller[4];
 	byte					prevblending[2];
-} latchedvars_t;
+} cs16_latchedvars_t;
 
 typedef struct
 {
@@ -137,7 +144,7 @@ typedef struct
 	vec3_t		vuser2;
 	vec3_t		vuser3;
 	vec3_t		vuser4;
-}entity_state_t;
+}cs16_entity_state_t;
 
 typedef struct
 {
@@ -145,16 +152,16 @@ typedef struct
 
 	int						player;     // True if this entity is a "player"
 
-	entity_state_t			baseline;   // The original state from which to delta during an uncompressed message
-	entity_state_t			prevstate;  // The state information from the penultimate message received from the server
-	entity_state_t			curstate;   // The state information from the last message received from server
+	cs16_entity_state_t			baseline;   // The original state from which to delta during an uncompressed message
+	cs16_entity_state_t			prevstate;  // The state information from the penultimate message received from the server
+	cs16_entity_state_t			curstate;   // The state information from the last message received from server
 
 	int						current_position;  // Last received history update index
-	position_history_t		ph[HISTORY_MAX];   // History of position and angle updates for this player
+	cs16_position_history_t		ph[HISTORY_MAX];   // History of position and angle updates for this player
 
-	mouth_t					mouth;			// For synchronizing mouth movements.
+	cs16_mouth_t					mouth;			// For synchronizing mouth movements.
 
-	latchedvars_t			latched;		// Variables used by studio model rendering routines
+	cs16_latchedvars_t			latched;		// Variables used by studio model rendering routines
 
 	// Information based on interplocation, extrapolation, prediction, or just copied from last msg received.
 	//
@@ -177,4 +184,4 @@ typedef struct
 	float					syncbase;		// for client-side animations -- used by obsolete alias animation system, remove?
 	int						visframe;		// last frame this entity was found in an active leaf
 	colorVec				cvFloorColor;
-}cl_entity_t;
+}cs16_cl_entity_t;

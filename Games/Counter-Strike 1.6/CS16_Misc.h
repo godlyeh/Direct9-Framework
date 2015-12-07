@@ -23,10 +23,14 @@ public:
 	FDWORD gPlayerMove;		CoreString s_gPlayerMove;
 	FDWORD MaxEntity;		CoreString s_MaxEntity;
 	FDWORD Entity;			CoreString s_Entity;
+	FDWORD TeamInfo;		CoreString s_TeamInfo;
+	FDWORD LocalIndex;		CoreString s_LocalIndex;
+	FDWORD MapName;			CoreString s_MapName;
+	FDWORD CameraMatrix;	CoreString s_CameraMatrix;
 
 	// Offset settings
 	
 	// Funcs
-	void InitOffsets(CMemoryScanner *MemScanner);
+	void InitOffsets();
 	void RetrieveOffsets();
 };
