@@ -15,6 +15,7 @@ public:
 	{
 		Entity = new cs16_cl_entity_t[4096];
 		TeamInfo = new cs16_teaminfo_t[CS16_MAX_CLIENTS];
+		PlayerInfo = new cs16_player_info_t[CS16_MAX_CLIENTS];
 	}
 
 public:
@@ -24,8 +25,9 @@ public:
 
 	char MapName[MAX_PATH];
 
-	cs16_cl_entity_t *Entity = NULL;
-	cs16_teaminfo_t *TeamInfo = NULL;
+	cs16_cl_entity_t* Entity = NULL;
+	cs16_teaminfo_t* TeamInfo = NULL;
+	cs16_player_info_t* PlayerInfo = NULL;
 
 public:
 	void ReadGameInfoSlow();

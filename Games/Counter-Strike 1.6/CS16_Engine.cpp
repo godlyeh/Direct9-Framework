@@ -14,7 +14,8 @@ void CS16EngineInfo::ReadGameInfoSlow()
 	MemoryScanner->Read(CS16Offset->LocalIndex, &LocalIndex, sizeof(int));
 	MemoryScanner->Read(CS16Offset->MapName, &MapName, sizeof(MapName));
 	MemoryScanner->Read(CS16Offset->TeamInfo, TeamInfo, sizeof(cs16_teaminfo_t) * CS16_MAX_CLIENTS);
-	
+	MemoryScanner->Read(CS16Offset->PlayerInfo, PlayerInfo, sizeof(cs16_player_info_t) * CS16_MAX_CLIENTS);
+
 	// Fix vars
 	LocalIndex += 1;
 	*(strrchr(MapName, '.')) = 0;
@@ -40,6 +41,8 @@ bool CS16EngineInfo::WorldToScreen(float *WorldPos, float *Out)
 	{
 		(Out[0] *= ZDelta) = (Out[0] + 1.0f) * (g_Core->ScreenInfo.Width / 2);
 		(Out[1] *= ZDelta) = (-Out[1] + 1.0f) * (g_Core->ScreenInfo.Height / 2);
+
+		g_Core->Render->CompensateRenderLag(&Out[0], &Out[1]);
 	}
 
 	return ZDelta > 0.0f;

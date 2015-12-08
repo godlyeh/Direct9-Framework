@@ -16,6 +16,9 @@ public:
 	BOOL Init(LPIDirect3DDevice9 pDevice);
 	void Release();
 
+	//Render lag compensation
+	void CompensateRenderLag(float *x, float *y);
+
 	// Font handling
 	HRESULT SetFont(LPIDirect3DDevice9 pDevice, PCoreString FontName, float Size);
 	void DrawString(bool CenterText, float x, float y, COLOR32 Color, PCoreString szText, ...);

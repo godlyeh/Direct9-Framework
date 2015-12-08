@@ -10,7 +10,20 @@ typedef Vec3 vec3_t;
 typedef struct { byte r, g, b; }color24;
 typedef struct { unsigned r, g, b, a; }colorVec;
 
-#define HISTORY_MAX		64  // Must be power of 2
+#define HISTORY_MAX				64  // Must be power of 2
+#define	MAX_INFO_STRING			256
+#define	MAX_SCOREBOARDNAME		32
+#define MAX_QPATH				64
+
+typedef enum
+{
+	t_sound = 0,
+	t_skin,
+	t_model,
+	t_decal,
+	t_generic,
+	t_eventscript
+} resourcetype_t;
 
 typedef struct
 {
@@ -185,3 +198,17 @@ typedef struct
 	int						visframe;		// last frame this entity was found in an active leaf
 	colorVec				cvFloorColor;
 }cs16_cl_entity_t;
+
+typedef struct
+{
+	int userid; //0x0000 
+	char userinfo[256]; //0x0004 
+	char name[32]; //0x0104 
+	int specator; //0x0124 
+	int ping; //0x0128 
+	int packet_loss; //0x012C 
+	char model[64]; //0x0130 
+	int topcolor; //0x0170 
+	int bottomcolor; //0x0174 
+	char _0x0178[216];
+}cs16_player_info_t;

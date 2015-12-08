@@ -132,6 +132,9 @@
     <ClCompile Include="Games\Counter-Strike 1.6\CS16_Engine.cpp">
       <Filter>Games\Counter-Strike 1.6</Filter>
     </ClCompile>
+    <ClCompile Include="Games\Counter-Strike 1.6\CS16_ESP.cpp">
+      <Filter>Games\Counter-Strike 1.6</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework\Utilities\UtilCore.h">
@@ -216,6 +219,9 @@
       <Filter>Games\Counter-Strike 1.6</Filter>
     </ClInclude>
     <ClInclude Include="Games\Counter-Strike 1.6\CS16_Engine.h">
+      <Filter>Games\Counter-Strike 1.6</Filter>
+    </ClInclude>
+    <ClInclude Include="Games\Counter-Strike 1.6\CS16_ESP.h">
       <Filter>Games\Counter-Strike 1.6</Filter>
     </ClInclude>
   </ItemGroup>

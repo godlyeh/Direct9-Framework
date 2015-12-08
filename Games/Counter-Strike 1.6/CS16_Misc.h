@@ -21,12 +21,16 @@ public:
 	FDWORD gEngfuncs;		CoreString s_gEngfuncs;
 	FDWORD gStudio;			CoreString s_gStudio;
 	FDWORD gPlayerMove;		CoreString s_gPlayerMove;
+	FDWORD TeamInfo;		CoreString s_TeamInfo;
+	FDWORD PlayerInfo;		CoreString s_PlayerInfo;
+
+	FDWORD gExport;			CoreString s_Export;
 	FDWORD MaxEntity;		CoreString s_MaxEntity;
 	FDWORD Entity;			CoreString s_Entity;
-	FDWORD TeamInfo;		CoreString s_TeamInfo;
 	FDWORD LocalIndex;		CoreString s_LocalIndex;
 	FDWORD MapName;			CoreString s_MapName;
 	FDWORD CameraMatrix;	CoreString s_CameraMatrix;
+	FDWORD gModels;			CoreString s_gModels;
 
 	// Offset settings
 	

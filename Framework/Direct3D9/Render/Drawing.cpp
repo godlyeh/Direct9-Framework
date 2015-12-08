@@ -7,6 +7,18 @@
 */
 #include "..\..\Core.h"
 
+void CRender::CompensateRenderLag(float *x, float *y)
+{
+	*x -= (MouseInfo->X - (int)(g_Core->ScreenInfo.Width / 2));
+	*y -= (MouseInfo->Y - (int)(g_Core->ScreenInfo.Height / 2));
+
+	if (g_Core->RenderLagCompensation > 0.0)
+	{
+		*x *= (float)g_Core->RenderLagCompensation;
+		*y *= (float)g_Core->RenderLagCompensation;
+	}
+}
+
 void CRender::Line(float x1, float y1, float x2, float y2, float lw, COLOR32 Color)
 {
 	D3DXVECTOR2 Vertex[] = { D3DXVECTOR2(x1, y1), D3DXVECTOR2(x2, y2) };

@@ -22,24 +22,28 @@ bool __fastcall CPatternScanner::CompareBytes(CorePattern* Pattern, BYTE* ByteAr
 			// Skip unknowns
 			if (i != Pattern->dwLength - 1)
 			{
-				if (Pattern->szPattern[x] == '?' && Pattern->szPattern[x + 1] == '?')
-					continue;
-				
 				if (Pattern->bPattern[i] == 0x00)
+					continue;
+
+				if (Pattern->ContainsBitwise && Pattern->szPattern[x] == '?' && Pattern->szPattern[x + 1] == '?')
 					continue;
 			}
 			
+			if (Pattern->ContainsBitwise)
+			{
+				// Uncertain variables like mov eax, edi can be mov eax, esi next time.
+				if (Pattern->szPattern[x] == '?' && (ByteArray[i] & 0xF) != Pattern->bPattern[i])
+					break;
 
-			// Uncertain variables like mov eax, edi can be mov eax, esi next time.
-			if (Pattern->szPattern[x] == '?' && (ByteArray[i] & 0xF) != Pattern->bPattern[i])
-				break;
+				// Uncertain variables like mov eax, edi can be mov eax, esi next time.
+				if (Pattern->szPattern[x + 1] == '?' && (ByteArray[i] >> 4) != Pattern->bPattern[i])
+					break;
 
-			// Uncertain variables like mov eax, edi can be mov eax, esi next time.
-			if (Pattern->szPattern[x + 1] == '?' && (ByteArray[i] >> 4) != Pattern->bPattern[i])
-				break;
-
-			// Cmp byte
-			if (Pattern->szPattern[x] != '?' && Pattern->szPattern[x + 1] != '?' && ByteArray[i] != Pattern->bPattern[i])
+				// Cmp byte
+				if (Pattern->szPattern[x] != '?' && Pattern->szPattern[x + 1] != '?' && ByteArray[i] != Pattern->bPattern[i])
+					break;
+			}
+			else if (ByteArray[i] != Pattern->bPattern[i])
 				break;
 
 			if (i == Pattern->dwLength - 1)
@@ -85,7 +89,13 @@ void CPatternScanner::Scan()
 
 			for (int p = 0; p < (int)Patterns.size(); ++p)
 			{
-				if (*Patterns[p].Offset == NULL && CompareBytes(&Patterns[p], GameBytes))
+				if (*Patterns[p].Offset != NULL)
+					continue;
+
+				if (_stricmp(Patterns[p].Module.szModule, FilesToScan[x].szModule))
+					continue;
+
+				if (CompareBytes(&Patterns[p], GameBytes))
 				{
 					*Patterns[p].Offset = (FDWORD)FilesToScan[x].modBaseAddr + i;
 					if (Patterns[p].RetrieveAddress)
@@ -149,6 +159,7 @@ void CPatternScanner::RegisterPattern(FDWORD* Offset, MODULEENTRY32* Module, PCo
 	SetupPattern(Module, Pattern, &PatternInfo, Type);
 	PatternInfo.Offset = Offset;
 	PatternInfo.RetrieveAddress = GetAddress;
+	PatternInfo.ContainsBitwise = (strstr(PatternInfo.szPattern, "?") != 0);
 	Patterns.push_back(PatternInfo);
 
 	// Add file if not already added

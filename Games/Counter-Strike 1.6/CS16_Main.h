@@ -10,10 +10,12 @@
 #include "..\..\Framework\Core.h"
 
 // Game includes
-#include "CS16_DVars.h"
 #include "CS16_Structs.h"
-#include "CS16_Misc.h"
 #include "CS16_Entity.h"
+
+#include "CS16_DVars.h"
+#include "CS16_ESP.h"
+#include "CS16_Misc.h"
 #include "CS16_Engine.h"
 
 

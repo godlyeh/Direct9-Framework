@@ -9,6 +9,8 @@
 class CS16EntityInfo
 {
 public:
+	bool Valid;
+
 	char Name[32];
 	short Team;
 

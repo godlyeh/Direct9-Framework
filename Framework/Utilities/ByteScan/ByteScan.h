@@ -19,6 +19,7 @@ typedef struct
 	DWORD dwLength;
 	ePatternScanType ScanType;
 
+	bool ContainsBitwise;
 	bool RetrieveAddress;
 	MODULEENTRY32 Module;
 	FDWORD *Offset;
