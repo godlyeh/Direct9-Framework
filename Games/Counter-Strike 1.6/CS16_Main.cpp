@@ -7,7 +7,6 @@
 */
 #include "CS16_Main.h"
 
-CS16EntityInfo *CS16Entity = new CS16EntityInfo[4096];
 CS16EngineInfo *CS16Engine = new CS16EngineInfo();
 CS16OffsetInfo *CS16Offset = new CS16OffsetInfo();
 UI_Window* GUI_Main = NULL;
@@ -18,6 +17,7 @@ int HackThread()
 	bool bFirst = true;
 	CoreTimer::Countdown TmrSlowRead = CoreTimer::Countdown(100);
 
+	// Get offsets
 	CS16Offset->RetrieveOffsets();
 	while (true)
 	{
@@ -32,9 +32,9 @@ int HackThread()
 
 		Sleep(5000);
 	}
-
 	CLog::Log(eLogType::HIGH, " > Entity allocation found: 0x%p", CS16Offset->Entity);
 
+	// Run cheat thread
 	while (g_Core->Process->Running())
 	{
 		if (!TmrSlowRead.Running() || bFirst)
@@ -64,6 +64,9 @@ void RenderScene()
 	
 	g_Core->Render->DrawString(false, 25, 50, rgb(255, 0, 0, 255), "%i", CS16DVar.GUI_Active);
 	//BoxFilled(20, 200, 100, 100, D3DCOLOR_RGBA(255, 0, 0, 255));
+
+	// Draw ESP
+	CS16ESP::DrawESP();
 
 	// Draw GUI
 	GUI->DrawWindows();

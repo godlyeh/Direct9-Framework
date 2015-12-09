@@ -18,7 +18,6 @@ void CS16OffsetInfo::InitOffsets()
 	strcpy_s(s_gStudio, "B? 00 00 00 00 C7 00 00 00 00 00 F3 A5");
 	strcpy_s(s_gPlayerMove, "A? 00 00 00 00 85 D? 0F 95 C1");
 	strcpy_s(s_TeamInfo, "66 C7 86 00 00 00 00 00 00 EB 26");
-	strcpy_s(s_PlayerInfo, "81 C6 00 00 00 00 E8 00 00 00 00 68 00 00 00 00");
 
 	strcpy_s(s_Export, "68 00 00 00 00 E8 00 00 00 00 83 C4 0C E8 00 00 00 00 E8 00 00 00 00");
 	strcpy_s(s_MaxEntity, "3B 05 00 00 00 00 7D 17");
@@ -27,6 +26,7 @@ void CS16OffsetInfo::InitOffsets()
 	strcpy_s(s_MapName, "B? 00 00 00 00 7D 05");
 	strcpy_s(s_CameraMatrix, "8D B? 00 00 00 00 C7 07 00 00 00 00");
 	strcpy_s(s_gModels, "8B 04 B5 00 00 00 00 85 C0 74 29");
+	strcpy_s(s_PlayerInfo, "81 C6 00 00 00 00 E8 00 00 00 00 68 00 00 00 00");
 	
 
 	// Register offsets
@@ -36,7 +36,6 @@ void CS16OffsetInfo::InitOffsets()
 	OffsetSettings->Register("gStudio", &s_gStudio, eCoreVariableType::VAR_STRING);
 	OffsetSettings->Register("gPlayerMove", &s_gPlayerMove, eCoreVariableType::VAR_STRING);
 	OffsetSettings->Register("TeamInfo", &s_TeamInfo, eCoreVariableType::VAR_STRING);
-	OffsetSettings->Register("PlayerInfo", &s_PlayerInfo, eCoreVariableType::VAR_STRING);
 
 	OffsetSettings->Register("gExport", &s_Export, eCoreVariableType::VAR_STRING);
 	OffsetSettings->Register("MaxEntity", &s_MaxEntity, eCoreVariableType::VAR_STRING);
@@ -45,6 +44,7 @@ void CS16OffsetInfo::InitOffsets()
 	OffsetSettings->Register("MapName", &s_MapName, eCoreVariableType::VAR_STRING);
 	OffsetSettings->Register("CameraMatrix", &s_CameraMatrix, eCoreVariableType::VAR_STRING);
 	OffsetSettings->Register("gModels", &s_gModels, eCoreVariableType::VAR_STRING);
+	OffsetSettings->Register("PlayerInfo", &s_PlayerInfo, eCoreVariableType::VAR_STRING);
 
 	CLog::Log(eLogType::HIGH, " Done");
 
@@ -68,7 +68,6 @@ void CS16OffsetInfo::RetrieveOffsets()
 	PatternScanner->RegisterPattern(&gStudio, &dllClient, s_gStudio);
 	PatternScanner->RegisterPattern(&gPlayerMove, &dllClient, s_gPlayerMove);
 	PatternScanner->RegisterPattern(&TeamInfo, &dllClient, s_TeamInfo);
-	PatternScanner->RegisterPattern(&PlayerInfo, &dllClient, s_PlayerInfo);
 
 	PatternScanner->RegisterPattern(&gExport, &dllHW, s_Export);
 	PatternScanner->RegisterPattern(&MaxEntity, &dllHW, s_MaxEntity);
@@ -77,12 +76,16 @@ void CS16OffsetInfo::RetrieveOffsets()
 	PatternScanner->RegisterPattern(&MapName, &dllHW, s_MapName);
 	PatternScanner->RegisterPattern(&CameraMatrix, &dllHW, s_CameraMatrix);
 	PatternScanner->RegisterPattern(&gModels, &dllHW, s_gModels);
+	PatternScanner->RegisterPattern(&PlayerInfo, &dllHW, s_PlayerInfo);
 	CLog::Log(" Done");
 
 	// Retrieve offsets
 	CLog::Log("Performing game scan");
 	PatternScanner->Scan();
 	CLog::Log(" Done");
+
+	// Fix addrs if needed
+	CS16Offset->PlayerInfo -= sizeof(cs16_player_info_t);
 
 	// Log
 	CLog::Log("Game Offsets:");

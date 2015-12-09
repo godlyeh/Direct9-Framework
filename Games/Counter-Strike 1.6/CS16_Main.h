@@ -11,7 +11,6 @@
 
 // Game includes
 #include "CS16_Structs.h"
-#include "CS16_Entity.h"
 
 #include "CS16_DVars.h"
 #include "CS16_ESP.h"
@@ -30,6 +29,5 @@ public:
 	CSettings* CheatSettings = new CSettings("CS16_Cheat_Settings");
 };
 
-extern CS16EntityInfo *CS16Entity;
 extern CS16EngineInfo *CS16Engine;
 extern CS16OffsetInfo *CS16Offset;

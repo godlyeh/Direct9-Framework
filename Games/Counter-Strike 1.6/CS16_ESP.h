@@ -8,5 +8,7 @@
 
 namespace CS16ESP
 {
-	void DrawESP(CS16EntityInfo* Entity, bool Visible = true);
+	bool ValidEntity(int Index);
+	bool ValidPlayer(int Index);
+	void DrawESP(bool Visible = true);
 };

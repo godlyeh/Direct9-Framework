@@ -10,6 +10,7 @@ UI_Setup* GUI = NULL;
 UI_Mouse* MouseInfo = new UI_Mouse();
 K_Button* KeyPressed = NULL;
 CMemoryScanner* MemoryScanner = NULL;
+VectorMath* VecMath = new VectorMath;
 
 void CFrameworkCore::RegisterCoreVariables()	
 {

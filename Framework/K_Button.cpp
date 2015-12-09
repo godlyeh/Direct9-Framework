@@ -76,7 +76,7 @@ bool K_Button::KeyPress(eKButton Button)
 K_Button::K_Button(HINSTANCE hInst)
 {
 	//MouseHook = SetWindowsHookEx(WH_MOUSE_LL, MouseProc, hInst, 0);
-	KeyboardHook = SetWindowsHookEx(WH_KEYBOARD_LL, KeyboardProc, hInst, 0);
+	//KeyboardHook = SetWindowsHookEx(WH_KEYBOARD_LL, KeyboardProc, hInst, 0);
 }
 
 K_Button::~K_Button()

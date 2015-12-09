@@ -14,22 +14,31 @@ typedef struct { unsigned r, g, b, a; }colorVec;
 #define	MAX_INFO_STRING			256
 #define	MAX_SCOREBOARDNAME		32
 #define MAX_QPATH				64
+#define MAX_MODEL_NAME			64
+#define MAX_MAP_HULLS			4
+
+#define CS16_DEAD				0
+#define CS16_ALIVE				3
 
 typedef enum
 {
-	t_sound = 0,
-	t_skin,
-	t_model,
-	t_decal,
-	t_generic,
-	t_eventscript
-} resourcetype_t;
+	mod_brush,
+	mod_sprite,
+	mod_alias,
+	mod_studio
+} modtype_t;
+
+typedef enum
+{
+	ST_SYNC = 0,
+	ST_RAND
+} synctype_t;
 
 typedef struct
 {
 	short TeamNumber;
-	char TeamName[9];
-	char _UNUSED[0x5D];
+	char TeamName[10];
+	char _UNUSED[0x5B];
 } cs16_teaminfo_t;
 
 typedef struct
@@ -202,13 +211,101 @@ typedef struct
 typedef struct
 {
 	int userid; //0x0000 
-	char userinfo[256]; //0x0004 
-	char name[32]; //0x0104 
+	char userinfo[MAX_INFO_STRING]; //0x0004 
+	char name[MAX_SCOREBOARDNAME]; //0x0104 
 	int specator; //0x0124 
 	int ping; //0x0128 
 	int packet_loss; //0x012C 
-	char model[64]; //0x0130 
+	char model[MAX_QPATH]; //0x0130 
 	int topcolor; //0x0170 
 	int bottomcolor; //0x0174 
 	char _0x0178[216];
 }cs16_player_info_t;
+
+typedef struct
+{
+	DWORD clipnodes;
+	DWORD planes;
+	int			firstclipnode;
+	int			lastclipnode;
+	vec3_t		clip_mins;
+	vec3_t		clip_maxs;
+}cs16_hull_t;
+
+typedef struct cache_user_s
+{
+	DWORD data;
+} cache_user_t;
+
+typedef struct model_s
+{
+	char		name[MAX_MODEL_NAME];
+	int	needload;		// bmodels and sprites don't cache normally
+
+	modtype_t	type;
+	int			numframes;
+	synctype_t	synctype;
+
+	int			flags;
+
+	//
+	// volume occupied by the model
+	//		
+	vec3_t		mins, maxs;
+	float		radius;
+
+	//
+	// brush model
+	//
+	int			firstmodelsurface, nummodelsurfaces;
+
+	int			numsubmodels;
+	DWORD		submodels;
+
+	int			numplanes;
+	DWORD		planes;
+
+	int			numleafs;		// number of visible leafs, not counting 0
+	DWORD		leafs;
+
+	int			numvertexes;
+	DWORD		vertexes;
+
+	int			numedges;
+	DWORD		edges;
+
+	int			numnodes;
+	DWORD		nodes;
+
+	int			numtexinfo;
+	DWORD		texinfo;
+
+	int			numsurfaces;
+	DWORD		surfaces;
+
+	int			numsurfedges;
+	int			*surfedges;
+
+	int			numclipnodes;
+	DWORD		clipnodes;
+
+	int			nummarksurfaces;
+	DWORD		marksurfaces;
+
+	cs16_hull_t	hulls[MAX_MAP_HULLS];
+
+	int			numtextures;
+	DWORD		textures;
+
+	DWORD		visdata;
+
+	DWORD		lightdata;
+
+	DWORD		entities;
+
+	//
+	// additional model data
+	//
+	cache_user_t	cache;		// only access through Mod_Extradata
+
+} cs16_model_t;

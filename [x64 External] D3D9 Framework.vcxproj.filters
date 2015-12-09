@@ -135,6 +135,9 @@
     <ClCompile Include="Games\Counter-Strike 1.6\CS16_ESP.cpp">
       <Filter>Games\Counter-Strike 1.6</Filter>
     </ClCompile>
+    <ClCompile Include="Framework\Utilities\Vector\VectorMain.cpp">
+      <Filter>Framework\Utilities\Vector</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Framework\Utilities\UtilCore.h">
@@ -215,14 +218,14 @@
     <ClInclude Include="Framework\Keys.h">
       <Filter>Framework\Direct3D9\Core\Key Handling</Filter>
     </ClInclude>
-    <ClInclude Include="Games\Counter-Strike 1.6\CS16_Entity.h">
-      <Filter>Games\Counter-Strike 1.6</Filter>
-    </ClInclude>
     <ClInclude Include="Games\Counter-Strike 1.6\CS16_Engine.h">
       <Filter>Games\Counter-Strike 1.6</Filter>
     </ClInclude>
     <ClInclude Include="Games\Counter-Strike 1.6\CS16_ESP.h">
       <Filter>Games\Counter-Strike 1.6</Filter>
+    </ClInclude>
+    <ClInclude Include="Framework\Utilities\Vector\VectorMain.h">
+      <Filter>Framework\Utilities\Vector</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

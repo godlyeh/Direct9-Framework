@@ -38,6 +38,9 @@ public:
 	inline Vec3 operator /	(int n) const				{ return Vec3(x / (float)n, y / (float)n, z / (float)n); }
 
 public:
+	inline Vec3 Add(float rgfl[3])						{ return Vec3(x + rgfl[0], y + rgfl[1], z + rgfl[2]); }
+
+public:
 	operator float *()								{ return &x; } // Vectors will now automatically convert to float * when needed
 	operator const float *() const					{ return &x; } // Vectors will now automatically convert to float * when needed
 

@@ -27,12 +27,12 @@
 #include <d3dx9core.h>
 
 // Framework file include
+#include "Utilities\Vector\VectorMain.h"
 #include "Helpers.h"
 #include "Keys.h"
 #include "K_Button.h"
 
 #include "Utilities\UtilCore.h"
-#include "Utilities\Vector\Vector3.h"
 #include "Utilities\ByteScan\ADE32.h"
 #include "Utilities\ByteScan\ByteScan.h"
 #include "Utilities\Timer.h"
@@ -95,3 +95,4 @@ extern UI_Setup* GUI;
 extern UI_Mouse* MouseInfo;
 extern K_Button* KeyPressed;
 extern CMemoryScanner* MemoryScanner;
+extern VectorMath* VecMath;

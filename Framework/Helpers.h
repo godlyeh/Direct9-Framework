@@ -51,7 +51,6 @@ typedef char CoreString[256];
 typedef PCHAR PCoreString;
 typedef double* PDOUBLE;
 typedef struct { int r, g, b, a; }COLOR32;
-
 typedef struct { float x, y, w, h; }WNDRECT;
 
 // D3D typedefs

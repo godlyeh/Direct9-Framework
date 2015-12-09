@@ -173,6 +173,7 @@
     <ClCompile Include="Framework\Utilities\Settings\Settings.cpp" />
     <ClCompile Include="Framework\Utilities\Settings\UI_Settings.cpp" />
     <ClCompile Include="Framework\Utilities\Utilities.cpp" />
+    <ClCompile Include="Framework\Utilities\Vector\VectorMain.cpp" />
     <ClCompile Include="Games\Counter-Strike 1.6\CS16_Engine.cpp" />
     <ClCompile Include="Games\Counter-Strike 1.6\CS16_ESP.cpp" />
     <ClCompile Include="Games\Counter-Strike 1.6\CS16_Main.cpp" />
@@ -201,13 +202,13 @@
     <ClInclude Include="Framework\Utilities\Timer.h" />
     <ClInclude Include="Framework\Utilities\UtilCore.h" />
     <ClInclude Include="Framework\Utilities\Vector\Vector3.h" />
+    <ClInclude Include="Framework\Utilities\Vector\VectorMain.h" />
     <ClInclude Include="Games\Counter-Strike 1.6\CS16_DVars.h" />
     <ClInclude Include="Games\Counter-Strike 1.6\CS16_Engine.h" />
     <ClInclude Include="Games\Counter-Strike 1.6\CS16_ESP.h" />
     <ClInclude Include="Games\Counter-Strike 1.6\CS16_Main.h" />
     <ClInclude Include="Games\Counter-Strike 1.6\CS16_Misc.h" />
     <ClInclude Include="Games\Counter-Strike 1.6\CS16_Structs.h" />
-    <ClInclude Include="Games\Counter-Strike 1.6\CS16_Entity.h" />
     <ClInclude Include="Main.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
