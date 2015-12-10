@@ -17,7 +17,7 @@ public:
 	void Release();
 
 	//Render lag compensation
-	void CompensateRenderLag(float *x, float *y);
+	void CompensateRenderLag(float *x, float *y, float Power);
 
 	// Font handling
 	HRESULT SetFont(LPIDirect3DDevice9 pDevice, PCoreString FontName, float Size);

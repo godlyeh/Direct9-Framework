@@ -7,9 +7,19 @@
 */
 #include "..\..\Core.h"
 
-void CRender::CompensateRenderLag(float *x, float *y)
+void CRender::CompensateRenderLag(float *x, float *y, float Power)
 {
-	
+	if (Power <= 0.0f)
+		return;
+
+	float CenterW = g_Core->ScreenInfo.Width / 2;
+	float CenterH = g_Core->ScreenInfo.Height / 2;
+
+	float MouseDiffX = (MouseInfo->X - CenterW);
+	float MouseDiffY = (MouseInfo->Y - CenterH);
+
+	*x -= (MouseDiffX * Power);
+	*y -= (MouseDiffY * Power);
 }
 
 void CRender::Line(float x1, float y1, float x2, float y2, float lw, COLOR32 Color)

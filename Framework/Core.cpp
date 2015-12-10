@@ -16,7 +16,6 @@ void CFrameworkCore::RegisterCoreVariables()
 {
 	Settings->Register("Render Tick", &RenderTick, eCoreVariableType::VAR_INTEGER, 5, 40);
 	Settings->Register("Core Tick", &CoreTick, eCoreVariableType::VAR_INTEGER, 5, 30);
-	Settings->Register("Render Lag Compensation", &RenderLagCompensation, eCoreVariableType::VAR_DOUBLE, 0, 1);
 }
 
 CFrameworkCore::CFrameworkCore(PCoreString ProcessName, PCoreString WindowName, int Width, int Height)
@@ -39,7 +38,7 @@ CFrameworkCore::CFrameworkCore(PCoreString ProcessName, PCoreString WindowName, 
 		RegisterCoreVariables();
 
 		//Load and save default file
-		//Settings->LoadAllSettings();
+		Settings->LoadAllSettings();
 		Settings->Save(CORE_SETTINGS_DEFAULT);
 
 		// Set core variables

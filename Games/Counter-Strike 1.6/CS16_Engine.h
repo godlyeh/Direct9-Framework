@@ -44,8 +44,11 @@ public:
 	cs16_player_info_t* GetPlayerInfoByIndex(int Index);
 	cs16_model_t* GetModelByIndex(int Index);
 	cs16_model_t* GetModelByIndex(cs16_cl_entity_t *pEntity);
+	char* GetModelName(int Index);
+	char* GetModelName(cs16_cl_entity_t *pEntity);
 
 	bool WorldToScreen(float* WorldPos, float* Out);
+
 	void VectorLine(float* From, float* To, float lw, COLOR32 Color);
 	void Line3DBox(Vec3 WorldPos, Vec3 Mins, Vec3 Maxs, float* Angles, float lw, COLOR32 Color);
 };

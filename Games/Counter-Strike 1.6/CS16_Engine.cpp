@@ -62,7 +62,6 @@ cs16_player_info_t* CS16EngineInfo::GetPlayerInfoByIndex(int Index)
 cs16_model_t* CS16EngineInfo::GetModelByIndex(int Index)
 {
 	// Fill model addr list
-	DWORD TmpModel = 0;
 	static cs16_model_t* RetModel = new cs16_model_t; ZeroMemory(RetModel, sizeof(cs16_model_t));
 	MemoryScanner->Read(ModelArray[Index], RetModel, sizeof(cs16_model_t));
 	if (RetModel)
@@ -82,6 +81,23 @@ cs16_model_t* CS16EngineInfo::GetModelByIndex(cs16_cl_entity_t *pEntity)
 	return NULL;
 }
 
+char* CS16EngineInfo::GetModelName(int Index)
+{
+	static char Model[64]; ZeroMemory(&Model, sizeof(Model));
+	MemoryScanner->Read(ModelArray[Index], Model, sizeof(Model));
+	return Model;
+}
+
+char* CS16EngineInfo::GetModelName(cs16_cl_entity_t *pEntity)
+{
+	static char Model[64]; ZeroMemory(&Model, sizeof(Model));
+	for (int i = 0; i < CS16_MAX_MODELS; ++i)
+		if (pEntity->model == ModelArray[i])
+			return GetModelName(i);
+
+	return Model;
+}
+
 bool CS16EngineInfo::WorldToScreen(float* WorldPos, float* Out)
 {
 	Out[0] = (CameraMatrix[0][0] * WorldPos[0]) + (CameraMatrix[1][0] * WorldPos[1]) + (CameraMatrix[2][0] * WorldPos[2]) + CameraMatrix[3][0];
@@ -94,7 +110,7 @@ bool CS16EngineInfo::WorldToScreen(float* WorldPos, float* Out)
 	{
 		(Out[0] *= ZDelta) = (Out[0] + 1.0f) * (g_Core->ScreenInfo.Width / 2);
 		(Out[1] *= ZDelta) = (-Out[1] + 1.0f) * (g_Core->ScreenInfo.Height / 2);
-		g_Core->Render->CompensateRenderLag(&Out[0], &Out[1]);
+		g_Core->Render->CompensateRenderLag(&Out[0], &Out[1], (float)CS16DVar->ESPLagCompensation);
 	}
 
 	return ZDelta > 0.0f;

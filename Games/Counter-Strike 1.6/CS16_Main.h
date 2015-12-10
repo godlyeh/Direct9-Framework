@@ -23,11 +23,8 @@ class CS16Main
 public:
 	CS16Main();
 	~CS16Main();
-
-public:
-	CSettings* GUISettings = new CSettings("CS16_GUI_Settings");
-	CSettings* CheatSettings = new CSettings("CS16_Cheat_Settings");
 };
 
-extern CS16EngineInfo *CS16Engine;
-extern CS16OffsetInfo *CS16Offset;
+extern CS16EngineInfo* CS16Engine;
+extern CS16OffsetInfo* CS16Offset;
+extern CS16DVars* CS16DVar;

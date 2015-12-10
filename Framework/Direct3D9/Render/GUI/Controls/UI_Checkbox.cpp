@@ -36,7 +36,7 @@ void UI_Checkbox::Draw(float x, float y, bool Visible)
 		g_Core->Render->DepthFrame(_X, _Y, Size, Size);
 
 		// Draw checked
-		if (*(int*)Value != NULL)
+		if (*(bool*)Value != false)
 			g_Core->Render->DrawString(true, _X + Size / 2 + 1, _Y - 1.5f, TextColor, "x");
 
 		// Mouse down

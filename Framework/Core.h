@@ -62,7 +62,6 @@ public:
 	// Core render timer
 	int RenderTick = 13;
 	int FramesPerSecond = 30;
-	double RenderLagCompensation = 0.25f;
 	CoreTimer::Countdown *TmrRender = NULL;
 	// Process screen info
 	SCREENINFO ScreenInfo;
