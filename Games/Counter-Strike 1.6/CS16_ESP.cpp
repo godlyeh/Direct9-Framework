@@ -46,43 +46,23 @@ void CS16ESP::DrawESP(bool Visible)
 				if (CS16DVar->WeaponESP)
 				{
 					cs16_model_t* Model = CS16Engine->GetModelByIndex(pEnt->curstate.weaponmodel);
-					if (Model && strstr(Model->name, ".mdl"))
+					if (Model)
 					{
-						char szModel[64];
+						char szModel[64] = "\0";
 						strcpy_s(szModel, Model->name);
-						*(strrchr(szModel, '.')) = 0;
-						strcpy_s(szModel, strrchr(szModel, '/') + 3);
-						_strupr_s(szModel);
-						g_Core->Render->DrawString(true, X, _Y, rgb(255, 0, 0), szModel);
+						if (strstr(Model->name, ".mdl"))
+						{
+							*(strrchr(szModel, '.')) = 0;
+							strcpy_s(szModel, strrchr(szModel, '/') + 3);
+							_strupr_s(szModel);
+							g_Core->Render->DrawString(true, X, _Y, rgb(255, 0, 0), szModel);
+						}
 					}
 
 				}
 
 				if (CS16DVar->NameESP)
 					g_Core->Render->DrawString(true, X, _Y, rgb(255, 0, 0), PlayerInfo->name);
-			}
-
-			if (i >= CS16_MAX_CLIENTS && ValidEntity(i))
-			{
-				if (!CS16Engine->WorldToScreen(pEnt->origin + Vec3(0.0f, 0.0f, pEnt->curstate.maxs.z), ScreenCoords))
-					continue;
-
-				float X = ScreenCoords.x;
-				float Y = ScreenCoords.y - 5 - g_Core->TextSize;
-
-				// Weapon ESP
-				if (CS16DVar->WeaponESP)
-				{
-					char szModel[64];
-					strcpy_s(szModel, CS16Engine->GetModelName(pEnt));
-					if (strstr(szModel, ".mdl"))
-					{
-						*(strrchr(szModel, '.')) = 0;
-						strcpy_s(szModel, strrchr(szModel, '/') + 3);
-						_strupr_s(szModel);
-						g_Core->Render->DrawString(true, X, Y, rgb(255, 0, 0), szModel);
-					}
-				}
 			}
 		}
 	}

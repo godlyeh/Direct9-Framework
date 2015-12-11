@@ -23,19 +23,21 @@ HRESULT CDeviceHandler::CreateDevice(HWND hWnd, int Width, int Height)
 	CLog::Log(eLogType::HIGH, " > SUCCESS [0x%p]", pD3D);
 
 	// Setup parameters
-	D3DParameters.AutoDepthStencilFormat = D3DFMT_D24S8;
+	//D3DParameters.AutoDepthStencilFormat = D3DFMT_D24S8;
 	D3DParameters.BackBufferCount = 0;
-	D3DParameters.BackBufferFormat = D3DFMT_A8R8G8B8;
+	D3DParameters.BackBufferFormat = D3DFMT_X8R8G8B8;
 	D3DParameters.BackBufferWidth = Width;
 	D3DParameters.BackBufferHeight = Height;
 	D3DParameters.Windowed = true;
-	D3DParameters.EnableAutoDepthStencil = D3DFMT_D24S8;
+	D3DParameters.AutoDepthStencilFormat = D3DFMT_D24S8;
+	D3DParameters.EnableAutoDepthStencil = TRUE;
 	D3DParameters.Flags = 0;
 	D3DParameters.FullScreen_RefreshRateInHz = D3DPRESENT_RATE_DEFAULT;
 	D3DParameters.hDeviceWindow = hWnd;
 	D3DParameters.PresentationInterval = D3DPRESENT_INTERVAL_IMMEDIATE;
 	D3DParameters.SwapEffect = D3DSWAPEFFECT_DISCARD;
 	D3DParameters.MultiSampleType = D3DMULTISAMPLE_NONE;
+	D3DParameters.MultiSampleQuality = 0;
 
 	// Create device
 	CLog::Log(eLogType::HIGH, "> Creating device");

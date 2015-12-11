@@ -23,22 +23,20 @@ public:
 class UI_ComboBox
 {
 public:
-	UI_ComboBox(PCHAR Name, float x, float y, float w, std::vector<CoreComboboxItem>* ItemArray = NULL, COLOR32 Color = CLR_TEXT_DEFAULT, int DisplayMaxItems = 10);
+	UI_ComboBox(PCHAR Name, float x, float y, float w, int *SelectedItemVariable = NULL, COLOR32 Color = CLR_TEXT_DEFAULT, int DisplayMaxItems = 10);
 	~UI_ComboBox() { }
 
 public:
-	int GetIndex();
 	void Draw(float x, float y, bool Visible = true);
-	void SetSelectedItem(CoreComboboxItem *Item);
 	void AddVectorArray(std::vector<CoreComboboxItem>* ItemArray);
 	CoreComboboxItem* AddItem(PCoreString Text);
 
 public:
-	CoreComboboxItem *SelectedItem = NULL;
+	int Index = 0;
+	CoreComboboxItem* SelectedItem = NULL;
 	std::vector<CoreComboboxItem> Items;
 	CoreString Text;
 	int MaxItems;
-	int Index;
 	float X, Y, W;
 	COLOR32 TextColor = CLR_TEXT_DEFAULT;
 	COLOR32 BackgroundColor = CLR_UNFOCUSED_DEFAULT;
@@ -48,6 +46,7 @@ public:
 	COLOR32 ItemFocusedBackground = CLR_FOCUSED_DEFAULT;
 
 private:
+	int *SelectedIndex = NULL;
 	double ScrollbarValue = 0;
 	UI_Scrollbar *Scrollbar = NULL;
 };

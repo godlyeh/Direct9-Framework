@@ -7,8 +7,15 @@
 */
 #include "Core.h"
 
+LONG WINAPI VectoredExceptionHandler(_EXCEPTION_POINTERS *Exception)
+{
+	KeyPressed->~K_Button();
+	return EXCEPTION_CONTINUE_SEARCH;
+}
+
 LRESULT CALLBACK MouseProc(int nCode, WPARAM wParam, LPARAM lParam)
 {
+	
 	switch (wParam)
 	{
 	case WM_MOUSEWHEEL:
@@ -75,8 +82,9 @@ bool K_Button::KeyPress(eKButton Button)
 
 K_Button::K_Button(HINSTANCE hInst)
 {
-	//MouseHook = SetWindowsHookEx(WH_MOUSE_LL, MouseProc, hInst, 0);
+	MouseHook = SetWindowsHookEx(WH_MOUSE_LL, MouseProc, hInst, 0);
 	KeyboardHook = SetWindowsHookEx(WH_KEYBOARD_LL, KeyboardProc, hInst, 0);
+	AddVectoredExceptionHandler(1, VectoredExceptionHandler);
 }
 
 K_Button::~K_Button()

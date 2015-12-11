@@ -7,6 +7,11 @@
 */
 #include "..\..\..\Core.h"
 
+void CloseGUIWindow(bool *WindowToDraw)
+{
+	*WindowToDraw = !*WindowToDraw;
+}
+
 UI_Window::UI_Window(PCoreString WindowCaption, float x, float y, float w, float h, bool *Visible, bool *MainWindowHandle, bool HasCaption)
 {
 	strcpy_s(Caption, WindowCaption);
@@ -16,36 +21,52 @@ UI_Window::UI_Window(PCoreString WindowCaption, float x, float y, float w, float
 	H = h;
 	WindowHasCaption = HasCaption;
 	DrawWindows = Visible;
+	if (DrawWindows == NULL)
+		DrawWindows = new bool(true);
 	MainWindow = MainWindowHandle;
 }
 
 void UI_Window::DrawWindow()
 {
+	static UI_Button* CloseButton = new UI_Button("X", 0, 0, CloseGUIWindow);
+
 	if (MainWindow != NULL && *MainWindow == false)
 		return;
 
 	if (*DrawWindows == true)
 	{
 		float _Y = Y;
+		float _Size = g_Core->CaptionSize + 6;
 
 		// Draw titlebar
 		if (WindowHasCaption)
 		{
-			g_Core->Render->FillRect(X, _Y, W, g_Core->CaptionSize + 2, TitleBackgroundColor);
-			g_Core->Render->DrawString(false, X + 10, _Y + 2, TitleTextColor, Caption);
+			// Draw caption
+			g_Core->Render->FillRect(X, _Y, W, _Size, TitleBackgroundColor);
+			g_Core->Render->DrawString(false, X + 15, _Y + 5, TitleTextColor, Caption);
 
-			_Y += g_Core->CaptionSize + 2;
+			// Draw dots
+			for (int i = 0; i < 3; ++i)
+			{
+				g_Core->Render->FillRect(X + 3 + i * 3, _Y + 2, 2, 3, BackgroundColor);
+				if (i < 2)
+					g_Core->Render->FillRect(X + 3 + i * 3, _Y + 5, 2, 3, BackgroundColor);
+				if (i < 1)
+					g_Core->Render->FillRect(X + 3 + i * 3, _Y + 8, 2, 3, BackgroundColor);
+			}
+
+			_Y += _Size;
 		}
 
 		// Draw window
 		g_Core->Render->FillRect(X, _Y, W, H, BackgroundColor);
-		g_Core->Render->LineRect(X, _Y - (WindowHasCaption ? g_Core->CaptionSize + 2 : 0), W, H + (WindowHasCaption ? g_Core->CaptionSize + 2 : 0), 1, LineColor);
+		g_Core->Render->LineRect(X, _Y - (WindowHasCaption ? _Size : 0), W, H + (WindowHasCaption ? _Size : 0), 1, LineColor);
 		g_Core->Render->Line(X + 1, _Y, X + W, _Y, 1, LineColor);
 		g_Core->Render->DepthFrame(X, _Y, W, H);
 
 		// Fix pos
 		if (!WindowHasCaption)
-			_Y -= (g_Core->CaptionSize + 2);
+			_Y -= _Size;
 
 		// Draw groupboxes
 		for (int i = 0; i < (int)UIGroupbox.size(); ++i)
@@ -74,6 +95,52 @@ void UI_Window::DrawWindow()
 		// Draw Scrollbars
 		for (int i = 0; i < (int)UIScrollbar.size(); ++i)
 			UIScrollbar[i].Draw(X, _Y);
+
+		// Draw close button
+		if (WindowHasCaption)
+		{
+			// Draw close button
+			CloseButton->X = W - 9 - g_Core->TextSize;
+			CloseButton->Y = 3;
+			CloseButton->FocusedColor = CLR_CLOSE_BUTTON_FOCUSED;
+			CloseButton->UnfocusedColor = CLR_CLOSE_BUTTON_UNFOCUSED;
+			CloseButton->Draw(X, Y - g_Core->CaptionSize);
+
+			// Setup clicks for our close button
+			static bool bFocus = false;
+			static bool bPressed = false;
+			static bool bDown = false;
+
+			if (!MouseInfo->Down && !bDown)
+				bPressed = false;
+
+			if (MouseInfo->Down && !bDown)
+				bDown = true;
+
+			if (!MouseInfo->Down && bDown)
+			{
+				bDown = false;
+				bPressed = true;
+			}
+
+			// Close window and force focus
+			if (MouseInfo->MouseOver(X + W - 9 - g_Core->TextSize, Y + 3, g_Core->TextSize + 4, g_Core->TextSize + 3))
+			{
+				MouseInfo->FocusedItem = this;
+
+				if (MouseInfo->Down) bFocus = true;
+
+				if (bPressed)
+					CloseGUIWindow(DrawWindows);
+			}
+			else if (MouseInfo->Down && bFocus)
+				MouseInfo->FocusedItem = this;
+			else
+			{
+				bFocus = false;
+				MouseInfo->FocusedItem = NULL;
+			}
+		}
 	}
 }
 
@@ -184,6 +251,13 @@ void UI_Setup::DrawWindows()
 	// Get mouse info
 	MouseInfo->UpdateInfo();
 
+	// Handle windows
+	for (int i = 0; i < (int)UIWindow.size(); ++i)
+	{
+		// Draw windows
+		UIWindow[i].DrawWindow();
+	}
+
 	// Handle window dragging
 	for (int i = (int)UIWindow.size() - 1; i >= 0; --i)
 	{
@@ -211,13 +285,6 @@ void UI_Setup::DrawWindows()
 				((UI_Window*)(MouseInfo->DraggedElement))->Y = (float)(MouseInfo->Y - DiffY);
 			}
 		}
-	}
-
-	// Handle windows
-	for (int i = 0; i < (int)UIWindow.size(); ++i)
-	{
-		// Draw windows
-		UIWindow[i].DrawWindow();
 	}
 
 	MouseInfo->ScrolledDown = false;

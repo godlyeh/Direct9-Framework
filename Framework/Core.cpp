@@ -15,7 +15,7 @@ VectorMath* VecMath = new VectorMath;
 void CFrameworkCore::RegisterCoreVariables()	
 {
 	Settings->Register("Render Tick", &RenderTick, eCoreVariableType::VAR_INTEGER, 5, 40);
-	Settings->Register("Core Tick", &CoreTick, eCoreVariableType::VAR_INTEGER, 5, 30);
+	Settings->Register("Core Tick", &CoreTick, eCoreVariableType::VAR_INTEGER, 5, 50);
 }
 
 CFrameworkCore::CFrameworkCore(PCoreString ProcessName, PCoreString WindowName, int Width, int Height)
@@ -119,6 +119,8 @@ CFrameworkCore::~CFrameworkCore()
 	Render->Release();
 	Device->Release();
 	Process->CleanUp();
+	KeyPressed->~K_Button();
+	MemoryScanner->~CMemoryScanner();
 	CoreInitialized = false;
 }
 
@@ -184,7 +186,7 @@ bool CFrameworkCore::RenderScene(PVOID pRenderScene, HWND DesiredForegroundWindo
 		}
 
 		// Clear backbuffer
-		Device->pDevice->Clear(0, 0, D3DCLEAR_TARGET, 0, 1.0f, 0);
+		Device->pDevice->Clear(0, 0, D3DCLEAR_TARGET, D3DCOLOR_RGBA(1,2,3,4), 1.0f, 0);
 
 		// Draw scene
 		Device->pDevice->BeginScene();

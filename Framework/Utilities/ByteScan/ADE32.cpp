@@ -641,7 +641,7 @@ repeat_prefix:
 	for (i = 0; i < d; i++)
 		diza->disasm_data_b[i] = *opcode++;
 
-	diza->disasm_len = opcode - opcode0;
+	diza->disasm_len = (DWORD)opcode - (DWORD)opcode0;
 
 	return diza->disasm_len;
 } // disasm()

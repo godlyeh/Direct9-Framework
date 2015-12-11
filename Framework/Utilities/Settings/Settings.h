@@ -14,7 +14,7 @@ enum eCoreVariableType : int
 	VAR_FLOAT,
 	VAR_DOUBLE,
 	VAR_STRING,
-	CTRL_COMBOBOX,
+	VAR_COLOR
 };
 
 static char szCoreVariableType[][16]
@@ -25,7 +25,7 @@ static char szCoreVariableType[][16]
 	"Float",
 	"Double",
 	"String",
-	"ComboBox"
+	"Color"
 };
 
 typedef struct
@@ -37,6 +37,7 @@ typedef struct
 	double dMinValue;
 	double dMaxValue;
 
+	COLOR32 clrDefault;
 	int iDefault;
 	float fDefault;
 	double dDefault;
@@ -66,6 +67,7 @@ public:
 
 	void BoundVariable(CoreVariable* Var);
 	void OutputSetting(CoreVariable *Var, PCHAR szValue, ...);
+	void OutputSetting(CoreVariable *Var, PCHAR Name, PCHAR szValue, ...);
 
 	CoreVariable* GetCoreVariable(PCoreString Name);
 	CoreVariable* GetCoreVariable(PVOID Variable);

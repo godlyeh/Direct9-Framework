@@ -58,6 +58,15 @@ void CSettings::Register(PCoreString Name, PVOID Variable, eCoreVariableType Typ
 		strcpy_s(Var.szDefault, (PCoreString)Variable);
 		sprintf_s(Var.szDefault, "%.2f", Var.fDefault);
 		break;
+
+	case eCoreVariableType::VAR_COLOR:
+		COLOR32* Color = (COLOR32*)Var.Variable;
+		Var.clrDefault.r = Color->r;
+		Var.clrDefault.g = Color->g;
+		Var.clrDefault.b = Color->b;
+		Var.clrDefault.a = Color->a;
+		sprintf_s(Var.szDefault, "R:%i G:%i B:%i A:%i", Var.clrDefault.r, Var.clrDefault.g, Var.clrDefault.b, Var.clrDefault.a);
+		break;
 	}
 
 	StoredSettings.push_back(Var);
@@ -120,6 +129,18 @@ void CSettings::BoundVariable(CoreVariable* Var)
 		if (*(PDOUBLE)Var->Variable > Var->dMaxValue) *(PDOUBLE)Var->Variable = Var->dMaxValue;
 		if (*(PDOUBLE)Var->Variable < Var->dMinValue) *(PDOUBLE)Var->Variable = Var->dMinValue;
 		break;
+
+	case eCoreVariableType::VAR_COLOR:
+		COLOR32 *Color = (COLOR32*)Var->Variable;
+		if (Color->r > 255) Color->r = 255;
+		if (Color->g > 255) Color->g = 255;
+		if (Color->b > 255) Color->b = 255;
+		if (Color->a > 255) Color->a = 255;
+		if (Color->r < 0) Color->r = 0;
+		if (Color->g < 0) Color->g = 0;
+		if (Color->b < 0) Color->b = 0;
+		if (Color->a < 0) Color->a = 0;
+		break;
 	}
 }
 
@@ -136,6 +157,13 @@ void CSettings::OutputSetting(CoreVariable *Var, PCHAR szValue, ...)
 	char szBuffer[1024];
 	GET_VA_ARGS(szValue, szBuffer);
 	File << CreateElementLine(Var->Name, true) << " <Type = " << szCoreVariableType[Var->Type] << "> <Value = " << szBuffer << ">\n";
+}
+
+void CSettings::OutputSetting(CoreVariable *Var, PCHAR ExtraName, PCHAR szValue, ...)
+{
+	char szBuffer[1024];
+	GET_VA_ARGS(szValue, szBuffer);
+	File << "    <Name = " << Var->Name << " " << ExtraName << "> <Type = " << szCoreVariableType[Var->Type] << "> <Value = " << szBuffer << ">\n";
 }
 
 void CSettings::Save(PCoreString SettingsName)
@@ -161,6 +189,9 @@ void CSettings::Save(PCoreString SettingsName)
 			break;
 
 		case eCoreVariableType::VAR_DOUBLE:
+			OutputSetting(Var, "%.2f", *(PDOUBLE)Var->Variable);
+			break;
+
 		case eCoreVariableType::VAR_FLOAT:
 			OutputSetting(Var, "%.2f", *(PFLOAT)Var->Variable);
 			break;
@@ -169,8 +200,12 @@ void CSettings::Save(PCoreString SettingsName)
 			OutputSetting(Var, (PCoreString)Var->Variable);
 			break;
 
-		case eCoreVariableType::CTRL_COMBOBOX:
-			OutputSetting(Var, "%i", ((UI_ComboBox*)Var->Variable)->GetIndex());
+		case eCoreVariableType::VAR_COLOR:
+			COLOR32* Color = (COLOR32*)Var->Variable;
+			OutputSetting(Var, "Red", "%i", Color->r);
+			OutputSetting(Var, "Green", "%i", Color->g);
+			OutputSetting(Var, "Blue", "%i", Color->b);
+			OutputSetting(Var, "Alpha", "%i", Color->a);
 			break;
 		}
 
@@ -201,7 +236,7 @@ std::string CSettings::GetElementData(PCoreString Element, std::string RawData)
 {
 	char szTmp[128];
 	sprintf_s(szTmp, "<%s", Element);
-	int Pos = RawData.find(szTmp);
+	int Pos = (int)RawData.find(szTmp);
 	if (Pos == EOF)
 		return "UNKNOWN";
 
@@ -238,7 +273,7 @@ CoreVariable* CSettings::LoadSetting(PCoreString Name)
 	{
 		std::string VarName = GetElementData("Name", RawData[i]);
 
-		if (!_stricmp(VarName.c_str(), Name))
+		if (strstr(VarName.c_str(), Name))
 		{
 			eCoreVariableType VarType = GetElementDataType((PCoreString)GetElementData("Type", RawData[i]).c_str());
 			std::string VarValue = GetElementData("Value", RawData[i]);
@@ -256,24 +291,43 @@ CoreVariable* CSettings::LoadSetting(PCoreString Name)
 
 			if (VarType == eCoreVariableType::VAR_FLOAT || VarType == eCoreVariableType::VAR_DOUBLE)
 			{
-				if (VarValue.find_first_not_of("1234567890.") == EOF)
-				{
-					if (VarType == eCoreVariableType::VAR_FLOAT) *(PFLOAT)Var->Variable = (float)atof(VarValue.c_str());
-					if (VarType == eCoreVariableType::VAR_DOUBLE) *(PDOUBLE)Var->Variable = atof(VarValue.c_str());
-				}
-				else
+				if (VarValue.find_first_not_of("1234567890.") != EOF)
 				{
 					if (VarType == eCoreVariableType::VAR_FLOAT) *(PFLOAT)Var->Variable = Var->fDefault;
 					if (VarType == eCoreVariableType::VAR_DOUBLE) *(PDOUBLE)Var->Variable = Var->dDefault;
 				}
+				else
+				{
+					if (VarType == eCoreVariableType::VAR_FLOAT) *(PFLOAT)Var->Variable = (float)atof(VarValue.c_str());
+					if (VarType == eCoreVariableType::VAR_DOUBLE) *(PDOUBLE)Var->Variable = atof(VarValue.c_str());
+				}
 			}
 
 			if (VarType == eCoreVariableType::VAR_STRING) strcpy_s((PCoreString)Var->Variable, VarValue.size() + 1, VarValue.c_str());
-
-			if (VarType == eCoreVariableType::CTRL_COMBOBOX)
+			
+			if (VarType == eCoreVariableType::VAR_COLOR)
 			{
-				if (VarValue.find_first_not_of("0123456789") == EOF)
-					((UI_ComboBox*)Var->Variable)->SelectedItem = (CoreComboboxItem*)(*(DWORD*)Var->Variable + atoi(VarValue.c_str()) * sizeof(CoreComboboxItem));
+				COLOR32* Color = (COLOR32*)Var->Variable;
+				bool Red = VarName.find("Red") != EOF;
+				bool Green = VarName.find("Green") != EOF;
+				bool Blue = VarName.find("Blue") != EOF;
+				bool Alpha = VarName.find("Alpha") != EOF;
+
+				if (VarValue.find_first_not_of("0123456789") != EOF)
+				{
+					if (Red) Color->r = Var->clrDefault.r;
+					if (Green) Color->g = Var->clrDefault.g;
+					if (Blue) Color->b = Var->clrDefault.b;
+					if (Alpha) Color->a = Var->clrDefault.a;
+				}
+				else
+				{
+					if (Red) Color->r = atoi(VarValue.c_str());
+					if (Green) Color->g = atoi(VarValue.c_str());
+					if (Blue) Color->b = atoi(VarValue.c_str());
+					if (Alpha) Color->a = atoi(VarValue.c_str());
+
+				}
 			}
 
 			BoundVariable(Var);

@@ -79,7 +79,7 @@ void CProcess::CleanUp()
 	if (Handle != INVALID_HANDLE_VALUE)
 	{
 		CLog::Log(eLogType::DEBUG, "  > Handle reset");
-		Handle = INVALID_HANDLE_VALUE;
+		CloseHandle(Handle);
 	}
 
 	// Reset hwnd

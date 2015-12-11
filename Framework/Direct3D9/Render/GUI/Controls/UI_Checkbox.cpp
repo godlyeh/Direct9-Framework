@@ -31,7 +31,7 @@ void UI_Checkbox::Draw(float x, float y, bool Visible)
 		bool MouseOver = MouseInfo->MouseOver(_X, _Y, Size, Size);
 
 		// Draw checkbox
-		g_Core->Render->FillRect(_X, _Y, Size, Size, MouseOver ? UnfocusedColor : FocusedColor);
+		g_Core->Render->FillRect(_X, _Y, Size, Size, MouseOver ? FocusedColor : UnfocusedColor);
 		g_Core->Render->LineRect(_X, _Y, Size, Size, 1, LineColor);
 		g_Core->Render->DepthFrame(_X, _Y, Size, Size);
 

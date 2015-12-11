@@ -13,20 +13,23 @@
 //Colors
 #define CLR_WINDOW_BACKGROUND rgb(60, 60, 60, 250)
 #define CLR_TITLE_BACKGROUND rgb(80, 80, 80, 250)
-#define CLR_LINE_DEFAULT rgb(0, 0, 0, 255)
+#define CLR_LINE_DEFAULT rgb(90, 90, 90)
+
+#define CLR_CLOSE_BUTTON rgb(200, 0, 0)
+#define CLR_CLOSE_BUTTON_FOCUSED rgb(225, 0, 0)
+#define CLR_CLOSE_BUTTON_UNFOCUSED rgb(200, 0, 0)
+#define CLR_BUTTON_FOCUSED rgb(150, 150, 150)
+#define CLR_BUTTON_UNFOCUSED rgb(125, 125, 125)
 
 #define CLR_TEXT_DEFAULT rgb(255, 255, 255)
 #define CLR_CAPTION_TEXT CLR_TEXT_DEFAULT
 
 #define CLR_CHECKBOX_CHECKED rgb(30, 30, 30)
 
-#define CLR_FOCUSED_DEFAULT rgb(225, 225, 225)
-#define CLR_UNFOCUSED_DEFAULT rgb(255, 255, 255)
+#define CLR_FOCUSED_DEFAULT rgb(255, 255, 255)
+#define CLR_UNFOCUSED_DEFAULT rgb(210, 210, 210)
 
 #define CLR_SLIDER_DEFAULT rgb(150, 150, 150)
-
-#define CLR_BUTTON_FOCUSED rgb(150, 150, 150)
-#define CLR_BUTTON_UNFOCUSED rgb(125, 125, 125)
 
 //Controls
 #include "Controls\UI_Scrollbar.h"

@@ -44,7 +44,7 @@
 #include "Utilities\Settings\Settings.h"
 
 // Framework variables
-#define CORE_FRAMEWORK_VERSION "1.0.0.0"
+#define CORE_FRAMEWORK_VERSION "1.7"
 #define CORE_SETTINGS_DEFAULT "Core Settings"
 
 // Core class
@@ -57,10 +57,10 @@ public:
 	float TextSize = 0;
 	float CaptionSize = 0;
 	// Core Tick
-	int CoreTick = 15;
+	int CoreTick = 10;
 	CoreTimer::Countdown *TmrThread = NULL;
 	// Core render timer
-	int RenderTick = 13;
+	int RenderTick = 10;
 	int FramesPerSecond = 30;
 	CoreTimer::Countdown *TmrRender = NULL;
 	// Process screen info

@@ -7,16 +7,6 @@
 */
 #include "..\..\Core.h"
 
-/*void CSettings::Register(UI_Checkbox *Checkbox)
-{
-	Register(Checkbox->Text, Checkbox->Value, eCoreVariableType::VAR_BOOL, 0, 1);
-}
-
-void CSettings::Register(UI_ComboBox *Combobox)
-{
-	Register(Combobox->Text, Combobox, eCoreVariableType::CTRL_COMBOBOX);
-}*/
-
 void CSettings::Register(UI_Window *Window)
 {
 #define WindowName(name) Utilities::GetStringWithArgs("%s %s", Window->Caption, name)

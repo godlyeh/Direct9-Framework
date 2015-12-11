@@ -7,33 +7,24 @@
 */
 #include "..\..\..\..\Core.h"
 
-UI_ComboBox::UI_ComboBox(PCHAR Name, float x, float y, float w, std::vector<CoreComboboxItem>* ItemArray, COLOR32 Color, int DisplayMaxItems)
+UI_ComboBox::UI_ComboBox(PCHAR Name, float x, float y, float w, int* SelectedItemVariable, COLOR32 Color, int DisplayMaxItems)
 {
 	X = x;
 	Y = y;
 	W = w;
-	AddVectorArray(ItemArray);
+	SelectedIndex = SelectedItemVariable;
+	if (!SelectedIndex)
+		SelectedIndex = new int(0);
 	MaxItems = DisplayMaxItems;
 	ScrollbarValue = 0;
 	strcpy_s(Text, Name);
 }
 
-int UI_ComboBox::GetIndex()
-{
-	return (int)(SelectedItem - &Items[0]);
-}
-
 void UI_ComboBox::Draw(float x, float y, bool Visible)
 {
-	if (!SelectedItem)
-	{
-		SelectedItem = &Items[0];
-	}
-
-	Index = GetIndex();
-
 	if (Visible)
 	{
+		Index = *SelectedIndex;
 		float _X = x + X;
 		float _Y = y + Y;
 		float _W = W;
@@ -45,8 +36,13 @@ void UI_ComboBox::Draw(float x, float y, bool Visible)
 		g_Core->Render->DepthFrame(_X, _Y, _W, _H);
 
 		// Draw selected text
-		if (SelectedItem)
+		if (Items.size() > 0)
+		{
+			SelectedItem = &Items[Index];
 			g_Core->Render->DrawString(false, _X + 5, _Y + 1, TextColor, SelectedItem->Text);
+		}
+		else
+			SelectedItem = NULL;
 
 		// Draw dropdown button
 		float _BtnX = _X + _W;
@@ -71,7 +67,7 @@ void UI_ComboBox::Draw(float x, float y, bool Visible)
 		float _ScrollbarY = _Y + _BtnSize + 2;
 		float _ScrollbarW = _BtnSize;
 		float _ScrollbarH = _BtnSize * MaxItems;
-		int _ScrollbarMax = Items.size() - MaxItems;
+		int _ScrollbarMax = (int)Items.size() - MaxItems;
 
 		// Doesnt apply for scrollbar but were using the var to check if were within box
 		if (_ScrollbarMax < 0)
@@ -137,7 +133,8 @@ void UI_ComboBox::Draw(float x, float y, bool Visible)
 
 				if (MouseOver && MouseInfo->Clicked)
 				{
-					SelectedItem = &Items[i + (int)ScrollbarValue];
+					*SelectedIndex = i + (int)ScrollbarValue;
+					SelectedItem = &Items[*SelectedIndex];
 					MouseInfo->FocusedItem = NULL;
 				}
 			}
@@ -158,24 +155,8 @@ void UI_ComboBox::Draw(float x, float y, bool Visible)
 	}
 }
 
-void UI_ComboBox::SetSelectedItem(CoreComboboxItem *Item)
-{
-	for (int i = 0; i < (int)Items.size(); ++i)
-		if (Item == &Items[i])
-			SelectedItem = &Items[i];
-}
-
 CoreComboboxItem* UI_ComboBox::AddItem(PCoreString Text)
 {
-	Items.push_back(CoreComboboxItem(Text, Items.size() - 1));
+	Items.push_back(CoreComboboxItem(Text, (int)Items.size() - 1));
 	return &Items[Items.size() - 1];
-}
-
-void UI_ComboBox::AddVectorArray(std::vector<CoreComboboxItem>* ItemArray)
-{
-	if (ItemArray)
-	{
-		Items.insert(Items.end(), ItemArray->begin(), ItemArray->end());
-		SelectedItem = &Items[0];
-	}
 }
